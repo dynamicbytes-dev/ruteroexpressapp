@@ -56,6 +56,8 @@
                             ['ruta' => 'panel.viajes.index', 'patron' => 'panel.viajes*', 'label' => 'Viajes', 'icono' => 'route'],
                             ['ruta' => 'panel.reportes.index', 'patron' => 'panel.reportes*', 'label' => 'Reportes', 'icono' => 'chart'],
                             ['ruta' => 'panel.conductores.index', 'patron' => 'panel.conductores*', 'label' => 'Conductores', 'icono' => 'moto'],
+                            ['ruta' => 'panel.cupones.index', 'patron' => 'panel.cupones*', 'label' => 'Cupones', 'icono' => 'document'],
+                            ['ruta' => 'panel.banners.index', 'patron' => 'panel.banners*', 'label' => 'Publicidad', 'icono' => 'image'],
                             ['ruta' => 'panel.tasa.index', 'patron' => 'panel.tasa', 'label' => 'Tasa de cambio', 'icono' => 'exchange'],
                             ['ruta' => 'panel.configuracion.edit', 'patron' => 'panel.configuracion', 'label' => 'Configuración', 'icono' => 'settings'],
                             ['ruta' => 'panel.auditoria.index', 'patron' => 'panel.auditoria*', 'label' => 'Auditoría', 'icono' => 'shield'],

@@ -12,6 +12,7 @@ import '../../core/storage/token_storage.dart';
 import '../../data/billetera_repository.dart';
 import '../../data/cuenta_repository.dart';
 import '../../data/models/aviso.dart';
+import '../../data/models/banner_promocional.dart';
 import '../../data/models/billetera.dart';
 import '../../data/models/ciudad.dart';
 import '../../data/models/favorito.dart';
@@ -22,6 +23,7 @@ import '../../data/models/soporte.dart';
 import '../../data/models/usuario.dart';
 import '../../data/models/viaje.dart';
 import '../../data/notificaciones_repository.dart';
+import '../../data/publicidad_repository.dart';
 import '../../data/soporte_repository.dart';
 import '../../data/viajes_repository.dart';
 
@@ -49,6 +51,7 @@ class SesionController extends ChangeNotifier {
     BilleteraRepository? billetera,
     ViajesRepository? viajes,
     NotificacionesRepository? notificaciones,
+    PublicidadRepository? publicidad,
     SoporteRepository? soporte,
     TiempoRealService? tiempoReal,
     PushService? push,
@@ -59,6 +62,7 @@ class SesionController extends ChangeNotifier {
         _billetera = billetera,
         _viajes = viajes,
         _notificaciones = notificaciones,
+        _publicidad = publicidad ?? PublicidadRepository(api),
         _soporte = soporte,
         _tiempoReal = tiempoReal,
         _push = push {
@@ -74,6 +78,7 @@ class SesionController extends ChangeNotifier {
   final BilleteraRepository? _billetera;
   final ViajesRepository? _viajes;
   final NotificacionesRepository? _notificaciones;
+  final PublicidadRepository? _publicidad;
   final SoporteRepository? _soporte;
   final TiempoRealService? _tiempoReal;
   final PushService? _push;
@@ -107,6 +112,11 @@ class SesionController extends ChangeNotifier {
   List<AvisoCuenta> avisos = const <AvisoCuenta>[];
   bool cargandoAvisos = false;
   String? errorAvisos;
+
+  // Tarjetas y banners de publicidad promocional.
+  List<BannerPromocional> banners = const <BannerPromocional>[];
+  bool cargandoBanners = false;
+  String? errorBanners;
 
   // Viajes (fase F3). Igual que la billetera, se piden aparte del perfil.
   Viaje? viajeActivo;
@@ -338,6 +348,38 @@ class SesionController extends ChangeNotifier {
     }
 
     await cargarAvisos(silencioso: true);
+  }
+
+  // -------------------------------------------------------------------------
+  // Tarjetas y publicidad promocional
+  // -------------------------------------------------------------------------
+
+  bool get bannersConfigurados => _publicidad != null;
+
+  /// Pide los banners de publicidad al backend.
+  Future<void> cargarBanners({bool silencioso = false}) async {
+    final repositorio = _publicidad;
+
+    if (repositorio == null || !haySesion) return;
+
+    if (!silencioso) {
+      cargandoBanners = true;
+      notifyListeners();
+    }
+
+    try {
+      final rol = rolEsperado ?? usuario?.rol;
+      final ciudadId = usuario?.ciudad?.id;
+      banners = await repositorio.banners(rol: rol, ciudadId: ciudadId);
+      errorBanners = null;
+    } on ApiException catch (error) {
+      if (!silencioso) errorBanners = error.mensaje;
+    } catch (_) {
+      if (!silencioso) errorBanners = 'No pudimos cargar las promociones.';
+    } finally {
+      if (!silencioso) cargandoBanners = false;
+      notifyListeners();
+    }
   }
 
   // -------------------------------------------------------------------------
@@ -862,6 +904,9 @@ class SesionController extends ChangeNotifier {
     avisos = const <AvisoCuenta>[];
     cargandoAvisos = false;
     errorAvisos = null;
+    banners = const <BannerPromocional>[];
+    cargandoBanners = false;
+    errorBanners = null;
     viajeActivo = null;
     ofertas = const <OfertaViaje>[];
     estadoConductor = null;

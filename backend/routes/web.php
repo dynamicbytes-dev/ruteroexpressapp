@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RecuperacionContrasenaController;
 use App\Http\Controllers\Auth\VerificarCorreoController;
 use App\Http\Controllers\Panel\AuditController;
 use App\Http\Controllers\Panel\AuditorController;
+use App\Http\Controllers\Panel\BannerController;
 use App\Http\Controllers\Panel\CuponesController;
 use App\Http\Controllers\Panel\DashboardController;
 use App\Http\Controllers\Panel\DocumentController;
@@ -205,6 +206,15 @@ Route::prefix('panel')->group(function () {
         Route::get('/cupones/{coupon}/editar', [CuponesController::class, 'edit'])->name('panel.cupones.edit');
         Route::put('/cupones/{coupon}', [CuponesController::class, 'update'])->name('panel.cupones.update');
         Route::delete('/cupones/{coupon}', [CuponesController::class, 'destroy'])->name('panel.cupones.destroy');
+
+        // Tarjetas y banners de publicidad
+        Route::get('/publicidad', [BannerController::class, 'index'])->name('panel.banners.index');
+        Route::get('/publicidad/nueva', [BannerController::class, 'create'])->name('panel.banners.create');
+        Route::post('/publicidad', [BannerController::class, 'store'])->name('panel.banners.store');
+        Route::get('/publicidad/{banner}/editar', [BannerController::class, 'edit'])->name('panel.banners.edit');
+        Route::put('/publicidad/{banner}', [BannerController::class, 'update'])->name('panel.banners.update');
+        Route::delete('/publicidad/{banner}', [BannerController::class, 'destroy'])->name('panel.banners.destroy');
+        Route::post('/publicidad/{banner}/toggle', [BannerController::class, 'toggle'])->name('panel.banners.toggle');
 
         Route::get('/configuracion', [SettingsController::class, 'edit'])->name('panel.configuracion.edit');
         Route::put('/configuracion', [SettingsController::class, 'update'])->name('panel.configuracion.update');

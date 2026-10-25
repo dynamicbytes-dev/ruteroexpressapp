@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\RecargaController;
 use App\Http\Controllers\Api\RetiroController;
 use App\Http\Controllers\Api\SupportController;
 use App\Http\Controllers\Api\CuponesController;
+use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\TasaCambioController;
 use App\Http\Controllers\Api\TripController;
 use Illuminate\Support\Facades\Route;
@@ -70,6 +71,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('notificaciones', [NotificacionController::class, 'index']);
     Route::post('notificaciones/{notification}/leer', [NotificacionController::class, 'leer']);
     Route::post('notificaciones/leer-todas', [NotificacionController::class, 'leerTodas']);
+
+    // Banners y publicidad promocional
+    Route::get('banners', [BannerController::class, 'index']);
 
     // Chat de soporte: una conversación abierta por persona. El auditor la
     // atiende y la finaliza desde el panel.

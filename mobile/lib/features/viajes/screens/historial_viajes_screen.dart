@@ -21,7 +21,9 @@ import 'viaje_pasajero_screen.dart';
 /// botón "Ver más viajes" acumula las páginas siguientes sin cambiar el filtro.
 /// El detalle reutiliza las mismas pantallas del viaje activo.
 class HistorialViajesScreen extends StatefulWidget {
-  const HistorialViajesScreen({super.key});
+  const HistorialViajesScreen({super.key, this.mostrarAppBar = true});
+
+  final bool mostrarAppBar;
 
   @override
   State<HistorialViajesScreen> createState() => _HistorialViajesScreenState();
@@ -141,7 +143,9 @@ class _HistorialViajesScreenState extends State<HistorialViajesScreen> {
     final esConductor = context.watch<SesionController>().esConductor;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Historial de viajes')),
+      appBar: widget.mostrarAppBar
+          ? AppBar(title: const Text('Historial de viajes'))
+          : null,
       body: RefreshIndicator(
         onRefresh: _cargar,
         child: ListView(

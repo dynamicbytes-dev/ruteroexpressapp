@@ -20,7 +20,9 @@ import 'viaje_pasajero_screen.dart';
 
 /// Elegir origen y destino, ver el precio y pedir el viaje.
 class PedirViajeScreen extends StatefulWidget {
-  const PedirViajeScreen({super.key});
+  const PedirViajeScreen({super.key, this.mostrarAppBar = true});
+
+  final bool mostrarAppBar;
 
   @override
   State<PedirViajeScreen> createState() => _PedirViajeScreenState();
@@ -400,7 +402,9 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
     final listo = _origen != null && _destino != null;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Pedir un viaje')),
+      appBar: widget.mostrarAppBar
+          ? AppBar(title: const Text('Pedir un viaje'))
+          : null,
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
         children: <Widget>[
