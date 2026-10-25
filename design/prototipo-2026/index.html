@@ -67,7 +67,7 @@
       </div>
       <p class="panel-desc">Rediseño compacto de GAZ Pasajero. Navega las pantallas, prueba el flujo de pedir viaje y alterna el tema.</p>
 
-      <div class="panel-section">
+      <div class="panel-section panel-section--pantallas">
         <p class="panel-label">Pantallas</p>
         <nav class="screen-nav" aria-label="Pantallas del prototipo">
           <button data-go="inicio" class="activo"><span class="nav-dot"></span>Inicio</button>
@@ -82,7 +82,7 @@
         </nav>
       </div>
 
-      <div class="panel-section">
+      <div class="panel-section panel-section--tokens">
         <p class="panel-label">Tokens clave</p>
         <div class="tokens">
           <div><span>Página</span><strong>16 px</strong></div>
@@ -94,7 +94,7 @@
         </div>
       </div>
 
-      <div class="panel-section">
+      <div class="panel-section panel-section--tema">
         <p class="panel-label">Tema</p>
         <button class="theme-switch" id="btnTemaPanel" type="button">
           <span class="theme-switch-icon"><svg class="icon"><use href="#i-sun"/></svg></span>
@@ -924,13 +924,13 @@
                 <button class="link link--centro" type="button" data-toast="Recuperar contraseña.">¿Olvidaste tu contraseña?</button>
                 <div class="acceso-divisor"><span>o</span></div>
                 <button class="btn btn-secondary btn-block" type="button" data-toast="El registro de nuevos pasajeros llegará en la próxima fase.">Crear una cuenta</button>
-                <div class="acceso-pie">
-                  <div class="acceso-seguro">
-                    <svg class="icon"><use href="#i-shield"/></svg>
-                    <span>Conexión segura · Datos cifrados</span>
-                  </div>
-                  <button class="link link--centro" type="button" data-toast="Nuestro equipo de soporte te ayudará a recuperar el acceso.">¿Problemas para entrar? Contacta soporte</button>
+              </div>
+              <div class="acceso-pie acceso-pie--oscuro">
+                <div class="acceso-seguro">
+                  <svg class="icon"><use href="#i-shield"/></svg>
+                  <span>Conexión segura · Datos cifrados</span>
                 </div>
+                <button class="link link--centro" type="button" data-toast="Nuestro equipo de soporte te ayudará a recuperar el acceso.">¿Problemas para entrar? Contacta soporte</button>
               </div>
             </section>
 
