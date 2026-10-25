@@ -98,7 +98,7 @@ class _AccesoScreenState extends State<AccesoScreen> {
         const SizedBox(height: 8),
         const Text(
           'Bienvenido de vuelta. Tu cuenta y tus viajes te esperan.',
-          style: TextStyle(fontSize: 15, color: Colors.white70, height: 1.45),
+          style: MotorutaTheme.subtituloClaro,
         ),
         const SizedBox(height: 24),
         Tarjeta(

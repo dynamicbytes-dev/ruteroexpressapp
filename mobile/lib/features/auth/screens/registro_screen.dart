@@ -356,8 +356,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
           _esConductor
               ? 'Llena tus datos y los de tu vehículo. Después subirás tus documentos y la foto de tu vehículo para que el equipo los revise.'
               : 'Llena tus datos. Después subirás tu cédula y una selfie para que el equipo los revise.',
-          style: const TextStyle(
-              fontSize: 15, color: Colors.white70, height: 1.45),
+          style: MotorutaTheme.subtituloClaro,
         ),
         const SizedBox(height: 24),
         Tarjeta(
@@ -576,6 +575,22 @@ class _RegistroScreenState extends State<RegistroScreen> {
                 const SizedBox(height: 14),
                 SegmentedButton<String>(
                   showSelectedIcon: false,
+                  style: SegmentedButton.styleFrom(
+                    selectedBackgroundColor: MotorutaColors.brand800,
+                    selectedForegroundColor: Colors.white,
+                    foregroundColor: MotorutaColors.ink700,
+                    side: const BorderSide(
+                      color: MotorutaColors.ink100,
+                      width: 1.2,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
                   segments: const <ButtonSegment<String>>[
                     ButtonSegment<String>(
                       value: 'moto',

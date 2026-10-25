@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../core/app/gaz_app.dart';
 import '../../../core/theme/app_theme.dart';
@@ -32,7 +33,7 @@ class ElegirRolScreen extends StatelessWidget {
         const SizedBox(height: 10),
         const Text(
           'Elige una opción. Después podrás crear otra cuenta con el otro rol si lo necesitas.',
-          style: TextStyle(fontSize: 15, color: Colors.white70, height: 1.45),
+          style: MotorutaTheme.subtituloClaro,
         ),
         const SizedBox(height: 28),
         _OpcionRol(
@@ -78,54 +79,67 @@ class _OpcionRol extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(MotorutaTheme.radioGrande),
-      child: InkWell(
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(MotorutaTheme.radioGrande),
-        onTap: alTocar,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: MotorutaColors.brand50,
-                  borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: MotorutaColors.ink100, width: 1.2),
+        boxShadow: MotorutaTheme.sombraTarjeta,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(MotorutaTheme.radioGrande),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(MotorutaTheme.radioGrande),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            alTocar();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: MotorutaColors.brand50,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Icon(icono, size: 28, color: MotorutaColors.brand800),
                 ),
-                child: Icon(icono, size: 28, color: MotorutaColors.brand800),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(titulo, style: MotorutaTheme.titulo(tamano: 19)),
-                    const SizedBox(height: 4),
-                    Text(
-                      descripcion,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: MotorutaColors.ink600,
-                        height: 1.4,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(titulo,
+                          style: MotorutaTheme.titulo(
+                              tamano: 19, peso: FontWeight.w700)),
+                      const SizedBox(height: 4),
+                      Text(
+                        descripcion,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: MotorutaColors.ink600,
+                          height: 1.4,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      etiqueta,
-                      style: const TextStyle(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w600,
-                        color: MotorutaColors.accent700,
+                      const SizedBox(height: 8),
+                      Text(
+                        etiqueta,
+                        style: const TextStyle(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w600,
+                          color: MotorutaColors.accent700,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const Icon(Icons.chevron_right_rounded,
-                  color: MotorutaColors.ink400),
-            ],
+                const Icon(Icons.chevron_right_rounded,
+                    color: MotorutaColors.ink400),
+              ],
+            ),
           ),
         ),
       ),

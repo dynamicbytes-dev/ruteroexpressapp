@@ -201,43 +201,109 @@ class _InicioScreenState extends State<InicioScreen> {
               ),
             const SizedBox(height: 14),
             Tarjeta(
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(
-                  Icons.history_rounded,
-                  color: MotorutaColors.brand800,
-                ),
-                title: const Text(
-                  'Historial de viajes',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                subtitle: const Text(
-                  'Consulta tus viajes anteriores',
-                  style: TextStyle(fontSize: 12.5),
-                ),
-                trailing: const Icon(Icons.chevron_right_rounded),
-                onTap: () => _abrir(const HistorialViajesScreen()),
+              onTap: () => _abrir(const HistorialViajesScreen()),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    width: 44,
+                    height: 44,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: MotorutaColors.brand50,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: MotorutaColors.brand100),
+                    ),
+                    child: const Icon(
+                      Icons.history_rounded,
+                      color: MotorutaColors.brand800,
+                      size: 22,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Historial de viajes',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15.5,
+                            color: MotorutaColors.ink900,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          'Consulta tus viajes anteriores',
+                          style: TextStyle(
+                            fontSize: 12.5,
+                            color: MotorutaColors.ink500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    color: MotorutaColors.ink400,
+                  ),
+                ],
               ),
             ),
             if (!esConductor) ...<Widget>[
               const SizedBox(height: 12),
               Tarjeta(
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(
-                    Icons.favorite_border_rounded,
-                    color: MotorutaColors.brand800,
-                  ),
-                  title: const Text(
-                    'Mis conductores favoritos',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  subtitle: const Text(
-                    'Tienen prioridad cuando pides un viaje',
-                    style: TextStyle(fontSize: 12.5),
-                  ),
-                  trailing: const Icon(Icons.chevron_right_rounded),
-                  onTap: () => _abrir(const FavoritosScreen()),
+                onTap: () => _abrir(const FavoritosScreen()),
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: 44,
+                      height: 44,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: MotorutaColors.rojoFondo,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: MotorutaColors.rojo.withOpacity(0.2),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.favorite_rounded,
+                        color: MotorutaColors.rojo,
+                        size: 22,
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Mis conductores favoritos',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15.5,
+                              color: MotorutaColors.ink900,
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            'Tienen prioridad cuando pides un viaje',
+                            style: TextStyle(
+                              fontSize: 12.5,
+                              color: MotorutaColors.ink500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(
+                      Icons.chevron_right_rounded,
+                      color: MotorutaColors.ink400,
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -276,22 +342,54 @@ class _InicioScreenState extends State<InicioScreen> {
             ),
             const SizedBox(height: 14),
             Tarjeta(
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(
-                  Icons.edit_outlined,
-                  color: MotorutaColors.brand800,
-                ),
-                title: const Text(
-                  'Editar mis datos',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                subtitle: const Text(
-                  'Nombre, teléfono, dirección y correo',
-                  style: TextStyle(fontSize: 12.5),
-                ),
-                trailing: const Icon(Icons.chevron_right_rounded),
-                onTap: () => _abrir(const MisDatosScreen()),
+              onTap: () => _abrir(const MisDatosScreen()),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    width: 44,
+                    height: 44,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: MotorutaColors.accent50,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: MotorutaColors.accent100),
+                    ),
+                    child: const Icon(
+                      Icons.edit_outlined,
+                      color: MotorutaColors.brand800,
+                      size: 22,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Editar mis datos',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15.5,
+                            color: MotorutaColors.ink900,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          'Nombre, teléfono, dirección y correo',
+                          style: TextStyle(
+                            fontSize: 12.5,
+                            color: MotorutaColors.ink500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    color: MotorutaColors.ink400,
+                  ),
+                ],
               ),
             ),
           ],
@@ -322,21 +420,50 @@ class _TarjetaBilletera extends StatelessWidget {
     final billetera = sesion.billetera;
 
     return Tarjeta(
-      color: MotorutaColors.brand900,
-      borde: false,
+      color: MotorutaColors.brand950,
+      gradiente: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: <Color>[
+          MotorutaColors.brand950,
+          MotorutaColors.brand900,
+          MotorutaColors.brand800,
+        ],
+      ),
+      borde: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const Text(
-            'BILLETERA',
-            style: TextStyle(
-              fontSize: 11.5,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.9,
-              color: MotorutaColors.cian,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: MotorutaColors.cian.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: MotorutaColors.cian.withOpacity(0.24),
+                  ),
+                ),
+                child: const Text(
+                  'BILLETERA',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.9,
+                    color: MotorutaColors.cian,
+                  ),
+                ),
+              ),
+              const Icon(
+                Icons.account_balance_wallet_rounded,
+                color: Colors.white38,
+                size: 20,
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           if (billetera == null && sesion.cargandoBilletera) ...<Widget>[
             const SizedBox(height: 6),
             const Center(

@@ -73,7 +73,7 @@ class _RecuperarScreenState extends State<RecuperarScreen> {
         const SizedBox(height: 10),
         const Text(
           'Te enviamos un enlace para crear una contraseña nueva. El enlace se abre en el navegador.',
-          style: TextStyle(fontSize: 15, color: Colors.white70, height: 1.45),
+          style: MotorutaTheme.subtituloClaro,
         ),
         const SizedBox(height: 24),
         Tarjeta(

@@ -155,35 +155,64 @@ class PantallaMarca extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MotorutaColors.brand900,
-      body: DecoratedBox(
-        decoration: const BoxDecoration(gradient: MotorutaColors.fondoMarca),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              if (mostrarRetroceso)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(Icons.arrow_back_rounded),
-                    color: Colors.white,
-                    tooltip: 'Volver',
-                  ),
-                ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(24, 8, 24, espacioAbajo),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: hijos,
+      backgroundColor: MotorutaColors.brand950,
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          const DecoratedBox(
+            decoration: BoxDecoration(gradient: MotorutaColors.fondoMarca),
+          ),
+          // Resplandor ambiental superior en tono morado de marca
+          Positioned(
+            top: -100,
+            left: -50,
+            right: -50,
+            height: 380,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: const Alignment(0, -0.4),
+                    radius: 0.85,
+                    colors: <Color>[
+                      MotorutaColors.brand500.withOpacity(0.28),
+                      Colors.transparent,
+                    ],
                   ),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+          SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                if (mostrarRetroceso)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 4),
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).maybePop(),
+                        icon: const Icon(Icons.arrow_back_rounded),
+                        color: Colors.white,
+                        tooltip: 'Volver',
+                      ),
+                    ),
+                  ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.fromLTRB(24, 8, 24, espacioAbajo),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: hijos,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

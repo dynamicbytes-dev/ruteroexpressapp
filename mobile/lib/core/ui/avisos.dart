@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../theme/app_theme.dart';
 import '../theme/motoruta_colors.dart';
@@ -140,7 +141,7 @@ class EtiquetaEstado extends StatelessWidget {
   }
 }
 
-/// Tarjeta blanca con la sombra suave del panel.
+/// Tarjeta blanca con la sombra suave del panel y soporte para micro-interacciones.
 class Tarjeta extends StatelessWidget {
   const Tarjeta({
     super.key,
@@ -148,24 +149,66 @@ class Tarjeta extends StatelessWidget {
     this.padding = const EdgeInsets.all(20),
     this.color = Colors.white,
     this.borde = true,
+    this.onTap,
+    this.radio,
+    this.conSombra = true,
+    this.gradiente,
   });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
   final Color color;
   final bool borde;
+  final VoidCallback? onTap;
+  final double? radio;
+  final bool conSombra;
+  final Gradient? gradiente;
 
   @override
   Widget build(BuildContext context) {
+    final double radioFinal = radio ?? MotorutaTheme.radioGrande;
+    final decoracion = BoxDecoration(
+      color: gradiente == null ? color : null,
+      gradient: gradiente,
+      borderRadius: BorderRadius.circular(radioFinal),
+      border: borde
+          ? Border.all(
+              color: (color == MotorutaColors.brand900 ||
+                      color == MotorutaColors.brand950 ||
+                      color == MotorutaColors.brand800)
+                  ? Colors.white.withOpacity(0.12)
+                  : MotorutaColors.ink100.withOpacity(0.85),
+              width: 1,
+            )
+          : null,
+      boxShadow: conSombra ? MotorutaTheme.sombraTarjeta : null,
+    );
+
+    if (onTap == null) {
+      return Container(
+        padding: padding,
+        decoration: decoracion,
+        child: child,
+      );
+    }
+
     return Container(
-      padding: padding,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(MotorutaTheme.radioGrande),
-        border: borde ? Border.all(color: MotorutaColors.ink100) : null,
-        boxShadow: MotorutaTheme.sombraTarjeta,
+      decoration: decoracion,
+      clipBehavior: Clip.antiAlias,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            HapticFeedback.lightImpact();
+            onTap!();
+          },
+          borderRadius: BorderRadius.circular(radioFinal),
+          child: Padding(
+            padding: padding,
+            child: child,
+          ),
+        ),
       ),
-      child: child,
     );
   }
 }

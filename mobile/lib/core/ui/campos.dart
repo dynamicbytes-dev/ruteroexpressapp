@@ -8,7 +8,7 @@ import '../theme/motoruta_colors.dart';
 ///
 /// El error se pasa ya calculado (normalmente del mapa `errors` del backend),
 /// por eso no se usa `TextFormField` ni validación de formulario.
-class CampoTexto extends StatelessWidget {
+class CampoTexto extends StatefulWidget {
   const CampoTexto({
     super.key,
     required this.controlador,
@@ -30,6 +30,7 @@ class CampoTexto extends StatelessWidget {
     this.alEnviar,
     this.alCambiar,
     this.mayusculas = false,
+    this.focusNode,
   });
 
   final TextEditingController controlador;
@@ -51,49 +52,100 @@ class CampoTexto extends StatelessWidget {
   final ValueChanged<String>? alEnviar;
   final ValueChanged<String>? alCambiar;
   final bool mayusculas;
+  final FocusNode? focusNode;
+
+  @override
+  State<CampoTexto> createState() => _CampoTextoState();
+}
+
+class _CampoTextoState extends State<CampoTexto> {
+  FocusNode? _nodoInterno;
+  bool _tieneFoco = false;
+
+  FocusNode get _nodo => widget.focusNode ?? (_nodoInterno ??= FocusNode());
+
+  @override
+  void initState() {
+    super.initState();
+    _nodo.addListener(_alCambiarFoco);
+  }
+
+  @override
+  void didUpdateWidget(CampoTexto anterior) {
+    super.didUpdateWidget(anterior);
+    if (anterior.focusNode != widget.focusNode) {
+      (anterior.focusNode ?? _nodoInterno)?.removeListener(_alCambiarFoco);
+      _nodo.addListener(_alCambiarFoco);
+    }
+  }
+
+  @override
+  void dispose() {
+    _nodo.removeListener(_alCambiarFoco);
+    _nodoInterno?.dispose();
+    super.dispose();
+  }
+
+  void _alCambiarFoco() {
+    if (mounted && _tieneFoco != _nodo.hasFocus) {
+      setState(() => _tieneFoco = _nodo.hasFocus);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     // Un campo de varias líneas con acción "nueva línea" tiene que declarar
     // teclado multilínea: si no, Flutter lanza una aserción.
-    final teclado = maxLineas > 1 && tipoTeclado == TextInputType.text
+    final teclado = widget.maxLineas > 1 && widget.tipoTeclado == TextInputType.text
         ? TextInputType.multiline
-        : tipoTeclado;
+        : widget.tipoTeclado;
+
+    final colorIcono = widget.error != null
+        ? MotorutaColors.rojo
+        : (_tieneFoco ? MotorutaColors.brand800 : MotorutaColors.ink400);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         TextField(
-          controller: controlador,
-          enabled: habilitado,
-          obscureText: ocultarTexto,
+          controller: widget.controlador,
+          focusNode: _nodo,
+          enabled: widget.habilitado,
+          obscureText: widget.ocultarTexto,
           keyboardType: teclado,
-          textInputAction: accionTexto,
-          maxLines: ocultarTexto ? 1 : maxLineas,
-          maxLength: maxLongitud,
-          autocorrect: !ocultarTexto,
-          enableSuggestions: !ocultarTexto,
-          autofillHints: autocompletado,
-          inputFormatters: formateadores,
-          textCapitalization: mayusculas
+          textInputAction: widget.accionTexto,
+          maxLines: widget.ocultarTexto ? 1 : widget.maxLineas,
+          maxLength: widget.maxLongitud,
+          autocorrect: !widget.ocultarTexto,
+          enableSuggestions: !widget.ocultarTexto,
+          autofillHints: widget.autocompletado,
+          inputFormatters: widget.formateadores,
+          textCapitalization: widget.mayusculas
               ? TextCapitalization.characters
               : TextCapitalization.none,
-          onSubmitted: alEnviar,
-          onChanged: alCambiar,
+          onSubmitted: widget.alEnviar,
+          onChanged: widget.alCambiar,
+          onTap: () => HapticFeedback.selectionClick(),
           style: const TextStyle(
             fontSize: 16,
             color: MotorutaColors.ink900,
             fontWeight: FontWeight.w500,
           ),
           decoration: InputDecoration(
-            labelText: etiqueta,
-            hintText: pista,
-            errorText: error,
-            helperText: textoAyuda,
+            labelText: widget.etiqueta,
+            hintText: widget.pista,
+            errorText: widget.error,
+            helperText: widget.textoAyuda,
             counterText: '',
-            prefixIcon: icono == null ? null : Icon(icono, size: 20),
-            prefixText: prefijo,
-            suffixIcon: sufijo,
+            prefixIcon: widget.icono == null
+                ? null
+                : Icon(
+                    widget.icono,
+                    size: 20,
+                    color: colorIcono,
+                  ),
+            prefixText: widget.prefijo,
+            suffixIcon: widget.sufijo,
           ),
         ),
       ],
@@ -145,8 +197,9 @@ class CampoFecha extends StatelessWidget {
     if (inicial.isAfter(ultimo)) inicial = ultimo;
 
     return InkWell(
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(16),
       onTap: () async {
+        HapticFeedback.lightImpact();
         final elegida = await showDatePicker(
           context: context,
           initialDate: inicial,

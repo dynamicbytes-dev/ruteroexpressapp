@@ -404,11 +404,19 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
         children: <Widget>[
-          MapaViaje(
-            origen: _origen,
-            destino: _destino,
-            altura: 220,
-            alTocar: _tocarMapa,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: MotorutaColors.ink100, width: 1),
+              boxShadow: MotorutaTheme.sombraTarjeta,
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: MapaViaje(
+              origen: _origen,
+              destino: _destino,
+              altura: 220,
+              alTocar: _tocarMapa,
+            ),
           ),
           const SizedBox(height: 14),
           Tarjeta(
@@ -426,6 +434,22 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                 const SizedBox(height: 10),
                 SegmentedButton<String>(
                   showSelectedIcon: false,
+                  style: SegmentedButton.styleFrom(
+                    selectedBackgroundColor: MotorutaColors.brand800,
+                    selectedForegroundColor: Colors.white,
+                    foregroundColor: MotorutaColors.ink700,
+                    side: const BorderSide(
+                      color: MotorutaColors.ink100,
+                      width: 1.2,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
                   segments: const <ButtonSegment<String>>[
                     ButtonSegment<String>(
                       value: 'moto',
@@ -510,37 +534,51 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                   ),
                 ),
                 if (_origen != null) ...<Widget>[
-                  const SizedBox(height: 8),
-                  Row(
-                    children: <Widget>[
-                      const Icon(
-                        Icons.place_rounded,
-                        size: 19,
-                        color: MotorutaColors.verde,
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: MotorutaColors.verdeFondo,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: MotorutaColors.verde.withOpacity(0.2),
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          _origen!.direccion,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.w600,
-                            color: MotorutaColors.ink900,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        const Icon(
+                          Icons.place_rounded,
+                          size: 19,
+                          color: MotorutaColors.verde,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            _origen!.direccion,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 13.5,
+                              fontWeight: FontWeight.w600,
+                              color: MotorutaColors.verde,
+                            ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        tooltip: 'Quitar recogida',
-                        onPressed: () => setState(() {
-                          _origen = null;
-                          _buscarOrigen.clear();
-                          _resultadosOrigen = const <LugarGeocodificado>[];
-                        }),
-                        icon: const Icon(Icons.close_rounded, size: 19),
-                      ),
-                    ],
+                        IconButton(
+                          tooltip: 'Quitar recogida',
+                          onPressed: () => setState(() {
+                            _origen = null;
+                            _buscarOrigen.clear();
+                            _resultadosOrigen = const <LugarGeocodificado>[];
+                          }),
+                          icon: const Icon(
+                            Icons.close_rounded,
+                            size: 19,
+                            color: MotorutaColors.verde,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
                 if (_resultadosOrigen.isNotEmpty) ...<Widget>[
@@ -585,37 +623,51 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                   ),
                 ),
                 if (_destino != null) ...<Widget>[
-                  const SizedBox(height: 8),
-                  Row(
-                    children: <Widget>[
-                      const Icon(
-                        Icons.flag_rounded,
-                        size: 19,
-                        color: MotorutaColors.cian,
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: MotorutaColors.accent50,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: MotorutaColors.accent600.withOpacity(0.25),
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          _destino!.direccion,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.w600,
-                            color: MotorutaColors.ink900,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        const Icon(
+                          Icons.flag_rounded,
+                          size: 19,
+                          color: MotorutaColors.accent700,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            _destino!.direccion,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 13.5,
+                              fontWeight: FontWeight.w600,
+                              color: MotorutaColors.accent900,
+                            ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        tooltip: 'Quitar destino',
-                        onPressed: () => setState(() {
-                          _destino = null;
-                          _buscarDestino.clear();
-                          _resultadosDestino = const <LugarGeocodificado>[];
-                        }),
-                        icon: const Icon(Icons.close_rounded, size: 19),
-                      ),
-                    ],
+                        IconButton(
+                          tooltip: 'Quitar destino',
+                          onPressed: () => setState(() {
+                            _destino = null;
+                            _buscarDestino.clear();
+                            _resultadosDestino = const <LugarGeocodificado>[];
+                          }),
+                          icon: const Icon(
+                            Icons.close_rounded,
+                            size: 19,
+                            color: MotorutaColors.accent700,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
                 if (_resultadosDestino.isNotEmpty) ...<Widget>[
