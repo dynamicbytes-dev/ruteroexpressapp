@@ -1,0 +1,29 @@
+# Dependencias
+/backend/vendor
+/backend/node_modules
+/mobile/.dart_tool
+/mobile/build
+/mobile/.flutter-plugins*
+/mobile/ios/Pods
+/mobile/android/.gradle
+
+# Entorno
+/backend/.env
+/backend/.env.backup
+/backend/.env.production
+/backend/storage/*.key
+/backend/storage/auditor-password.txt
+/mobile/secrets/*.json
+
+# Almacenamiento local (documentos y comprobantes de usuarios)
+/backend/storage/app/private/*
+!/backend/storage/app/private/.gitignore
+/backend/storage/app/public/*
+!/backend/storage/app/public/.gitignore
+
+# Sistema
+.DS_Store
+*.log
+.idea
+.vscode/*
+!.vscode/extensions.json

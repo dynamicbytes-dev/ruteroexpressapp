@@ -1,0 +1,151 @@
+/* Tipografía autohospedada: no depende de Google Fonts en tiempo de ejecución. */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/sora/500.css';
+@import '@fontsource/sora/600.css';
+@import '@fontsource/sora/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* Tokens de marca, para lo que no cubre Tailwind (SVG en línea, mapas, etc.) */
+        --motoruta-purple: #310f38;
+        --motoruta-purple-deep: #230a29;
+        --motoruta-cyan: #00f9ff;
+        --motoruta-cyan-readable: #4cfaff;
+    }
+
+    html {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        @apply bg-ink-50 font-sans text-ink-800 antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply font-display tracking-tight text-brand-900;
+    }
+
+    /* Foco visible y consistente con la marca en todo el panel. */
+    :focus-visible {
+        @apply outline-none ring-2 ring-accent-500 ring-offset-2 ring-offset-white;
+    }
+}
+
+@layer components {
+    /* ------------------------------------------------------------------
+       Botones
+       ------------------------------------------------------------------ */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5
+               text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50;
+    }
+
+    .btn-primary {
+        @apply btn bg-brand-800 text-white hover:bg-brand-700 active:bg-brand-900;
+    }
+
+    .btn-accent {
+        /* Cian con texto morado: es la combinación de mayor contraste de la marca. */
+        @apply btn bg-accent-400 text-brand-900 hover:bg-accent-300 active:bg-accent-500;
+    }
+
+    .btn-outline {
+        @apply btn border border-ink-200 bg-white text-ink-700 hover:border-brand-300 hover:text-brand-800;
+    }
+
+    .btn-secondary {
+        @apply btn border border-ink-200 bg-white text-brand-900 hover:bg-brand-50 hover:border-brand-400 active:bg-brand-100;
+    }
+
+    .btn-danger {
+        @apply btn bg-red-600 text-white hover:bg-red-500;
+    }
+
+    .btn-ghost {
+        @apply btn text-ink-600 hover:bg-ink-100 hover:text-brand-800;
+    }
+
+    /* ------------------------------------------------------------------
+       Superficies
+       ------------------------------------------------------------------ */
+    .card {
+        @apply rounded-2xl border border-ink-100 bg-white shadow-card;
+    }
+
+    .card-pad {
+        @apply card p-6;
+    }
+
+    .panel-title {
+        @apply font-display text-lg font-semibold text-brand-900;
+    }
+
+    /* ------------------------------------------------------------------
+       Formularios
+       ------------------------------------------------------------------ */
+    .form-label {
+        @apply block text-sm font-medium text-ink-700;
+    }
+
+    .form-input {
+        @apply mt-1.5 block w-full rounded-xl border-ink-200 bg-white text-ink-900
+               shadow-sm placeholder:text-ink-400
+               focus:border-brand-500 focus:ring-brand-500;
+    }
+
+    .form-hint {
+        @apply mt-1.5 text-xs text-ink-500;
+    }
+
+    .form-error {
+        @apply mt-1.5 text-xs font-medium text-red-600;
+    }
+
+    /* ------------------------------------------------------------------
+       Estados / etiquetas
+       ------------------------------------------------------------------ */
+    .badge {
+        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+    }
+
+    .badge-pending {
+        @apply badge bg-amber-100 text-amber-800;
+    }
+
+    .badge-approved {
+        @apply badge bg-accent-100 text-accent-800;
+    }
+
+    .badge-rejected {
+        @apply badge bg-red-100 text-red-700;
+    }
+
+    .badge-neutral {
+        @apply badge bg-ink-100 text-ink-600;
+    }
+
+    /* ------------------------------------------------------------------
+       Navegación
+       ------------------------------------------------------------------ */
+    .nav-link {
+        @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium
+               text-brand-100/80 transition hover:bg-white/10 hover:text-white;
+    }
+
+    .nav-link-active {
+        @apply bg-white/10 text-white;
+    }
+
+    .nav-link-inactive {
+        @apply text-brand-100/70;
+    }
+}

@@ -1,0 +1,76 @@
+name: gaz_core
+description: "Núcleo compartido de GAZ: API, modelos, repositorios, tema y UI base para las apps de pasajero y conductor"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Textos de los widgets del sistema (calendario, etc.) en español.
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+
+  # Red: cliente HTTP con subida de archivos y progreso.
+  dio: ^5.11.1
+  # Se usa para declarar el tipo MIME al subir documentos. Se queda en la línea
+  # 4.0.x porque Flutter 3.22 fija `collection` 1.18.0.
+  http_parser: ^4.0.2
+
+  # Estado: ChangeNotifier simple, sin generación de código.
+  provider: ^6.1.5+1
+
+  # El token se guarda en el llavero del sistema, no en texto plano.
+  flutter_secure_storage: 9.2.4
+
+  # Cámara y galería para los documentos de registro.
+  image_picker: ^1.1.2
+
+  # Fechas y montos en formato venezolano. Lo fija Flutter 3.22 en 0.19.x.
+  intl: ^0.19.0
+  geolocator: 11.0.0
+
+  # Mapa sin claves nativas ni facturación: tiles de OpenStreetMap o Geoapify.
+  flutter_map: 7.0.2
+  latlong2: 0.9.1
+  web_socket_channel: ^3.0.3
+  firebase_core: ^4.7.0
+  firebase_messaging: ^16.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/brand/
+
+  fonts:
+    # Los mismos tipos del panel web (Sora para títulos, Inter para texto).
+    - family: Sora
+      fonts:
+        - asset: assets/fonts/sora-400.ttf
+          weight: 400
+        - asset: assets/fonts/sora-500.ttf
+          weight: 500
+        - asset: assets/fonts/sora-600.ttf
+          weight: 600
+        - asset: assets/fonts/sora-700.ttf
+          weight: 700
+
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter-400.ttf
+          weight: 400
+        - asset: assets/fonts/inter-500.ttf
+          weight: 500
+        - asset: assets/fonts/inter-600.ttf
+          weight: 600

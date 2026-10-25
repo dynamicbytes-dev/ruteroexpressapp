@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="112" fill="#310F38"/>
+  <g transform="translate(256, 256)">
+    <!-- Isotipo "gaz" centrado con escala y margen equilibrado -->
+    <g transform="translate(0, -22)">
+      <g transform="scale(0.40) translate(-250, -165)">
+        <!-- g (blanco) -->
+        <path d="M 68 8 C 30 8 0 38 0 76 L 0 152 C 0 190 30 220 68 220 L 102 220 L 102 254 C 102 292 72 322 34 322 L 0 322 L 0 330 L 34 330 C 76 330 110 296 110 254 L 110 76 C 110 38 80 8 42 8 Z M 68 56 C 80 56 88 64 88 76 L 88 152 C 88 164 80 172 68 172 C 56 172 48 164 48 152 L 48 76 C 48 64 56 56 68 56 Z" fill="#FFFFFF"/>
+        <!-- a (blanco) -->
+        <path d="M 235 8 C 197 8 167 38 167 76 L 167 152 C 167 190 197 220 235 220 L 295 220 L 295 76 C 295 38 265 8 227 8 Z M 235 56 C 247 56 255 64 255 76 L 255 172 L 235 172 C 223 172 215 164 215 152 L 215 76 C 215 64 223 56 235 56 Z" fill="#FFFFFF"/>
+        <!-- z (cian #00F9FF) -->
+        <path d="M 352 8 L 500 8 L 500 52 L 416 176 L 500 176 L 500 220 L 352 220 L 352 176 L 436 52 L 352 52 Z" fill="#00F9FF"/>
+      </g>
+    </g>
+    <!-- Texto "driver" debajo de "gaz" con el mismo color cian exacto (#00F9FF) -->
+    <text x="3.5" y="85" font-family="'Sora', sans-serif" font-weight="700" font-size="36px" letter-spacing="7px" fill="#00F9FF" text-anchor="middle">driver</text>
+  </g>
+</svg>

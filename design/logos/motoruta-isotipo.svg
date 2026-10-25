@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo</title>
+  <desc>Casco frontal con líneas de velocidad. Monocromo: hereda el color del contenedor con currentColor. El visor y la abertura de la barbilla son espacio negativo real (máscara), así funciona sobre cualquier fondo.</desc>
+
+  <defs>
+    <mask id="mr-casco">
+      <rect width="64" height="64" fill="#fff"/>
+      <!-- Ventana del visor -->
+      <path d="M20.4 25h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <!-- Abertura de la barbilla -->
+      <path d="M26.5 46.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="24" width="9" height="4.2" rx="2.1" opacity="0.45"/>
+    <rect x="0" y="31.8" width="13.5" height="4.2" rx="2.1" opacity="0.85"/>
+    <rect x="0" y="39.6" width="7" height="4.2" rx="2.1" opacity="0.35"/>
+
+    <!-- Casco de frente -->
+    <path mask="url(#mr-casco)" d="M13 32.4C13 17.6 21.1 9 32 9s19 8.6 19 23.4V43c0 6.6-5.4 12-12 12H25c-6.6 0-12-5.4-12-12V32.4Z"/>
+  </g>
+</svg>

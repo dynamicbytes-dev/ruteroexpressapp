@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motoruta — comparativa de isotipos</title>
+<style>
+  :root {
+    --purple: #310F38;
+    --purple-deep: #230A29;
+    --cyan: #00F9FF;
+    --ink: #16171F;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 24px 64px;
+    background: #F6F6F8; color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  h1 { font-size: 26px; margin: 0 0 6px; color: var(--purple); }
+  .intro { max-width: 780px; color: #53566A; margin: 0 0 32px; font-size: 14px; line-height: 1.6; }
+  .opcion {
+    background: #fff; border: 1px solid #ECECF1; border-radius: 16px;
+    padding: 22px; margin-bottom: 20px;
+    box-shadow: 0 8px 24px -18px rgba(49,15,56,.4);
+  }
+  .opcion header { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 18px; }
+  .letra {
+    flex: none; width: 34px; height: 34px; border-radius: 10px;
+    background: var(--purple); color: var(--cyan);
+    display: grid; place-items: center; font-weight: 700;
+  }
+  .opcion h2 { font-size: 17px; margin: 4px 0 4px; }
+  .opcion p { margin: 0; font-size: 13px; color: #53566A; max-width: 680px; }
+  .muestras { display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; }
+  .muestra {
+    border-radius: 14px; padding: 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 14px;
+  }
+  .oscuro { background: var(--purple); }
+  .claro { background: #F6F6F8; border: 1px solid #ECECF1; }
+  .blanco { background: #fff; border: 1px solid #ECECF1; }
+  .muestra svg { display: block; }
+  .cian svg { color: var(--cyan); }
+  .morado svg { color: var(--purple); }
+  .m-96 svg { width: 96px; height: 96px; }
+  .m-48 svg { width: 48px; height: 48px; }
+  .m-24 svg { width: 24px; height: 24px; }
+  .m-16 svg { width: 16px; height: 16px; }
+  .etiqueta { font-size: 10px; letter-spacing: .05em; text-transform: uppercase; text-align: center; line-height: 1.5; }
+  .oscuro .etiqueta { color: rgba(196,253,255,.75); }
+  .claro .etiqueta, .blanco .etiqueta { color: #8B8EA1; }
+  .extras { display: flex; flex-wrap: wrap; gap: 18px; align-items: stretch; }
+  .extra { background: #fff; border: 1px solid #ECECF1; border-radius: 16px; padding: 24px; }
+  .extra h3 { font-size: 14px; margin: 0 0 16px; color: var(--purple); }
+  .icono-app { width: 88px; height: 88px; }
+  .icono-app svg { width: 100%; height: 100%; display: block; }
+  .lockup svg { display: block; height: 46px; width: auto; }
+  .lockup-caja { color: var(--purple); }
+  .lockup-caja-oscura { background: var(--purple); border-radius: 14px; padding: 22px; color: var(--cyan); }
+</style>
+</head>
+<body>
+  <h1>Motoruta — comparativa de isotipos</h1>
+  <p class="intro">
+    Las cuatro opciones parten del mismo isotipo base, así que elegir una no obliga a
+    rehacer nada: el componente del panel, el favicon y el ícono de app se regeneran.
+    Fíjate sobre todo en las columnas de <strong>24 px</strong> y <strong>16 px</strong>:
+    si ahí no se reconoce, no sirve.
+  </p>
+
+  
+    <article class="opcion">
+      <header>
+        <span class="letra">A</span>
+        <div>
+          <h2>Casco frontal + líneas de velocidad</h2>
+          <p>La opción actual. Se lee como casco a cualquier tamaño y las líneas dan movimiento. Es la más fuerte como ícono de app.</p>
+        </div>
+      </header>
+
+      <div class="muestras">
+        <div class="muestra oscuro">
+          <div class="m-96 cian"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo</title>
+  <desc>Casco frontal con líneas de velocidad. Monocromo: hereda el color del contenedor con currentColor. Las ventanas son espacio negativo real (máscara), así funciona sobre cualquier fondo.</desc>
+
+  <defs>
+    <mask id="mr-casco">
+      <rect width="64" height="64" fill="#fff"/>
+      <!-- Ventana del visor -->
+      <path d="M20.4 25h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <!-- Abertura de la barbilla -->
+      <path d="M26.5 46.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="24" width="9" height="4.2" rx="2.1" opacity="0.45"/>
+    <rect x="0" y="31.8" width="13.5" height="4.2" rx="2.1" opacity="0.85"/>
+    <rect x="0" y="39.6" width="7" height="4.2" rx="2.1" opacity="0.35"/>
+
+    <!-- Casco de frente -->
+    <path mask="url(#mr-casco)" d="M13 32.4C13 17.6 21.1 9 32 9s19 8.6 19 23.4V43c0 6.6-5.4 12-12 12H25c-6.6 0-12-5.4-12-12V32.4Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">96 px · fondo oscuro</span>
+        </div>
+        <div class="muestra claro">
+          <div class="m-96 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo</title>
+  <desc>Casco frontal con líneas de velocidad. Monocromo: hereda el color del contenedor con currentColor. Las ventanas son espacio negativo real (máscara), así funciona sobre cualquier fondo.</desc>
+
+  <defs>
+    <mask id="mr-casco">
+      <rect width="64" height="64" fill="#fff"/>
+      <!-- Ventana del visor -->
+      <path d="M20.4 25h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <!-- Abertura de la barbilla -->
+      <path d="M26.5 46.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="24" width="9" height="4.2" rx="2.1" opacity="0.45"/>
+    <rect x="0" y="31.8" width="13.5" height="4.2" rx="2.1" opacity="0.85"/>
+    <rect x="0" y="39.6" width="7" height="4.2" rx="2.1" opacity="0.35"/>
+
+    <!-- Casco de frente -->
+    <path mask="url(#mr-casco)" d="M13 32.4C13 17.6 21.1 9 32 9s19 8.6 19 23.4V43c0 6.6-5.4 12-12 12H25c-6.6 0-12-5.4-12-12V32.4Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">96 px · fondo claro</span>
+        </div>
+        <div class="muestra oscuro">
+          <div class="m-48 cian"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo</title>
+  <desc>Casco frontal con líneas de velocidad. Monocromo: hereda el color del contenedor con currentColor. Las ventanas son espacio negativo real (máscara), así funciona sobre cualquier fondo.</desc>
+
+  <defs>
+    <mask id="mr-casco">
+      <rect width="64" height="64" fill="#fff"/>
+      <!-- Ventana del visor -->
+      <path d="M20.4 25h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <!-- Abertura de la barbilla -->
+      <path d="M26.5 46.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="24" width="9" height="4.2" rx="2.1" opacity="0.45"/>
+    <rect x="0" y="31.8" width="13.5" height="4.2" rx="2.1" opacity="0.85"/>
+    <rect x="0" y="39.6" width="7" height="4.2" rx="2.1" opacity="0.35"/>
+
+    <!-- Casco de frente -->
+    <path mask="url(#mr-casco)" d="M13 32.4C13 17.6 21.1 9 32 9s19 8.6 19 23.4V43c0 6.6-5.4 12-12 12H25c-6.6 0-12-5.4-12-12V32.4Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">48 px</span>
+        </div>
+        <div class="muestra claro">
+          <div class="m-24 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo</title>
+  <desc>Casco frontal con líneas de velocidad. Monocromo: hereda el color del contenedor con currentColor. Las ventanas son espacio negativo real (máscara), así funciona sobre cualquier fondo.</desc>
+
+  <defs>
+    <mask id="mr-casco">
+      <rect width="64" height="64" fill="#fff"/>
+      <!-- Ventana del visor -->
+      <path d="M20.4 25h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <!-- Abertura de la barbilla -->
+      <path d="M26.5 46.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="24" width="9" height="4.2" rx="2.1" opacity="0.45"/>
+    <rect x="0" y="31.8" width="13.5" height="4.2" rx="2.1" opacity="0.85"/>
+    <rect x="0" y="39.6" width="7" height="4.2" rx="2.1" opacity="0.35"/>
+
+    <!-- Casco de frente -->
+    <path mask="url(#mr-casco)" d="M13 32.4C13 17.6 21.1 9 32 9s19 8.6 19 23.4V43c0 6.6-5.4 12-12 12H25c-6.6 0-12-5.4-12-12V32.4Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">24 px</span>
+        </div>
+        <div class="muestra blanco">
+          <div class="m-16 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo</title>
+  <desc>Casco frontal con líneas de velocidad. Monocromo: hereda el color del contenedor con currentColor. Las ventanas son espacio negativo real (máscara), así funciona sobre cualquier fondo.</desc>
+
+  <defs>
+    <mask id="mr-casco">
+      <rect width="64" height="64" fill="#fff"/>
+      <!-- Ventana del visor -->
+      <path d="M20.4 25h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <!-- Abertura de la barbilla -->
+      <path d="M26.5 46.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="24" width="9" height="4.2" rx="2.1" opacity="0.45"/>
+    <rect x="0" y="31.8" width="13.5" height="4.2" rx="2.1" opacity="0.85"/>
+    <rect x="0" y="39.6" width="7" height="4.2" rx="2.1" opacity="0.35"/>
+
+    <!-- Casco de frente -->
+    <path mask="url(#mr-casco)" d="M13 32.4C13 17.6 21.1 9 32 9s19 8.6 19 23.4V43c0 6.6-5.4 12-12 12H25c-6.6 0-12-5.4-12-12V32.4Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">16 px<br>(favicon)</span>
+        </div>
+      </div>
+    </article>
+    <article class="opcion">
+      <header>
+        <span class="letra">B</span>
+        <div>
+          <h2>Casco en perfil + líneas</h2>
+          <p>Más literal como “motorista”. Silueta más blanda; el visor pierde algo de claridad en tamaños mínimos.</p>
+        </div>
+      </header>
+
+      <div class="muestras">
+        <div class="muestra oscuro">
+          <div class="m-96 cian"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: casco en perfil</title>
+  <desc>El visor se recorta como espacio negativo (máscara), pero sin llegar al borde frontal: así la silueta del casco se mantiene cerrada y no se lee como una letra.</desc>
+
+  <defs>
+    <mask id="mr-visor-perfil">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M32 22c9 0 16.5 1.8 20.5 4.8-.5 4.7-4.5 7.2-11.5 7.7-5.5.3-9.5-1.5-10.5-5-.5-3 0-6 1.5-7.5Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="26" width="8" height="4" rx="2" opacity="0.45"/>
+    <rect x="0" y="33" width="11" height="4" rx="2" opacity="0.8"/>
+
+    <!-- Casco en perfil mirando a la derecha -->
+    <path mask="url(#mr-visor-perfil)" d="M9 34C9 19.5 18.5 9.5 32 9.5c12 0 22 7 24.6 17 .9 4 .9 8.5-.5 12-2 5.5-6.6 9-13.1 9H22.5C14 47.5 9 43 9 34Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">96 px · fondo oscuro</span>
+        </div>
+        <div class="muestra claro">
+          <div class="m-96 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: casco en perfil</title>
+  <desc>El visor se recorta como espacio negativo (máscara), pero sin llegar al borde frontal: así la silueta del casco se mantiene cerrada y no se lee como una letra.</desc>
+
+  <defs>
+    <mask id="mr-visor-perfil">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M32 22c9 0 16.5 1.8 20.5 4.8-.5 4.7-4.5 7.2-11.5 7.7-5.5.3-9.5-1.5-10.5-5-.5-3 0-6 1.5-7.5Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="26" width="8" height="4" rx="2" opacity="0.45"/>
+    <rect x="0" y="33" width="11" height="4" rx="2" opacity="0.8"/>
+
+    <!-- Casco en perfil mirando a la derecha -->
+    <path mask="url(#mr-visor-perfil)" d="M9 34C9 19.5 18.5 9.5 32 9.5c12 0 22 7 24.6 17 .9 4 .9 8.5-.5 12-2 5.5-6.6 9-13.1 9H22.5C14 47.5 9 43 9 34Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">96 px · fondo claro</span>
+        </div>
+        <div class="muestra oscuro">
+          <div class="m-48 cian"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: casco en perfil</title>
+  <desc>El visor se recorta como espacio negativo (máscara), pero sin llegar al borde frontal: así la silueta del casco se mantiene cerrada y no se lee como una letra.</desc>
+
+  <defs>
+    <mask id="mr-visor-perfil">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M32 22c9 0 16.5 1.8 20.5 4.8-.5 4.7-4.5 7.2-11.5 7.7-5.5.3-9.5-1.5-10.5-5-.5-3 0-6 1.5-7.5Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="26" width="8" height="4" rx="2" opacity="0.45"/>
+    <rect x="0" y="33" width="11" height="4" rx="2" opacity="0.8"/>
+
+    <!-- Casco en perfil mirando a la derecha -->
+    <path mask="url(#mr-visor-perfil)" d="M9 34C9 19.5 18.5 9.5 32 9.5c12 0 22 7 24.6 17 .9 4 .9 8.5-.5 12-2 5.5-6.6 9-13.1 9H22.5C14 47.5 9 43 9 34Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">48 px</span>
+        </div>
+        <div class="muestra claro">
+          <div class="m-24 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: casco en perfil</title>
+  <desc>El visor se recorta como espacio negativo (máscara), pero sin llegar al borde frontal: así la silueta del casco se mantiene cerrada y no se lee como una letra.</desc>
+
+  <defs>
+    <mask id="mr-visor-perfil">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M32 22c9 0 16.5 1.8 20.5 4.8-.5 4.7-4.5 7.2-11.5 7.7-5.5.3-9.5-1.5-10.5-5-.5-3 0-6 1.5-7.5Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="26" width="8" height="4" rx="2" opacity="0.45"/>
+    <rect x="0" y="33" width="11" height="4" rx="2" opacity="0.8"/>
+
+    <!-- Casco en perfil mirando a la derecha -->
+    <path mask="url(#mr-visor-perfil)" d="M9 34C9 19.5 18.5 9.5 32 9.5c12 0 22 7 24.6 17 .9 4 .9 8.5-.5 12-2 5.5-6.6 9-13.1 9H22.5C14 47.5 9 43 9 34Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">24 px</span>
+        </div>
+        <div class="muestra blanco">
+          <div class="m-16 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: casco en perfil</title>
+  <desc>El visor se recorta como espacio negativo (máscara), pero sin llegar al borde frontal: así la silueta del casco se mantiene cerrada y no se lee como una letra.</desc>
+
+  <defs>
+    <mask id="mr-visor-perfil">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M32 22c9 0 16.5 1.8 20.5 4.8-.5 4.7-4.5 7.2-11.5 7.7-5.5.3-9.5-1.5-10.5-5-.5-3 0-6 1.5-7.5Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="26" width="8" height="4" rx="2" opacity="0.45"/>
+    <rect x="0" y="33" width="11" height="4" rx="2" opacity="0.8"/>
+
+    <!-- Casco en perfil mirando a la derecha -->
+    <path mask="url(#mr-visor-perfil)" d="M9 34C9 19.5 18.5 9.5 32 9.5c12 0 22 7 24.6 17 .9 4 .9 8.5-.5 12-2 5.5-6.6 9-13.1 9H22.5C14 47.5 9 43 9 34Z"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">16 px<br>(favicon)</span>
+        </div>
+      </div>
+    </article>
+    <article class="opcion">
+      <header>
+        <span class="letra">C</span>
+        <div>
+          <h2>Casco frontal, sin líneas</h2>
+          <p>El más limpio y atemporal. Menos “velocidad”, pero el que mejor aguanta cuando se achica.</p>
+        </div>
+      </header>
+
+      <div class="muestras">
+        <div class="muestra oscuro">
+          <div class="m-96 cian"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo compacto</title>
+  <desc>Versión sin líneas de velocidad, para tamaños pequeños (favicon, avatar, notificaciones). Monocromo vía currentColor.</desc>
+
+  <defs>
+    <mask id="mr-casco-min">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.4 24h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <path d="M26.5 45.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <path mask="url(#mr-casco-min)" fill="currentColor" d="M8 32.6C8 14.8 18.7 4.6 32 4.6s24 10.2 24 28V44.4c0 8.3-6.7 15-15 15H23c-8.3 0-15-6.7-15-15V32.6Z"/>
+</svg>
+</div>
+          <span class="etiqueta">96 px · fondo oscuro</span>
+        </div>
+        <div class="muestra claro">
+          <div class="m-96 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo compacto</title>
+  <desc>Versión sin líneas de velocidad, para tamaños pequeños (favicon, avatar, notificaciones). Monocromo vía currentColor.</desc>
+
+  <defs>
+    <mask id="mr-casco-min">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.4 24h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <path d="M26.5 45.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <path mask="url(#mr-casco-min)" fill="currentColor" d="M8 32.6C8 14.8 18.7 4.6 32 4.6s24 10.2 24 28V44.4c0 8.3-6.7 15-15 15H23c-8.3 0-15-6.7-15-15V32.6Z"/>
+</svg>
+</div>
+          <span class="etiqueta">96 px · fondo claro</span>
+        </div>
+        <div class="muestra oscuro">
+          <div class="m-48 cian"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo compacto</title>
+  <desc>Versión sin líneas de velocidad, para tamaños pequeños (favicon, avatar, notificaciones). Monocromo vía currentColor.</desc>
+
+  <defs>
+    <mask id="mr-casco-min">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.4 24h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <path d="M26.5 45.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <path mask="url(#mr-casco-min)" fill="currentColor" d="M8 32.6C8 14.8 18.7 4.6 32 4.6s24 10.2 24 28V44.4c0 8.3-6.7 15-15 15H23c-8.3 0-15-6.7-15-15V32.6Z"/>
+</svg>
+</div>
+          <span class="etiqueta">48 px</span>
+        </div>
+        <div class="muestra claro">
+          <div class="m-24 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo compacto</title>
+  <desc>Versión sin líneas de velocidad, para tamaños pequeños (favicon, avatar, notificaciones). Monocromo vía currentColor.</desc>
+
+  <defs>
+    <mask id="mr-casco-min">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.4 24h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <path d="M26.5 45.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <path mask="url(#mr-casco-min)" fill="currentColor" d="M8 32.6C8 14.8 18.7 4.6 32 4.6s24 10.2 24 28V44.4c0 8.3-6.7 15-15 15H23c-8.3 0-15-6.7-15-15V32.6Z"/>
+</svg>
+</div>
+          <span class="etiqueta">24 px</span>
+        </div>
+        <div class="muestra blanco">
+          <div class="m-16 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo compacto</title>
+  <desc>Versión sin líneas de velocidad, para tamaños pequeños (favicon, avatar, notificaciones). Monocromo vía currentColor.</desc>
+
+  <defs>
+    <mask id="mr-casco-min">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.4 24h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <path d="M26.5 45.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <path mask="url(#mr-casco-min)" fill="currentColor" d="M8 32.6C8 14.8 18.7 4.6 32 4.6s24 10.2 24 28V44.4c0 8.3-6.7 15-15 15H23c-8.3 0-15-6.7-15-15V32.6Z"/>
+</svg>
+</div>
+          <span class="etiqueta">16 px<br>(favicon)</span>
+        </div>
+      </div>
+    </article>
+    <article class="opcion">
+      <header>
+        <span class="letra">D</span>
+        <div>
+          <h2>Monograma M + líneas</h2>
+          <p>Abstracción total: la M de Motoruta. Escala perfecto, pero por sí solo no dice “moto”.</p>
+        </div>
+      </header>
+
+      <div class="muestras">
+        <div class="muestra oscuro">
+          <div class="m-96 cian"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: monograma M con carretera</title>
+  <desc>Monograma abstracto: la M de Motoruta trazada como una carretera que se aleja, con línea de velocidad.</desc>
+
+  <g fill="none" stroke="currentColor" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- M como carretera -->
+    <path d="M10 48V22l11 14 11-14v26"/>
+  </g>
+
+  <!-- Líneas de velocidad -->
+  <g fill="currentColor">
+    <rect x="40" y="24" width="16" height="5" rx="2.5" opacity="0.85"/>
+    <rect x="44" y="34" width="12" height="5" rx="2.5" opacity="0.5"/>
+    <rect x="48" y="44" width="8" height="5" rx="2.5" opacity="0.3"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">96 px · fondo oscuro</span>
+        </div>
+        <div class="muestra claro">
+          <div class="m-96 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: monograma M con carretera</title>
+  <desc>Monograma abstracto: la M de Motoruta trazada como una carretera que se aleja, con línea de velocidad.</desc>
+
+  <g fill="none" stroke="currentColor" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- M como carretera -->
+    <path d="M10 48V22l11 14 11-14v26"/>
+  </g>
+
+  <!-- Líneas de velocidad -->
+  <g fill="currentColor">
+    <rect x="40" y="24" width="16" height="5" rx="2.5" opacity="0.85"/>
+    <rect x="44" y="34" width="12" height="5" rx="2.5" opacity="0.5"/>
+    <rect x="48" y="44" width="8" height="5" rx="2.5" opacity="0.3"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">96 px · fondo claro</span>
+        </div>
+        <div class="muestra oscuro">
+          <div class="m-48 cian"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: monograma M con carretera</title>
+  <desc>Monograma abstracto: la M de Motoruta trazada como una carretera que se aleja, con línea de velocidad.</desc>
+
+  <g fill="none" stroke="currentColor" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- M como carretera -->
+    <path d="M10 48V22l11 14 11-14v26"/>
+  </g>
+
+  <!-- Líneas de velocidad -->
+  <g fill="currentColor">
+    <rect x="40" y="24" width="16" height="5" rx="2.5" opacity="0.85"/>
+    <rect x="44" y="34" width="12" height="5" rx="2.5" opacity="0.5"/>
+    <rect x="48" y="44" width="8" height="5" rx="2.5" opacity="0.3"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">48 px</span>
+        </div>
+        <div class="muestra claro">
+          <div class="m-24 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: monograma M con carretera</title>
+  <desc>Monograma abstracto: la M de Motoruta trazada como una carretera que se aleja, con línea de velocidad.</desc>
+
+  <g fill="none" stroke="currentColor" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- M como carretera -->
+    <path d="M10 48V22l11 14 11-14v26"/>
+  </g>
+
+  <!-- Líneas de velocidad -->
+  <g fill="currentColor">
+    <rect x="40" y="24" width="16" height="5" rx="2.5" opacity="0.85"/>
+    <rect x="44" y="34" width="12" height="5" rx="2.5" opacity="0.5"/>
+    <rect x="48" y="44" width="8" height="5" rx="2.5" opacity="0.3"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">24 px</span>
+        </div>
+        <div class="muestra blanco">
+          <div class="m-16 morado"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: monograma M con carretera</title>
+  <desc>Monograma abstracto: la M de Motoruta trazada como una carretera que se aleja, con línea de velocidad.</desc>
+
+  <g fill="none" stroke="currentColor" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- M como carretera -->
+    <path d="M10 48V22l11 14 11-14v26"/>
+  </g>
+
+  <!-- Líneas de velocidad -->
+  <g fill="currentColor">
+    <rect x="40" y="24" width="16" height="5" rx="2.5" opacity="0.85"/>
+    <rect x="44" y="34" width="12" height="5" rx="2.5" opacity="0.5"/>
+    <rect x="48" y="44" width="8" height="5" rx="2.5" opacity="0.3"/>
+  </g>
+</svg>
+</div>
+          <span class="etiqueta">16 px<br>(favicon)</span>
+        </div>
+      </div>
+    </article>
+
+  <article class="extra" style="margin-top:24px;">
+    <h3>Aplicaciones (con la opción A como ejemplo)</h3>
+    <div class="extras">
+      <div>
+        <div class="icono-app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — insignia (app icon)</title>
+  <desc>Isotipo cian sobre morado oscuro. Es el ícono para tiendas de aplicaciones y favicon.</desc>
+
+  <defs>
+    <mask id="mr-badge-casco">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.4 24h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <path d="M26.5 46.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="#310F38"/>
+
+  <g fill="#00F9FF">
+    <rect x="7" y="25.4" width="7" height="3.6" rx="1.8" opacity="0.45"/>
+    <rect x="7" y="32" width="10" height="3.6" rx="1.8" opacity="0.85"/>
+    <rect x="7" y="38.6" width="5.5" height="3.6" rx="1.8" opacity="0.35"/>
+    <path mask="url(#mr-badge-casco)"
+          d="M13 32.4C13 17.6 21.1 9 32 9s19 8.6 19 23.4V43c0 6.6-5.4 12-12 12H25c-6.6 0-12-5.4-12-12V32.4Z"/>
+  </g>
+</svg>
+</div>
+        <p class="etiqueta" style="color:#8B8EA1;">Ícono de app</p>
+      </div>
+      <div class="lockup-caja">
+        <div class="lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — logo horizontal</title>
+  <desc>Isotipo + logotipo. El texto usa Sora; para producción (impresión o empaquetado de la app) conviene convertir el texto a trazos.</desc>
+
+  <defs>
+    <mask id="mr-lockup-casco">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.4 24h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <path d="M26.5 46.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <!-- Isotipo -->
+  <g fill="currentColor">
+    <rect x="0" y="24.4" width="9" height="4.2" rx="2.1" opacity="0.45"/>
+    <rect x="0" y="32.2" width="13.5" height="4.2" rx="2.1" opacity="0.85"/>
+    <rect x="0" y="40" width="7" height="4.2" rx="2.1" opacity="0.35"/>
+    <path mask="url(#mr-lockup-casco)" d="M13 32.8C13 18 21.1 9.4 32 9.4s19 8.6 19 23.4V43.4c0 6.6-5.4 12-12 12H25c-6.6 0-12-5.4-12-12V32.8Z"/>
+  </g>
+
+  <!-- Logotipo -->
+  <text x="70" y="41.5" fill="currentColor"
+        font-family="Sora, Inter, system-ui, -apple-system, sans-serif"
+        font-size="31" font-weight="600" letter-spacing="-0.8">Motoruta</text>
+</svg>
+</div>
+        <p class="etiqueta" style="color:#8B8EA1;">Logo horizontal · fondo claro</p>
+      </div>
+      <div class="lockup-caja-oscura">
+        <div class="lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — logo horizontal</title>
+  <desc>Isotipo + logotipo. El texto usa Sora; para producción (impresión o empaquetado de la app) conviene convertir el texto a trazos.</desc>
+
+  <defs>
+    <mask id="mr-lockup-casco">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.4 24h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <path d="M26.5 46.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <!-- Isotipo -->
+  <g fill="currentColor">
+    <rect x="0" y="24.4" width="9" height="4.2" rx="2.1" opacity="0.45"/>
+    <rect x="0" y="32.2" width="13.5" height="4.2" rx="2.1" opacity="0.85"/>
+    <rect x="0" y="40" width="7" height="4.2" rx="2.1" opacity="0.35"/>
+    <path mask="url(#mr-lockup-casco)" d="M13 32.8C13 18 21.1 9.4 32 9.4s19 8.6 19 23.4V43.4c0 6.6-5.4 12-12 12H25c-6.6 0-12-5.4-12-12V32.8Z"/>
+  </g>
+
+  <!-- Logotipo -->
+  <text x="70" y="41.5" fill="currentColor"
+        font-family="Sora, Inter, system-ui, -apple-system, sans-serif"
+        font-size="31" font-weight="600" letter-spacing="-0.8">Motoruta</text>
+</svg>
+</div>
+        <p class="etiqueta" style="color:rgba(196,253,255,.75);">Logo horizontal · fondo oscuro</p>
+      </div>
+    </div>
+  </article>
+</body>
+</html>

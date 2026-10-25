@@ -1,0 +1,6 @@
+# Copia este archivo como android/key.properties y complétalo.
+# Nunca subas key.properties ni el keystore al repositorio.
+storePassword=CAMBIA_ESTA_CLAVE
+keyPassword=CAMBIA_ESTA_CLAVE
+keyAlias=upload
+storeFile=../upload-keystore.jks

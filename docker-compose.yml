@@ -1,0 +1,36 @@
+name: motoruta
+
+# Base de datos de desarrollo con PostGIS (necesario para la búsqueda de
+# conductores cercanos con ST_DWithin).
+#
+# Se publica en el puerto 5433 para no chocar con el PostgreSQL 17 local
+# del equipo, que ya ocupa el 5432.
+#
+#   docker compose up -d
+#   docker compose logs -f db
+services:
+  db:
+    image: postgis/postgis:17-3.5
+    container_name: motoruta-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: motoruta
+      POSTGRES_USER: motoruta
+      POSTGRES_PASSWORD: secret
+      # Evita que el contenedor intente usar locales del host no disponibles.
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      TZ: America/Caracas
+    ports:
+      - "5433:5432"
+    volumes:
+      - motoruta-db-data:/var/lib/postgresql/data
+      - ./docker/db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U motoruta -d motoruta"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+volumes:
+  motoruta-db-data:

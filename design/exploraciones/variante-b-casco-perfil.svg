@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — variante: casco en perfil</title>
+  <desc>El visor se recorta como espacio negativo (máscara), pero sin llegar al borde frontal: así la silueta del casco se mantiene cerrada y no se lee como una letra.</desc>
+
+  <defs>
+    <mask id="mr-visor-perfil">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M32 22c9 0 16.5 1.8 20.5 4.8-.5 4.7-4.5 7.2-11.5 7.7-5.5.3-9.5-1.5-10.5-5-.5-3 0-6 1.5-7.5Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <g fill="currentColor">
+    <!-- Líneas de velocidad -->
+    <rect x="0" y="26" width="8" height="4" rx="2" opacity="0.45"/>
+    <rect x="0" y="33" width="11" height="4" rx="2" opacity="0.8"/>
+
+    <!-- Casco en perfil mirando a la derecha -->
+    <path mask="url(#mr-visor-perfil)" d="M9 34C9 19.5 18.5 9.5 32 9.5c12 0 22 7 24.6 17 .9 4 .9 8.5-.5 12-2 5.5-6.6 9-13.1 9H22.5C14 47.5 9 43 9 34Z"/>
+  </g>
+</svg>

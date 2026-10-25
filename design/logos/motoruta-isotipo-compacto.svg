@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Motoruta">
+  <title>Motoruta — isotipo compacto</title>
+  <desc>Versión sin líneas de velocidad, para tamaños pequeños (favicon, avatar, notificaciones). Monocromo vía currentColor.</desc>
+
+  <defs>
+    <mask id="mr-casco-min">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.4 24h23.2c1.9 0 3.4 1.5 3.4 3.4v7.2c0 1.9-1.5 3.4-3.4 3.4H20.4c-1.9 0-3.4-1.5-3.4-3.4v-7.2c0-1.9 1.5-3.4 3.4-3.4Z" fill="#000"/>
+      <path d="M26.5 45.6h11c0 4.6-2.5 8.4-5.5 8.4s-5.5-3.8-5.5-8.4Z" fill="#000"/>
+    </mask>
+  </defs>
+
+  <path mask="url(#mr-casco-min)" fill="currentColor" d="M8 32.6C8 14.8 18.7 4.6 32 4.6s24 10.2 24 28V44.4c0 8.3-6.7 15-15 15H23c-8.3 0-15-6.7-15-15V32.6Z"/>
+</svg>
