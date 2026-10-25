@@ -28,14 +28,19 @@ class RestablecerContrasena extends ResetPassword
     public function toMail(mixed $notifiable): MailMessage
     {
         $minutos = (int) config('auth.passwords.'.config('auth.defaults.passwords').'.expire', 60);
+        $url = $this->resetUrl($notifiable);
 
         return (new MailMessage)
             ->subject('Restablece tu contraseña de GAZ')
-            ->greeting('Hola '.$notifiable->first_name.',')
-            ->line('Recibimos una solicitud para restablecer la contraseña de tu cuenta de GAZ.')
-            ->action('Crear una contraseña nueva', $this->resetUrl($notifiable))
-            ->line("El enlace vence en {$minutos} minutos y solo se puede usar una vez.")
-            ->line('Si no fuiste tú, puedes ignorar este correo: tu contraseña actual sigue funcionando.')
-            ->salutation('Equipo GAZ');
+            ->view('emails.auth.recuperar-contrasena', [
+                'url' => $url,
+                'notifiable' => $notifiable,
+                'minutos' => $minutos,
+            ])
+            ->text('emails.auth.recuperar-contrasena-text', [
+                'url' => $url,
+                'notifiable' => $notifiable,
+                'minutos' => $minutos,
+            ]);
     }
 }

@@ -21,16 +21,16 @@ class CuponesController extends Controller
     {
         $query = Coupon::query()->with(['creator', 'city', 'usages']);
 
-        if ($request->has('q') && $request->q !== '') {
-            $q = trim($request->q);
+        if ($request->filled('q')) {
+            $q = trim((string) $request->q);
             $query->where('code', 'LIKE', "%{$q}%");
         }
 
-        if ($request->has('city') && $request->city !== '') {
+        if ($request->filled('city')) {
             $query->where('city_id', $request->city);
         }
 
-        if ($request->has('activo')) {
+        if ($request->has('activo') && $request->activo !== '') {
             $query->where('is_active', filter_var($request->activo, FILTER_VALIDATE_BOOLEAN));
         }
 
@@ -86,29 +86,29 @@ class CuponesController extends Controller
             ->with('status', 'Cupón creado. Los pasajeros ya pueden usarlo al pedir un viaje.');
     }
 
-    public function show(Coupon $cupo): View
+    public function show(Coupon $coupon): View
     {
-        $cupo->load(['creator', 'city', 'usages.user', 'usages.trip']);
+        $coupon->load(['creator', 'city', 'usages.user', 'usages.trip']);
 
         return view('panel.cupones.show', [
-            'cupo' => $cupo,
+            'cupo' => $coupon,
         ]);
     }
 
-    public function edit(Coupon $cupo): View
+    public function edit(Coupon $coupon): View
     {
         $ciudades = City::query()->orderBy('name')->get();
 
         return view('panel.cupones.edit', [
-            'cupo' => $cupo,
+            'cupo' => $coupon,
             'ciudades' => $ciudades,
         ]);
     }
 
-    public function update(Request $request, Coupon $cupo): RedirectResponse
+    public function update(Request $request, Coupon $coupon): RedirectResponse
     {
         $datos = $request->validate([
-            'code' => ['required', 'string', 'max:32', 'unique:coupons,code,'.$cupo->getKey()],
+            'code' => ['required', 'string', 'max:32', 'unique:coupons,code,'.$coupon->getKey()],
             'discount_percent' => ['required', 'numeric', 'between:0,100'],
             'min_purchase' => ['nullable', 'numeric', 'min:0'],
             'max_discount' => ['nullable', 'numeric', 'min:0'],
@@ -120,7 +120,7 @@ class CuponesController extends Controller
             'is_active' => ['boolean'],
         ]);
 
-        $cupo->update([
+        $coupon->update([
             'code' => mb_strtoupper(trim($datos['code'])),
             'discount_percent' => $datos['discount_percent'],
             'min_purchase' => $datos['min_purchase'] ?? null,
@@ -134,21 +134,24 @@ class CuponesController extends Controller
         ]);
 
         return redirect()
-            ->route('panel.cupones.show', $cupo)
+            ->route('panel.cupones.show', $coupon)
             ->with('status', 'Cupón actualizado.');
     }
 
-    public function destroy(Request $request, Coupon $cupo): RedirectResponse
+    public function toggle(Coupon $coupon): RedirectResponse
     {
-        $request->validate([
-            'confirm' => ['required', 'boolean'],
-        ]);
+        $coupon->update(['is_active' => ! $coupon->is_active]);
 
-        if (! $request->validated('confirm')) {
-            return back()->withErrors(['confirm' => 'Confirma que deseas desactivar este cupón.']);
-        }
+        $mensaje = $coupon->is_active
+            ? "Cupón {$coupon->code} activado. Los pasajeros pueden aplicarlo en sus viajes."
+            : "Cupón {$coupon->code} desactivado.";
 
-        $cupo->update(['is_active' => false]);
+        return back()->with('status', $mensaje);
+    }
+
+    public function destroy(Request $request, Coupon $coupon): RedirectResponse
+    {
+        $coupon->update(['is_active' => false]);
 
         return redirect()
             ->route('panel.cupones.index')

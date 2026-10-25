@@ -12,6 +12,7 @@ use App\Http\Controllers\Panel\DocumentController;
 use App\Http\Controllers\Panel\DriverController;
 use App\Http\Controllers\Panel\ExchangeRateController;
 use App\Http\Controllers\Panel\NotificationController;
+use App\Http\Controllers\Panel\PassengerController;
 use App\Http\Controllers\Panel\RechargeController;
 use App\Http\Controllers\Panel\ReportController;
 use App\Http\Controllers\Panel\SettingsController;
@@ -102,8 +103,17 @@ Route::prefix('panel')->group(function () {
         Route::post('/soporte/{conversation}/cerrar', [SupportController::class, 'cerrar'])
             ->name('panel.soporte.cerrar');
 
-        // Verificación de usuarios: cola, ficha y decisiones.
-        Route::get('/usuarios', [UserController::class, 'index'])->name('panel.usuarios.index');
+        // Módulo de Pasajeros: visualización, edición, inhabilitar y exportar ficha PDF.
+        Route::get('/pasajeros', [PassengerController::class, 'index'])->name('panel.pasajeros.index');
+        Route::get('/pasajeros/{user}', [PassengerController::class, 'show'])->name('panel.pasajeros.show');
+        Route::get('/pasajeros/{user}/editar', [PassengerController::class, 'edit'])->name('panel.pasajeros.edit');
+        Route::patch('/pasajeros/{user}', [PassengerController::class, 'update'])->name('panel.pasajeros.update');
+        Route::post('/pasajeros/{user}/inhabilitar', [PassengerController::class, 'inhabilitar'])->name('panel.pasajeros.inhabilitar');
+        Route::post('/pasajeros/{user}/habilitar', [PassengerController::class, 'habilitar'])->name('panel.pasajeros.habilitar');
+        Route::get('/pasajeros/{user}/pdf', [PassengerController::class, 'exportPdf'])->name('panel.pasajeros.pdf');
+
+        // Alias retrocompatibles de usuarios que ahora redirigen a pasajeros
+        Route::redirect('/usuarios', '/panel/pasajeros')->name('panel.usuarios.index');
         Route::get('/usuarios/{user}', [UserController::class, 'show'])->name('panel.usuarios.show');
         Route::patch('/usuarios/{user}', [UserController::class, 'update'])->name('panel.usuarios.update');
 
@@ -181,22 +191,32 @@ Route::prefix('panel')->group(function () {
                 ->name('panel.conductores.zona');
         });
 
-        // Reportes (fase F5): métricas del período y exportables.
+        // Reportes (fase F5): métricas del período y exportables en PDF y CSV.
         Route::middleware('can:'.PermisosPanel::REPORTES)->group(function () {
             Route::get('/reportes', [ReportController::class, 'index'])->name('panel.reportes.index');
+            Route::get('/reportes/viajes.pdf', [ReportController::class, 'exportTripsPdf'])->name('panel.reportes.viajes.pdf');
+            Route::get('/reportes/movimientos.pdf', [ReportController::class, 'exportMovementsPdf'])->name('panel.reportes.movimientos.pdf');
             Route::get('/reportes/viajes.csv', [ReportController::class, 'exportTrips'])->name('panel.reportes.viajes.csv');
             Route::get('/reportes/movimientos.csv', [ReportController::class, 'exportMovements'])->name('panel.reportes.movimientos.csv');
         });
 
-        // Auditoría (fase F5): log de actividad y exportable CSV.
+        // Historial del sistema (Auditoría): log de actividad y exportables en PDF y CSV.
         Route::middleware('can:'.PermisosPanel::AUDITORIA)->group(function () {
+            Route::get('/historial', [AuditController::class, 'index'])->name('panel.historial.index');
+            Route::get('/historial/exportar.pdf', [AuditController::class, 'exportPdf'])->name('panel.historial.export.pdf');
+            Route::get('/historial/exportar.csv', [AuditController::class, 'export'])->name('panel.historial.export');
+
+            // Rutas de retrocompatibilidad con el nombre auditoría
             Route::get('/auditoria', [AuditController::class, 'index'])->name('panel.auditoria.index');
+            Route::get('/auditoria/exportar.pdf', [AuditController::class, 'exportPdf'])->name('panel.auditoria.export.pdf');
             Route::get('/auditoria/exportar.csv', [AuditController::class, 'export'])->name('panel.auditoria.export');
         });
 
-        // Tasa de cambio manual y configuración operativa (fase F2).
+        // Tasa de cambio oficial y manual (fase F2).
         Route::get('/tasa', [ExchangeRateController::class, 'index'])->name('panel.tasa.index');
         Route::post('/tasa', [ExchangeRateController::class, 'store'])->name('panel.tasa.store');
+        Route::post('/tasa/bcv', [ExchangeRateController::class, 'sincronizarBcv'])->name('panel.tasa.bcv');
+        Route::get('/tasa/bcv-consulta', [ExchangeRateController::class, 'bcvConsulta'])->name('panel.tasa.bcv-consulta');
 
         // Cupones de descuento (creados por el auditor).
         Route::get('/cupones', [CuponesController::class, 'index'])->name('panel.cupones.index');
@@ -206,6 +226,7 @@ Route::prefix('panel')->group(function () {
         Route::get('/cupones/{coupon}/editar', [CuponesController::class, 'edit'])->name('panel.cupones.edit');
         Route::put('/cupones/{coupon}', [CuponesController::class, 'update'])->name('panel.cupones.update');
         Route::delete('/cupones/{coupon}', [CuponesController::class, 'destroy'])->name('panel.cupones.destroy');
+        Route::post('/cupones/{coupon}/toggle', [CuponesController::class, 'toggle'])->name('panel.cupones.toggle');
 
         // Tarjetas y banners de publicidad
         Route::get('/publicidad', [BannerController::class, 'index'])->name('panel.banners.index');

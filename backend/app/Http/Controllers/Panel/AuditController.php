@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Spatie\Activitylog\Models\Activity;
@@ -44,6 +46,27 @@ class AuditController extends Controller
             'eventos' => self::EVENTS,
             'total' => $this->consulta($filtros)->count(),
         ]);
+    }
+
+    public function exportPdf(Request $request): Response
+    {
+        $filtros = $this->filtros($request);
+        $actividades = $this->consulta($filtros)
+            ->with(['causer', 'subject'])
+            ->latest()
+            ->limit(500)
+            ->get();
+
+        $nombre = 'historial_actividades_'.now()->format('Ymd_His').'.pdf';
+
+        $pdf = Pdf::loadView('pdf.historial-actividades', [
+            'title' => 'Historial Oficial de Actividades del Sistema',
+            'subtitle' => 'Registro de eventos y trazabilidad operativa de GAZ',
+            'actividades' => $actividades,
+            'filtros' => $filtros,
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->download($nombre);
     }
 
     public function export(Request $request): StreamedResponse

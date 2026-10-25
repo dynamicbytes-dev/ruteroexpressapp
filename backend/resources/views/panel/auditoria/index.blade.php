@@ -1,20 +1,30 @@
 <x-app-layout>
-    <x-slot name="title">Auditoría</x-slot>
-    <x-slot name="subtitle">Historial inmutable de lo que ocurre en la plataforma</x-slot>
+    <x-slot name="title">Historial de actividades</x-slot>
+    <x-slot name="subtitle">Registro de auditoría y trazabilidad inmutable del sistema GAZ</x-slot>
 
     <x-slot name="actions">
-        <a href="{{ route('panel.auditoria.export', request()->query()) }}" class="btn-outline">
-            <x-icon name="download" class="h-4 w-4" />
-            Exportar CSV
-        </a>
+        <div class="flex items-center gap-2">
+            <a href="{{ route('panel.historial.export.pdf', request()->query()) }}" class="btn-primary">
+                <x-icon name="download" class="h-4 w-4" />
+                Exportar PDF
+            </a>
+            <a href="{{ route('panel.historial.export', request()->query()) }}" class="btn-outline">
+                <x-icon name="download" class="h-4 w-4" />
+                Exportar CSV
+            </a>
+        </div>
     </x-slot>
 
     @php
         $modulos = [
+            'pasajeros' => 'Pasajeros',
             'usuario' => 'Usuarios',
+            'conductores' => 'Conductores',
             'recargas' => 'Recargas',
             'retiros' => 'Retiros',
             'viajes' => 'Viajes',
+            'cupones' => 'Cupones',
+            'banners' => 'Publicidad',
             'tasa_cambio' => 'Tasa de cambio',
             'configuracion' => 'Configuración',
             'billetera' => 'Billetera',

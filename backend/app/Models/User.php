@@ -184,6 +184,12 @@ class User extends Authenticatable implements MustVerifyEmail
         )->withTimestamps();
     }
 
+    /** Recargas solicitadas por el usuario. */
+    public function recharges(): HasMany
+    {
+        return $this->hasMany(Recharge::class);
+    }
+
     /** Documentos que faltan por subir según el rol. */
     public function missingDocuments(): array
     {
@@ -338,6 +344,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isPassenger(): bool
     {
         return $this->role === UserRole::Passenger;
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->status === UserStatus::Approved;
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->status === UserStatus::Suspended;
     }
 
     /**

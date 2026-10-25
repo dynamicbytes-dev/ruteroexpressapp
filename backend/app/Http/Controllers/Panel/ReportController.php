@@ -14,8 +14,10 @@ use App\Models\Trip;
 use App\Models\User;
 use App\Models\WalletTransaction;
 use App\Models\Withdrawal;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -114,6 +116,59 @@ class ReportController extends Controller
             'topConductores' => $topConductores,
             'ultimos' => $ultimos,
         ]);
+    }
+
+    public function exportTripsPdf(Request $request): Response
+    {
+        $rango = $this->rango($request);
+        $viajes = Trip::query()
+            ->where('status', TripStatus::Completed)
+            ->whereBetween('completed_at', [$rango['desde']->copy()->startOfDay(), $rango['hasta']->copy()->endOfDay()])
+            ->with(['passenger', 'driver'])
+            ->orderBy('completed_at')
+            ->limit(500)
+            ->get();
+
+        $resumen = [
+            'cantidad' => $viajes->count(),
+            'total' => (float) $viajes->sum('total'),
+            'comision' => (float) $viajes->sum('commission_amount'),
+            'ganancia' => (float) $viajes->sum('driver_earning'),
+        ];
+
+        $nombre = 'reporte_viajes_'.$rango['desde']->format('Ymd').'_'.$rango['hasta']->format('Ymd').'.pdf';
+
+        $pdf = Pdf::loadView('pdf.reporte-viajes', [
+            'title' => 'Reporte Oficial de Viajes',
+            'subtitle' => 'Período del '.$rango['desde']->format('d/m/Y').' al '.$rango['hasta']->format('d/m/Y'),
+            'viajes' => $viajes,
+            'resumen' => $resumen,
+            'rango' => $rango,
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->download($nombre);
+    }
+
+    public function exportMovementsPdf(Request $request): Response
+    {
+        $rango = $this->rango($request);
+        $movimientos = WalletTransaction::query()
+            ->whereBetween('created_at', [$rango['desde']->copy()->startOfDay(), $rango['hasta']->copy()->endOfDay()])
+            ->with('wallet.user')
+            ->orderBy('created_at')
+            ->limit(500)
+            ->get();
+
+        $nombre = 'reporte_movimientos_'.$rango['desde']->format('Ymd').'_'.$rango['hasta']->format('Ymd').'.pdf';
+
+        $pdf = Pdf::loadView('pdf.reporte-movimientos', [
+            'title' => 'Reporte Oficial de Movimientos de Billetera',
+            'subtitle' => 'Período del '.$rango['desde']->format('d/m/Y').' al '.$rango['hasta']->format('d/m/Y'),
+            'movimientos' => $movimientos,
+            'rango' => $rango,
+        ])->setPaper('a4', 'portrait');
+
+        return $pdf->download($nombre);
     }
 
     public function exportTrips(Request $request): StreamedResponse

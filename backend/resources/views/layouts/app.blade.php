@@ -48,19 +48,19 @@
                         // Cada entrada se activa sola según la ruta actual.
                         $secciones = [
                             ['ruta' => 'dashboard', 'patron' => 'dashboard', 'label' => 'Inicio', 'icono' => 'grid'],
-                            ['ruta' => 'panel.usuarios.index', 'patron' => 'panel.usuarios', 'label' => 'Usuarios', 'icono' => 'users'],
+                            ['ruta' => 'panel.pasajeros.index', 'patron' => 'panel.pasajeros*', 'label' => 'Pasajeros', 'icono' => 'users'],
+                            ['ruta' => 'panel.conductores.index', 'patron' => 'panel.conductores*', 'label' => 'Conductores', 'icono' => 'moto'],
+                            ['ruta' => 'panel.viajes.index', 'patron' => 'panel.viajes*', 'label' => 'Viajes', 'icono' => 'route'],
                             ['ruta' => 'panel.soporte.index', 'patron' => 'panel.soporte*', 'label' => 'Soporte', 'icono' => 'chat'],
-                            ['ruta' => 'panel.auditores.index', 'patron' => 'panel.auditores*', 'label' => 'Auditores', 'icono' => 'shield'],
                             ['ruta' => 'panel.recargas.index', 'patron' => 'panel.recargas', 'label' => 'Recargas', 'icono' => 'wallet'],
                             ['ruta' => 'panel.retiros.index', 'patron' => 'panel.retiros', 'label' => 'Retiros', 'icono' => 'banknote'],
-                            ['ruta' => 'panel.viajes.index', 'patron' => 'panel.viajes*', 'label' => 'Viajes', 'icono' => 'route'],
                             ['ruta' => 'panel.reportes.index', 'patron' => 'panel.reportes*', 'label' => 'Reportes', 'icono' => 'chart'],
-                            ['ruta' => 'panel.conductores.index', 'patron' => 'panel.conductores*', 'label' => 'Conductores', 'icono' => 'moto'],
                             ['ruta' => 'panel.cupones.index', 'patron' => 'panel.cupones*', 'label' => 'Cupones', 'icono' => 'document'],
                             ['ruta' => 'panel.banners.index', 'patron' => 'panel.banners*', 'label' => 'Publicidad', 'icono' => 'image'],
-                            ['ruta' => 'panel.tasa.index', 'patron' => 'panel.tasa', 'label' => 'Tasa de cambio', 'icono' => 'exchange'],
+                            ['ruta' => 'panel.tasa.index', 'patron' => 'panel.tasa*', 'label' => 'Tasa de cambio', 'icono' => 'exchange'],
+                            ['ruta' => 'panel.historial.index', 'patron' => 'panel.historial*', 'label' => 'Historial', 'icono' => 'shield'],
+                            ['ruta' => 'panel.auditores.index', 'patron' => 'panel.auditores*', 'label' => 'Auditores', 'icono' => 'shield'],
                             ['ruta' => 'panel.configuracion.edit', 'patron' => 'panel.configuracion', 'label' => 'Configuración', 'icono' => 'settings'],
-                            ['ruta' => 'panel.auditoria.index', 'patron' => 'panel.auditoria*', 'label' => 'Auditoría', 'icono' => 'shield'],
                         ];
                     @endphp
 

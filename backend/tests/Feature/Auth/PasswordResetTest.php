@@ -175,4 +175,21 @@ class PasswordResetTest extends TestCase
             'password' => 'clave-vieja-123',
         ])->assertOk();
     }
+
+    public function test_la_plantilla_amigable_de_correo_se_renderiza_correctamente(): void
+    {
+        $pasajero = User::factory()->passenger()->create([
+            'first_name' => 'Alejandro',
+        ]);
+
+        $notificacion = new RestablecerContrasena('token-de-prueba-123');
+        $mailMessage = $notificacion->toMail($pasajero);
+
+        $html = (string) $mailMessage->render();
+
+        $this->assertStringContainsString('Hola, Alejandro', $html);
+        $this->assertStringContainsString('Restablecer mi contraseña', $html);
+        $this->assertStringContainsString('token-de-prueba-123', $html);
+        $this->assertStringContainsString('GAZ', $html);
+    }
 }

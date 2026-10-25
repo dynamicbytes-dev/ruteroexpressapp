@@ -3,16 +3,22 @@
     <x-slot name="subtitle">Resultados operativos y financieros del período</x-slot>
 
     <x-slot name="actions">
-        <a href="{{ route('panel.reportes.viajes.csv', ['desde' => $rango['desde']->toDateString(), 'hasta' => $rango['hasta']->toDateString()]) }}"
-           class="btn-outline">
-            <x-icon name="download" class="h-4 w-4" />
-            Viajes CSV
-        </a>
-        <a href="{{ route('panel.reportes.movimientos.csv', ['desde' => $rango['desde']->toDateString(), 'hasta' => $rango['hasta']->toDateString()]) }}"
-           class="btn-outline">
-            <x-icon name="download" class="h-4 w-4" />
-            Movimientos CSV
-        </a>
+        <div class="flex items-center gap-2">
+            <a href="{{ route('panel.reportes.viajes.pdf', ['desde' => $rango['desde']->toDateString(), 'hasta' => $rango['hasta']->toDateString()]) }}"
+               class="btn-primary">
+                <x-icon name="download" class="h-4 w-4" />
+                Viajes PDF
+            </a>
+            <a href="{{ route('panel.reportes.movimientos.pdf', ['desde' => $rango['desde']->toDateString(), 'hasta' => $rango['hasta']->toDateString()]) }}"
+               class="btn-primary">
+                <x-icon name="download" class="h-4 w-4" />
+                Movimientos PDF
+            </a>
+            <a href="{{ route('panel.reportes.viajes.csv', ['desde' => $rango['desde']->toDateString(), 'hasta' => $rango['hasta']->toDateString()]) }}"
+               class="btn-outline text-xs" title="Exportar viajes en formato CSV">
+                CSV
+            </a>
+        </div>
     </x-slot>
 
     <form method="GET" action="{{ route('panel.reportes.index') }}" class="card p-4">
