@@ -60,12 +60,14 @@ class _CalificarViajeSheetState extends State<_CalificarViajeSheet> {
       _error = null;
     });
 
+    final yaEsFavorito = widget.viaje.conductor?.esFavorito == true;
+
     try {
       final viaje = await context.read<SesionController>().calificarViaje(
             widget.viaje.id,
             estrellas: _estrellas,
             comentario: _comentario.text,
-            favorito: _favorito,
+            favorito: yaEsFavorito ? true : _favorito,
           );
 
       if (mounted) Navigator.of(context).pop(viaje);
@@ -172,21 +174,55 @@ class _CalificarViajeSheetState extends State<_CalificarViajeSheet> {
                   alignLabelWithHint: true,
                 ),
               ),
-              SwitchListTile(
-                contentPadding: EdgeInsets.zero,
-                value: _favorito,
-                onChanged: _enviando
-                    ? null
-                    : (valor) => setState(() => _favorito = valor),
-                title: const Text(
-                  'Marcar como conductor favorito',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+              if (conductor?.esFavorito == true) ...<Widget>[
+                const SizedBox(height: 12),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: MotorutaColors.rojo.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: MotorutaColors.rojo.withOpacity(0.2),
+                    ),
+                  ),
+                  child: const Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.favorite_rounded,
+                        color: MotorutaColors.rojo,
+                        size: 20,
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          'Conductor guardado en tus favoritos',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: MotorutaColors.rojo,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                subtitle: const Text(
-                  'La próxima vez le daremos prioridad si está en línea y cerca.',
-                  style: TextStyle(fontSize: 12.5),
+              ] else
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  value: _favorito,
+                  onChanged: _enviando
+                      ? null
+                      : (valor) => setState(() => _favorito = valor),
+                  title: const Text(
+                    'Marcar como conductor favorito',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: const Text(
+                    'La próxima vez le daremos prioridad si está en línea y cerca.',
+                    style: TextStyle(fontSize: 12.5),
+                  ),
                 ),
-              ),
               if (_error != null) ...<Widget>[
                 const SizedBox(height: 12),
                 Aviso(tono: Tono.error, texto: _error!),

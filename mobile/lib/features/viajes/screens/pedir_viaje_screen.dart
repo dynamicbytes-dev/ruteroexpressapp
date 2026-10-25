@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
@@ -25,7 +27,8 @@ class PedirViajeScreen extends StatefulWidget {
 }
 
 class _PedirViajeScreenState extends State<PedirViajeScreen> {
-  final TextEditingController _buscar = TextEditingController();
+  final TextEditingController _buscarOrigen = TextEditingController();
+  final TextEditingController _buscarDestino = TextEditingController();
   final TextEditingController _latPrueba = TextEditingController(
     text: '10.5003',
   );
@@ -33,10 +36,15 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
     text: '-66.8428',
   );
 
+  Timer? _debounceOrigen;
+  Timer? _debounceDestino;
+
   PuntoViaje? _origen;
   PuntoViaje? _destino;
-  List<LugarGeocodificado> _resultados = const <LugarGeocodificado>[];
-  bool _buscando = false;
+  List<LugarGeocodificado> _resultadosOrigen = const <LugarGeocodificado>[];
+  List<LugarGeocodificado> _resultadosDestino = const <LugarGeocodificado>[];
+  bool _buscandoOrigen = false;
+  bool _buscandoDestino = false;
   bool _ubicando = false;
   bool _cotizando = false;
   bool _geocodingDisponible = true;
@@ -47,7 +55,10 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
 
   @override
   void dispose() {
-    _buscar.dispose();
+    _debounceOrigen?.cancel();
+    _debounceDestino?.cancel();
+    _buscarOrigen.dispose();
+    _buscarDestino.dispose();
     _latPrueba.dispose();
     _lngPrueba.dispose();
     super.dispose();
@@ -63,7 +74,7 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
 
     try {
       final posicion = await const UbicacionService().actual();
-      var direccion = 'Mi ubicación';
+      var direccion = 'Mi ubicación actual';
 
       try {
         final busqueda = await sesion.direccionDe(
@@ -83,6 +94,8 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
           lat: posicion.latitude,
           lng: posicion.longitude,
         );
+        _buscarOrigen.text = direccion;
+        _resultadosOrigen = const <LugarGeocodificado>[];
         _error = null;
       });
     } on UbicacionException catch (error) {
@@ -95,17 +108,20 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
     }
   }
 
-  Future<void> _buscarDestino() async {
-    final consulta = _buscar.text.trim();
+  Future<void> _buscarDireccionOrigen({bool silencioso = false}) async {
+    final consulta = _buscarOrigen.text.trim();
 
     if (consulta.length < 3) {
-      setState(() => _error = 'Escribe al menos tres caracteres.');
+      if (!silencioso) {
+        setState(() =>
+            _error = 'Escribe al menos tres caracteres para buscar el origen.');
+      }
       return;
     }
 
     setState(() {
-      _buscando = true;
-      _error = null;
+      _buscandoOrigen = true;
+      if (!silencioso) _error = null;
     });
 
     try {
@@ -115,17 +131,108 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
       if (!mounted) return;
 
       setState(() {
-        _resultados = resultado.lugares;
+        _resultadosOrigen = resultado.lugares;
         _geocodingDisponible = resultado.disponible;
-        _error = resultado.disponible && resultado.lugares.isEmpty
-            ? 'No encontramos esa dirección. Prueba con otro nombre.'
-            : null;
+        if (!silencioso) {
+          _error = resultado.disponible && resultado.lugares.isEmpty
+              ? 'No encontramos ese punto de recogida. Prueba con otro nombre.'
+              : null;
+        }
       });
     } on ApiException catch (error) {
       if (!mounted) return;
-      setState(() => _error = error.mensaje);
+      if (!silencioso) setState(() => _error = error.mensaje);
     } finally {
-      if (mounted) setState(() => _buscando = false);
+      if (mounted) setState(() => _buscandoOrigen = false);
+    }
+  }
+
+  void _alCambiarOrigen(String texto) {
+    _debounceOrigen?.cancel();
+    final consulta = texto.trim();
+    if (consulta.isEmpty) {
+      setState(() {
+        _resultadosOrigen = const <LugarGeocodificado>[];
+        _origen = null;
+      });
+      return;
+    }
+    if (consulta.length >= 3) {
+      _debounceOrigen = Timer(const Duration(milliseconds: 400), () {
+        if (mounted) _buscarDireccionOrigen(silencioso: true);
+      });
+    } else {
+      setState(() => _resultadosOrigen = const <LugarGeocodificado>[]);
+    }
+  }
+
+  void _elegirOrigen(LugarGeocodificado lugar) {
+    setState(() {
+      _origen = PuntoViaje(
+        direccion: lugar.direccion,
+        lat: lugar.lat,
+        lng: lugar.lng,
+      );
+      _buscarOrigen.text = lugar.direccion;
+      _resultadosOrigen = const <LugarGeocodificado>[];
+      _error = null;
+    });
+  }
+
+  Future<void> _buscarDireccionDestino({bool silencioso = false}) async {
+    final consulta = _buscarDestino.text.trim();
+
+    if (consulta.length < 3) {
+      if (!silencioso) {
+        setState(() => _error = 'Escribe al menos tres caracteres.');
+      }
+      return;
+    }
+
+    setState(() {
+      _buscandoDestino = true;
+      if (!silencioso) _error = null;
+    });
+
+    try {
+      final resultado =
+          await context.read<SesionController>().buscarLugares(consulta);
+
+      if (!mounted) return;
+
+      setState(() {
+        _resultadosDestino = resultado.lugares;
+        _geocodingDisponible = resultado.disponible;
+        if (!silencioso) {
+          _error = resultado.disponible && resultado.lugares.isEmpty
+              ? 'No encontramos esa dirección. Prueba con otro nombre.'
+              : null;
+        }
+      });
+    } on ApiException catch (error) {
+      if (!mounted) return;
+      if (!silencioso) setState(() => _error = error.mensaje);
+    } finally {
+      if (mounted) setState(() => _buscandoDestino = false);
+    }
+  }
+
+  void _alCambiarDestino(String texto) {
+    _debounceDestino?.cancel();
+    final consulta = texto.trim();
+    if (consulta.isEmpty) {
+      setState(() {
+        _resultadosDestino = const <LugarGeocodificado>[];
+        _destino = null;
+      });
+      return;
+    }
+    if (consulta.length >= 3) {
+      _debounceDestino = Timer(const Duration(milliseconds: 400), () {
+        if (mounted) _buscarDireccionDestino(silencioso: true);
+      });
+    } else {
+      setState(() => _resultadosDestino = const <LugarGeocodificado>[]);
     }
   }
 
@@ -136,44 +243,81 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
         lat: lugar.lat,
         lng: lugar.lng,
       );
-      _buscar.text = lugar.direccion;
-      _resultados = const <LugarGeocodificado>[];
+      _buscarDestino.text = lugar.direccion;
+      _resultadosDestino = const <LugarGeocodificado>[];
       _error = null;
     });
   }
 
   Future<void> _tocarMapa(LatLng punto) async {
-    final destino = PuntoViaje(
-      direccion: _buscar.text.trim().isEmpty
-          ? 'Punto en el mapa'
-          : _buscar.text.trim(),
-      lat: punto.latitude,
-      lng: punto.longitude,
-    );
+    final esOrigen = _origen == null;
 
-    setState(() {
-      _destino = destino;
-      _resultados = const <LugarGeocodificado>[];
-      _error = null;
-    });
+    if (esOrigen) {
+      final origen = PuntoViaje(
+        direccion: _buscarOrigen.text.trim().isEmpty
+            ? 'Punto de recogida en el mapa'
+            : _buscarOrigen.text.trim(),
+        lat: punto.latitude,
+        lng: punto.longitude,
+      );
 
-    try {
-      final busqueda = await context
-          .read<SesionController>()
-          .direccionDe(punto.latitude, punto.longitude);
+      setState(() {
+        _origen = origen;
+        _resultadosOrigen = const <LugarGeocodificado>[];
+        _error = null;
+      });
 
-      if (mounted && busqueda.direccion != null) {
-        setState(() {
-          _destino = PuntoViaje(
-            direccion: busqueda.direccion!,
-            lat: punto.latitude,
-            lng: punto.longitude,
-          );
-          _buscar.text = busqueda.direccion!;
-        });
+      try {
+        final busqueda = await context
+            .read<SesionController>()
+            .direccionDe(punto.latitude, punto.longitude);
+
+        if (mounted && busqueda.direccion != null) {
+          setState(() {
+            _origen = PuntoViaje(
+              direccion: busqueda.direccion!,
+              lat: punto.latitude,
+              lng: punto.longitude,
+            );
+            _buscarOrigen.text = busqueda.direccion!;
+          });
+        }
+      } on ApiException {
+        // Se queda con "Punto de recogida en el mapa".
       }
-    } on ApiException {
-      // Se queda con "Punto en el mapa"; las coordenadas son las correctas.
+    } else {
+      final destino = PuntoViaje(
+        direccion: _buscarDestino.text.trim().isEmpty
+            ? 'Punto en el mapa'
+            : _buscarDestino.text.trim(),
+        lat: punto.latitude,
+        lng: punto.longitude,
+      );
+
+      setState(() {
+        _destino = destino;
+        _resultadosDestino = const <LugarGeocodificado>[];
+        _error = null;
+      });
+
+      try {
+        final busqueda = await context
+            .read<SesionController>()
+            .direccionDe(punto.latitude, punto.longitude);
+
+        if (mounted && busqueda.direccion != null) {
+          setState(() {
+            _destino = PuntoViaje(
+              direccion: busqueda.direccion!,
+              lat: punto.latitude,
+              lng: punto.longitude,
+            );
+            _buscarDestino.text = busqueda.direccion!;
+          });
+        }
+      } on ApiException {
+        // Se queda con "Punto en el mapa"; las coordenadas son las correctas.
+      }
     }
   }
 
@@ -189,7 +333,10 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
         lat: double.tryParse(_latPrueba.text) ?? 10.5003,
         lng: double.tryParse(_lngPrueba.text) ?? -66.8428,
       );
-      _buscar.text = _destino!.direccion;
+      _buscarOrigen.text = _origen!.direccion;
+      _buscarDestino.text = _destino!.direccion;
+      _resultadosOrigen = const <LugarGeocodificado>[];
+      _resultadosDestino = const <LugarGeocodificado>[];
       _error = null;
     });
   }
@@ -316,44 +463,119 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    const Icon(
-                      Icons.my_location_rounded,
-                      size: 20,
-                      color: MotorutaColors.brand800,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        _origen?.direccion ??
-                            'Todavía no has fijado tu recogida',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: _origen == null
-                              ? MotorutaColors.ink400
-                              : MotorutaColors.ink900,
+                CampoTexto(
+                  controlador: _buscarOrigen,
+                  etiqueta: 'Punto de recogida (origen)',
+                  pista: '¿Dónde te recogemos?',
+                  icono: Icons.radio_button_checked_rounded,
+                  accionTexto: TextInputAction.search,
+                  alCambiar: _alCambiarOrigen,
+                  alEnviar: (_) => _buscarDireccionOrigen(),
+                  sufijo: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      if (_ubicando)
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: SizedBox(
+                            height: 18,
+                            width: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        )
+                      else
+                        IconButton(
+                          tooltip: 'Usar mi ubicación actual',
+                          icon: const Icon(
+                            Icons.my_location_rounded,
+                            size: 20,
+                            color: MotorutaColors.brand800,
+                          ),
+                          onPressed: _ubicarme,
+                        ),
+                      IconButton(
+                        tooltip: 'Buscar punto de recogida',
+                        onPressed:
+                            _buscandoOrigen ? null : _buscarDireccionOrigen,
+                        icon: _buscandoOrigen
+                            ? const SizedBox(
+                                height: 18,
+                                width: 18,
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Icon(Icons.arrow_forward_rounded),
+                      ),
+                    ],
+                  ),
+                ),
+                if (_origen != null) ...<Widget>[
+                  const SizedBox(height: 8),
+                  Row(
+                    children: <Widget>[
+                      const Icon(
+                        Icons.place_rounded,
+                        size: 19,
+                        color: MotorutaColors.verde,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          _origen!.direccion,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.w600,
+                            color: MotorutaColors.ink900,
+                          ),
                         ),
                       ),
+                      IconButton(
+                        tooltip: 'Quitar recogida',
+                        onPressed: () => setState(() {
+                          _origen = null;
+                          _buscarOrigen.clear();
+                          _resultadosOrigen = const <LugarGeocodificado>[];
+                        }),
+                        icon: const Icon(Icons.close_rounded, size: 19),
+                      ),
+                    ],
+                  ),
+                ],
+                if (_resultadosOrigen.isNotEmpty) ...<Widget>[
+                  const SizedBox(height: 6),
+                  ..._resultadosOrigen.map(
+                    (lugar) => ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      dense: true,
+                      leading: const Icon(
+                        Icons.place_outlined,
+                        size: 20,
+                        color: MotorutaColors.verde,
+                      ),
+                      title: Text(
+                        lugar.direccion,
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                      onTap: () => _elegirOrigen(lugar),
                     ),
-                    TextButton(
-                      onPressed: _ubicando ? null : _ubicarme,
-                      child: Text(_ubicando ? 'Buscando…' : 'Mi ubicación'),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
                 const Divider(height: 24),
                 CampoTexto(
-                  controlador: _buscar,
-                  etiqueta: '¿A dónde vas?',
+                  controlador: _buscarDestino,
+                  etiqueta: '¿A dónde vas? (destino)',
                   pista: 'Dirección o lugar',
-                  icono: Icons.search_rounded,
+                  icono: Icons.flag_rounded,
                   accionTexto: TextInputAction.search,
-                  alEnviar: (_) => _buscarDestino(),
+                  alCambiar: _alCambiarDestino,
+                  alEnviar: (_) => _buscarDireccionDestino(),
                   sufijo: IconButton(
-                    onPressed: _buscando ? null : _buscarDestino,
-                    icon: _buscando
+                    tooltip: 'Buscar destino',
+                    onPressed:
+                        _buscandoDestino ? null : _buscarDireccionDestino,
+                    icon: _buscandoDestino
                         ? const SizedBox(
                             height: 18,
                             width: 18,
@@ -363,7 +585,7 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                   ),
                 ),
                 if (_destino != null) ...<Widget>[
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   Row(
                     children: <Widget>[
                       const Icon(
@@ -371,14 +593,14 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                         size: 19,
                         color: MotorutaColors.cian,
                       ),
-                      const SizedBox(width: 9),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           _destino!.direccion,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 13.5,
                             fontWeight: FontWeight.w600,
                             color: MotorutaColors.ink900,
                           ),
@@ -388,16 +610,17 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                         tooltip: 'Quitar destino',
                         onPressed: () => setState(() {
                           _destino = null;
-                          _buscar.clear();
+                          _buscarDestino.clear();
+                          _resultadosDestino = const <LugarGeocodificado>[];
                         }),
                         icon: const Icon(Icons.close_rounded, size: 19),
                       ),
                     ],
                   ),
                 ],
-                if (_resultados.isNotEmpty) ...<Widget>[
+                if (_resultadosDestino.isNotEmpty) ...<Widget>[
                   const SizedBox(height: 6),
-                  ..._resultados.map(
+                  ..._resultadosDestino.map(
                     (lugar) => ListTile(
                       contentPadding: EdgeInsets.zero,
                       dense: true,
@@ -413,7 +636,7 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                 if (!_geocodingDisponible) ...<Widget>[
                   const SizedBox(height: 8),
                   const Text(
-                    'La búsqueda de direcciones no está disponible en este momento. Puedes fijar el destino tocando el mapa.',
+                    'La búsqueda de direcciones no está disponible en este momento. Puedes fijar puntos tocando el mapa.',
                     style:
                         TextStyle(fontSize: 12, color: MotorutaColors.ink500),
                   ),

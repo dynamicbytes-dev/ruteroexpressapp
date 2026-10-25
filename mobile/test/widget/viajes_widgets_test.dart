@@ -9,6 +9,7 @@ import 'package:motoruta/core/api/api_client.dart';
 import 'package:motoruta/core/realtime/evento_tiempo_real.dart';
 import 'package:motoruta/core/realtime/tiempo_real_service.dart';
 import 'package:motoruta/core/theme/app_theme.dart';
+import 'package:motoruta/core/ui/campos.dart';
 import 'package:motoruta/data/billetera_repository.dart';
 import 'package:motoruta/data/cuenta_repository.dart';
 import 'package:motoruta/data/models/usuario.dart';
@@ -21,6 +22,7 @@ import 'package:motoruta/features/viajes/screens/oferta_screen.dart';
 import 'package:motoruta/features/viajes/screens/pedir_viaje_screen.dart';
 import 'package:motoruta/features/viajes/screens/viaje_conductor_screen.dart';
 import 'package:motoruta/features/viajes/screens/viaje_pasajero_screen.dart';
+import 'package:motoruta/features/viajes/widgets/calificar_viaje_sheet.dart';
 import 'package:motoruta/features/viajes/viajes_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -143,6 +145,54 @@ void main() {
 
     await irA(tester, find.text('Cotizar viaje'));
     expect(find.text('Cotizar viaje'), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump();
+  });
+
+  testWidgets(
+      'el pasajero puede buscar y seleccionar el punto de recogida manualmente',
+      (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+
+    servidor.responder(
+      'GET',
+      '/api/ubicaciones/buscar',
+      <String, dynamic>{
+        'data': <String, dynamic>{
+          'available': true,
+          'results': <dynamic>[
+            <String, dynamic>{
+              'address': 'Chacao, Caracas',
+              'lat': 10.4930,
+              'lng': -66.8560,
+            },
+          ],
+        },
+      },
+    );
+
+    await tester.pumpWidget(
+      envolver(sesionComo('passenger'), const PedirViajeScreen()),
+    );
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(find.text('Punto de recogida (origen)'), findsOneWidget);
+
+    final campoOrigen = find.byType(TextField).first;
+    await tester.enterText(campoOrigen, 'Chacao');
+    await tester.tap(find.byTooltip('Buscar punto de recogida'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Chacao, Caracas'), findsOneWidget);
+
+    await tester.tap(find.text('Chacao, Caracas'));
+    await tester.pumpAndSettle();
+
+    expect(find.byTooltip('Quitar recogida'), findsOneWidget);
+    expect(tester.takeException(), isNull);
 
     await tester.pumpWidget(const SizedBox());
     await tester.pump();
@@ -356,6 +406,83 @@ void main() {
     await irA(tester, find.text('Volver al inicio'));
     expect(find.text('Volver al inicio'), findsOneWidget);
     expect(tester.takeException(), isNull);
+
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump();
+  });
+
+  testWidgets(
+      'el pasajero ve el icono de favorito activo y deshabilitado si ya es favorito',
+      (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+
+    final viaje = Viaje.desdeJson(
+      viajeJson(
+        estado: 'completed',
+        etiqueta: 'Completado',
+        conConductor: true,
+        puedeCancelar: false,
+        favorito: true,
+      ),
+    );
+
+    await tester.pumpWidget(
+      envolver(
+        sesionComo('passenger'),
+        ViajePasajeroScreen(inicial: viaje),
+      ),
+    );
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(find.byTooltip('Conductor guardado en tus favoritos'), findsOneWidget);
+    expect(find.byTooltip('Marcar como conductor favorito'), findsNothing);
+
+    final botonFavorito = tester.widget<IconButton>(
+      find.widgetWithIcon(IconButton, Icons.favorite_rounded),
+    );
+    expect(botonFavorito.onPressed, isNull);
+
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump();
+  });
+
+  testWidgets(
+      'la hoja de calificación oculta el switch si el conductor ya es favorito',
+      (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+
+    final viaje = Viaje.desdeJson(
+      viajeJson(
+        estado: 'completed',
+        etiqueta: 'Completado',
+        conConductor: true,
+        puedeCancelar: false,
+        favorito: true,
+      ),
+    );
+
+    await tester.pumpWidget(
+      envolver(
+        sesionComo('passenger'),
+        Builder(
+          builder: (context) => Scaffold(
+            body: ElevatedButton(
+              onPressed: () => mostrarCalificarViaje(context, viaje: viaje),
+              child: const Text('Calificar'),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('Calificar'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Conductor guardado en tus favoritos'), findsOneWidget);
+    expect(find.text('Marcar como conductor favorito'), findsNothing);
 
     await tester.pumpWidget(const SizedBox());
     await tester.pump();

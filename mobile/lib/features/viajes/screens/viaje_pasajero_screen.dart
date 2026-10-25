@@ -194,14 +194,14 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
   Future<void> _alternarFavorito() async {
     final conductor = _viaje.conductor;
 
-    if (conductor == null || _guardandoFavorito) return;
+    if (conductor == null || _guardandoFavorito || conductor.esFavorito) return;
 
     setState(() => _guardandoFavorito = true);
 
     try {
       final favorito = await context
           .read<SesionController>()
-          .alternarFavorito(conductor.id, !conductor.esFavorito);
+          .alternarFavorito(conductor.id, true);
 
       if (!mounted) return;
 
@@ -210,9 +210,7 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            favorito
-                ? '${conductor.nombre} quedó en tus conductores favoritos.'
-                : '${conductor.nombre} ya no está en tus favoritos.',
+            '${conductor.nombre} quedó en tus conductores favoritos.',
           ),
         ),
       );
@@ -379,11 +377,19 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
                         onPressed: () => _copiarTelefono(conductor.telefono),
                         icon: const Icon(Icons.phone_outlined),
                       ),
-                    if (_viaje.completado)
+                    if (conductor.esFavorito)
+                      const IconButton(
+                        tooltip: 'Conductor guardado en tus favoritos',
+                        onPressed: null,
+                        disabledColor: MotorutaColors.rojo,
+                        icon: Icon(
+                          Icons.favorite_rounded,
+                          color: MotorutaColors.rojo,
+                        ),
+                      )
+                    else if (_viaje.completado)
                       IconButton(
-                        tooltip: conductor.esFavorito
-                            ? 'Quitar de favoritos'
-                            : 'Marcar como conductor favorito',
+                        tooltip: 'Marcar como conductor favorito',
                         onPressed:
                             _guardandoFavorito ? null : _alternarFavorito,
                         icon: _guardandoFavorito
@@ -394,13 +400,9 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
                                   strokeWidth: 2,
                                 ),
                               )
-                            : Icon(
-                                conductor.esFavorito
-                                    ? Icons.favorite_rounded
-                                    : Icons.favorite_border_rounded,
-                                color: conductor.esFavorito
-                                    ? MotorutaColors.rojo
-                                    : MotorutaColors.ink400,
+                            : const Icon(
+                                Icons.favorite_border_rounded,
+                                color: MotorutaColors.ink400,
                               ),
                       ),
                   ],
