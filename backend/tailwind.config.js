@@ -19,8 +19,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', ...defaultTheme.fontFamily.sans],
-                display: ['Sora', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+                display: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
 
             colors: {
@@ -72,13 +72,15 @@ export default {
 
             boxShadow: {
                 // Sombra suave con tinte morado, en vez de negro puro.
-                card: '0 1px 2px rgba(49, 15, 56, 0.06), 0 8px 24px -12px rgba(49, 15, 56, 0.24)',
+                card: '0 2px 8px rgba(49, 15, 56, 0.06), 0 16px 32px -8px rgba(49, 15, 56, 0.16)',
+                floating: '0 4px 20px -2px rgba(22, 5, 27, 0.12), 0 16px 40px -6px rgba(22, 5, 27, 0.22)',
                 focus: '0 0 0 3px rgba(0, 249, 255, 0.35)',
             },
 
             borderRadius: {
-                xl: '0.875rem',
-                '2xl': '1.125rem',
+                xl: '1rem',
+                '2xl': '1.25rem',
+                '3xl': '1.5rem',
             },
         },
     },

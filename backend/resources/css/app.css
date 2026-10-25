@@ -1,10 +1,10 @@
-/* Tipografía autohospedada: no depende de Google Fonts en tiempo de ejecución. */
+/* Tipografía autohospedada Poppins */
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/poppins/700.css';
 @import '@fontsource/inter/400.css';
-@import '@fontsource/inter/500.css';
-@import '@fontsource/inter/600.css';
-@import '@fontsource/sora/500.css';
 @import '@fontsource/sora/600.css';
-@import '@fontsource/sora/700.css';
 
 @tailwind base;
 @tailwind components;
@@ -45,17 +45,17 @@
        Botones
        ------------------------------------------------------------------ */
     .btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5
-               text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50;
+        @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3
+               text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
     }
 
     .btn-primary {
-        @apply btn bg-brand-800 text-white hover:bg-brand-700 active:bg-brand-900;
+        @apply btn bg-brand-800 text-white hover:bg-brand-700 active:bg-brand-900 shadow-sm;
     }
 
     .btn-accent {
         /* Cian con texto morado: es la combinación de mayor contraste de la marca. */
-        @apply btn bg-accent-400 text-brand-900 hover:bg-accent-300 active:bg-accent-500;
+        @apply btn bg-accent-400 text-brand-900 hover:bg-accent-300 active:bg-accent-500 font-bold shadow-sm;
     }
 
     .btn-outline {
@@ -78,27 +78,27 @@
        Superficies
        ------------------------------------------------------------------ */
     .card {
-        @apply rounded-2xl border border-ink-100 bg-white shadow-card;
+        @apply rounded-3xl border border-ink-100 bg-white shadow-card transition-all;
     }
 
     .card-pad {
-        @apply card p-6;
+        @apply card p-6 sm:p-7;
     }
 
     .panel-title {
-        @apply font-display text-lg font-semibold text-brand-900;
+        @apply font-display text-lg font-bold text-brand-900;
     }
 
     /* ------------------------------------------------------------------
        Formularios
        ------------------------------------------------------------------ */
     .form-label {
-        @apply block text-sm font-medium text-ink-700;
+        @apply block text-xs font-semibold uppercase tracking-wider text-ink-500;
     }
 
     .form-input {
-        @apply mt-1.5 block w-full rounded-xl border-ink-200 bg-white text-ink-900
-               shadow-sm placeholder:text-ink-400
+        @apply mt-1.5 block w-full rounded-2xl border-ink-200 bg-white text-ink-900
+               px-4 py-3 shadow-sm placeholder:text-ink-400
                focus:border-brand-500 focus:ring-brand-500;
     }
 

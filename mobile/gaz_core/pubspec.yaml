@@ -54,7 +54,18 @@ flutter:
     - assets/brand/
 
   fonts:
-    # Los mismos tipos del panel web (Sora para títulos, Inter para texto).
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins-400.ttf
+          weight: 400
+        - asset: assets/fonts/poppins-500.ttf
+          weight: 500
+        - asset: assets/fonts/poppins-600.ttf
+          weight: 600
+        - asset: assets/fonts/poppins-700.ttf
+          weight: 700
+
+    # Sora e Inter se mantienen por compatibilidad
     - family: Sora
       fonts:
         - asset: assets/fonts/sora-400.ttf

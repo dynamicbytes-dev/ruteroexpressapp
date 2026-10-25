@@ -277,69 +277,73 @@ class _TarjetaHistorial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tarjeta(
-      child: InkWell(
-        onTap: alTocar,
-        borderRadius: BorderRadius.circular(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    horaViaje(
-                      viaje.completadoEn ?? viaje.canceladoEn ?? viaje.pedidoEn,
-                    ),
-                    style: const TextStyle(
-                      fontSize: 12.5,
-                      color: MotorutaColors.ink500,
-                    ),
+      onTap: alTocar,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  horaViaje(
+                    viaje.completadoEn ?? viaje.canceladoEn ?? viaje.pedidoEn,
                   ),
-                ),
-                etiquetaEstadoViaje(viaje),
-              ],
-            ),
-            const SizedBox(height: 12),
-            LineaRuta(
-              origen: viaje.origen,
-              destino: viaje.destino,
-              compacta: true,
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: <Widget>[
-                Text(
-                  distanciaViaje(viaje.distanciaKm),
                   style: const TextStyle(
                     fontSize: 12.5,
                     color: MotorutaColors.ink500,
                   ),
                 ),
-                const SizedBox(width: 10),
-                Text(
-                  '· ${viaje.duracionMinutos} min',
-                  style: const TextStyle(
-                    fontSize: 12.5,
-                    color: MotorutaColors.ink500,
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  montoUsd(viaje.tarifa.total),
-                  style: MotorutaTheme.titulo(tamano: 17),
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Text(
-              viaje.metodoPagoEtiqueta.isEmpty
-                  ? (viaje.enEfectivo ? 'Efectivo' : 'Billetera')
-                  : viaje.metodoPagoEtiqueta,
-              style: const TextStyle(
-                fontSize: 12,
-                color: MotorutaColors.ink500,
               ),
+              etiquetaEstadoViaje(viaje),
+            ],
+          ),
+          const SizedBox(height: 12),
+          LineaRuta(
+            origen: viaje.origen,
+            destino: viaje.destino,
+            compacta: true,
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: <Widget>[
+              Text(
+                distanciaViaje(viaje.distanciaKm),
+                style: const TextStyle(
+                  fontSize: 12.5,
+                  color: MotorutaColors.ink500,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                '· ${viaje.duracionMinutos} min',
+                style: const TextStyle(
+                  fontSize: 12.5,
+                  color: MotorutaColors.ink500,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                montoUsd(viaje.tarifa.total),
+                style: MotorutaTheme.titulo(tamano: 17),
+              ),
+              const SizedBox(width: 4),
+              const Icon(
+                Icons.chevron_right_rounded,
+                size: 20,
+                color: MotorutaColors.ink400,
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            viaje.metodoPagoEtiqueta.isEmpty
+                ? (viaje.enEfectivo ? 'Efectivo' : 'Billetera')
+                : viaje.metodoPagoEtiqueta,
+            style: const TextStyle(
+              fontSize: 12,
+              color: MotorutaColors.ink500,
             ),
+          ),
             if (viaje.completado && viaje.calificacion != null) ...<Widget>[
               const SizedBox(height: 8),
               Text(
@@ -362,7 +366,6 @@ class _TarjetaHistorial extends StatelessWidget {
             ],
           ],
         ),
-      ),
-    );
+      );
+    }
   }
-}
