@@ -30,10 +30,10 @@ class FareCalculatorTest extends TestCase
     {
         $tarifa = $this->calcular('2026-10-19 12:00:00');
 
-        $this->assertSame(3.35, $tarifa['subtotal']);
-        $this->assertSame(3.35, $tarifa['total']);
-        $this->assertSame(0.34, $tarifa['commission_amount']);
-        $this->assertSame(3.01, $tarifa['driver_earning']);
+        $this->assertSame(5.00, $tarifa['subtotal']);
+        $this->assertSame(5.00, $tarifa['total']);
+        $this->assertSame(0.50, $tarifa['commission_amount']);
+        $this->assertSame(4.50, $tarifa['driver_earning']);
         $this->assertFalse($tarifa['night']);
         $this->assertFalse($tarifa['minimum_applied']);
     }
@@ -44,9 +44,10 @@ class FareCalculatorTest extends TestCase
 
         $this->assertTrue($tarifa['night']);
         $this->assertSame(20.0, $tarifa['night_surcharge_percent']);
-        $this->assertSame(4.02, $tarifa['total']);
-        $this->assertSame(0.40, $tarifa['commission_amount']);
-        $this->assertSame(3.62, $tarifa['driver_earning']);
+        $this->assertSame(1.00, $tarifa['night_surcharge_amount']);
+        $this->assertSame(6.00, $tarifa['total']);
+        $this->assertSame(0.60, $tarifa['commission_amount']);
+        $this->assertSame(5.40, $tarifa['driver_earning']);
     }
 
     public function test_respeta_la_tarifa_minima(): void
@@ -54,8 +55,8 @@ class FareCalculatorTest extends TestCase
         $tarifa = $this->calcular('2026-10-19 12:00:00', 0.5, 2);
 
         $this->assertTrue($tarifa['minimum_applied']);
-        $this->assertSame(1.50, $tarifa['subtotal']);
-        $this->assertSame(1.50, $tarifa['total']);
+        $this->assertSame(1.00, $tarifa['subtotal']);
+        $this->assertSame(1.00, $tarifa['total']);
     }
 
     public function test_aplica_el_multiplicador_dinamico_configurado(): void
@@ -65,9 +66,9 @@ class FareCalculatorTest extends TestCase
         $tarifa = $this->calcular('2026-10-19 12:00:00');
 
         $this->assertSame(1.5, $tarifa['dynamic_multiplier']);
-        $this->assertSame(5.03, $tarifa['total']);
-        $this->assertSame(0.50, $tarifa['commission_amount']);
-        $this->assertSame(4.53, $tarifa['driver_earning']);
+        $this->assertSame(7.50, $tarifa['total']);
+        $this->assertSame(0.75, $tarifa['commission_amount']);
+        $this->assertSame(6.75, $tarifa['driver_earning']);
     }
 
     public function test_el_multiplicador_actual_nunca_sale_de_su_rango(): void

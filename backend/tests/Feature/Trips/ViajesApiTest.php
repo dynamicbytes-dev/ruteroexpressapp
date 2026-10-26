@@ -86,10 +86,10 @@ class ViajesApiTest extends TestCase
         $this->actingAs($pasajero, 'sanctum')
             ->postJson('/api/viajes/cotizar', $this->datosViaje())
             ->assertOk()
-            ->assertJsonPath('data.total', 3.35)
-            ->assertJsonPath('data.driver_earning', 3.01)
+            ->assertJsonPath('data.total', 5)
+            ->assertJsonPath('data.driver_earning', 4.5)
             ->assertJsonPath('data.route_source', 'fake')
-            ->assertJsonPath('data.local_total', 134);
+            ->assertJsonPath('data.local_total', 200);
     }
 
     public function test_el_pasajero_pide_un_viaje_con_billetera_y_recibe_una_alerta_el_conductor(): void
@@ -107,22 +107,22 @@ class ViajesApiTest extends TestCase
         $oferta = TripOffer::query()->firstOrFail();
 
         $this->assertSame($conductor->id, $oferta->driver_id);
-        $this->assertSame(3.35, (float) $viaje->total);
+        $this->assertSame(5.00, (float) $viaje->total);
         // Primer viaje del pasajero: gratis, no hay retención de billetera.
         $this->assertSame(0.0, (float) $viaje->wallet_hold_amount);
         $this->assertSame(0.0, (float) $pasajero->wallet->fresh()->held_balance);
         $this->assertSame(100.0, (float) $pasajero->wallet->fresh()->balance);
         $this->assertSame('first_trips', $viaje->promo_type);
-        $this->assertSame(3.35, (float) $viaje->discount_amount);
-        $this->assertSame(3.35, (float) $viaje->subsidy_amount);
+        $this->assertSame(5.00, (float) $viaje->discount_amount);
+        $this->assertSame(5.00, (float) $viaje->subsidy_amount);
         $this->assertSame(TripOfferStatus::Pending, $oferta->status);
 
         $this->actingAs($conductor, 'sanctum')
             ->getJson('/api/conductor/ofertas')
             ->assertOk()
             ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.trip.total', 3.35)
-            ->assertJsonPath('data.0.trip.driver_earning', 3.01)
+            ->assertJsonPath('data.0.trip.total', 5)
+            ->assertJsonPath('data.0.trip.driver_earning', 4.5)
             ->assertJsonPath('data.0.trip.passenger_name', $pasajero->name);
     }
 
@@ -157,19 +157,19 @@ class ViajesApiTest extends TestCase
         // Primer viaje del pasajero: gratis, saldo intacto.
         $this->assertSame(100.0, (float) $pasajero->wallet->fresh()->balance);
         $this->assertSame(0.0, (float) $pasajero->wallet->fresh()->held_balance);
-        // Conductor recibe su ganancia completa (3.01) más el subsidio del descuento (3.35).
-        $this->assertSame(6.36, (float) $conductor->wallet->fresh()->balance);
+        // Conductor recibe su ganancia completa (4.50) más el subsidio del descuento (5.00).
+        $this->assertSame(9.50, (float) $conductor->wallet->fresh()->balance);
         $this->assertSame(1, $conductor->driverProfile->fresh()->trips_completed);
 
         $this->assertDatabaseHas('wallet_transactions', [
             'wallet_id' => $conductor->wallet->id,
             'type' => WalletTransactionType::TripEarning->value,
-            'amount' => 3.01,
+            'amount' => 4.50,
         ]);
         $this->assertDatabaseHas('wallet_transactions', [
             'wallet_id' => $conductor->wallet->id,
             'type' => WalletTransactionType::Subsidy->value,
-            'amount' => 3.35,
+            'amount' => 5.00,
         ]);
         // No hay cargo al pasajero porque el viaje es gratis.
         $this->assertDatabaseMissing('wallet_transactions', [
@@ -285,19 +285,19 @@ class ViajesApiTest extends TestCase
         $this->actingAs($conductor, 'sanctum')->postJson("/api/viajes/{$viaje->id}/finalizar")->assertOk();
 
         // Segundo viaje del pasajero: también gratis (primeros 2 viajes).
-        // Conductor: comisión -0.34 + subsidio +3.35 = saldo -1.89.
-        $this->assertSame(-1.89, (float) $conductor->wallet->fresh()->balance);
+        // Conductor: comisión -0.50 + subsidio +5.00 = saldo -0.40.
+        $this->assertSame(-0.40, (float) $conductor->wallet->fresh()->balance);
         // No llega al tope negativo (-5.00), así que no se desconecta.
         $this->assertTrue($conductor->driverProfile->fresh()->is_online);
         $this->assertDatabaseHas('wallet_transactions', [
             'wallet_id' => $conductor->wallet->id,
             'type' => WalletTransactionType::Commission->value,
-            'amount' => 0.34,
+            'amount' => 0.50,
         ]);
         $this->assertDatabaseHas('wallet_transactions', [
             'wallet_id' => $conductor->wallet->id,
             'type' => WalletTransactionType::Subsidy->value,
-            'amount' => 3.35,
+            'amount' => 5.00,
         ]);
     }
 
@@ -504,7 +504,7 @@ class ViajesApiTest extends TestCase
 
     public function test_crear_viaje_falla_con_400_si_el_pasajero_no_tiene_saldo_disponible(): void
     {
-        $pasajero = $this->pasajeroConSaldo(1.00); // Tarifa estimada es ~3.35, pasajero tiene 1.00
+        $pasajero = $this->pasajeroConSaldo(1.00); // Tarifa estimada es ~5.00, pasajero tiene 1.00
 
         // El pasajero ya tiene 2 viajes previos para que no aplique promoción gratis
         Trip::factory()->count(2)->create([
@@ -515,7 +515,7 @@ class ViajesApiTest extends TestCase
         $this->actingAs($pasajero, 'sanctum')
             ->postJson('/api/viajes', $this->datosViaje('wallet'))
             ->assertStatus(400)
-            ->assertJsonPath('message', 'Saldo insuficiente: necesitas $3.35 y tienes $1.00 disponibles.');
+            ->assertJsonPath('message', 'Saldo insuficiente: necesitas $5.00 y tienes $1.00 disponibles.');
 
         // No se creó ningún viaje activo
         $this->assertDatabaseMissing('trips', [

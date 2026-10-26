@@ -30,27 +30,38 @@ class FareCalculator
         $distanciaKm = max(0, round($distanciaKm, 2));
         $duracionMinutos = max(1, $duracionMinutos);
 
-        $base = Configuracion::decimal('tarifa_base', 1.00, $cityId);
-        $porKm = Configuracion::decimal('precio_km', 0.35, $cityId);
-        $porMinuto = Configuracion::decimal('precio_minuto', 0.05, $cityId);
-        $minima = Configuracion::decimal('tarifa_minima', 1.50, $cityId);
+        $base = Configuracion::decimal('tarifa_base', 0.00, $cityId);
+        $porKm = Configuracion::decimal('precio_km', 1.00, $cityId);
+        $porMinuto = Configuracion::decimal('precio_minuto', 0.00, $cityId);
+        $minima = Configuracion::decimal('tarifa_minima', 1.00, $cityId);
 
-        $calculado = round($base + ($distanciaKm * $porKm) + ($duracionMinutos * $porMinuto), 2);
+        // Tarifa por distancia exacta (1$ por km) + base y tiempo si aplican
+        $costoKm = round($distanciaKm * $porKm, 2);
+        $costoTiempo = round($duracionMinutos * $porMinuto, 2);
+        $calculado = round($base + $costoKm + $costoTiempo, 2);
         $subtotal = max($calculado, $minima);
         $minimaAplicada = $subtotal > $calculado;
 
         [$nocturno, $porcentajeNocturno] = $this->recargoNocturno($momento, $cityId);
+
+        // 3. Recargo nocturno: 20% aplicado únicamente sobre el subtotal del viaje
+        $recargoNocturno = $nocturno && $porcentajeNocturno > 0
+            ? round($subtotal * ($porcentajeNocturno / 100), 2)
+            : 0.0;
 
         $dinamicaMin = Configuracion::decimal('dinamica_min', 1.0, $cityId);
         $dinamicaMax = Configuracion::decimal('dinamica_max', 1.8, $cityId);
         $dinamica = Configuracion::decimal('dinamica_actual', 1.0, $cityId);
         $dinamica = min(max($dinamica, $dinamicaMin), max($dinamicaMin, $dinamicaMax));
 
-        $subtotalConRecargos = round($subtotal * $dinamica * (1 + ($porcentajeNocturno / 100)), 2);
+        // Si la tarifa dinámica está activa (> 1.0), el incremento se calcula sobre el subtotal base
+        $recargoDinamica = $dinamica > 1.0
+            ? round($subtotal * ($dinamica - 1.0), 2)
+            : 0.0;
 
-        // El carro cuesta exactamente un dólar más que la moto: el recargo se
-        // suma después de la dinámica y del nocturno para que la diferencia no
-        // se multiplique.
+        $subtotalConRecargos = round($subtotal + $recargoNocturno + $recargoDinamica, 2);
+
+        // Recargo de vehículo: carro cuesta 1$ más que moto
         $recargoVehiculo = $tipo === VehicleType::Car
             ? Configuracion::decimal('recargo_carro_usd', 1.00, $cityId)
             : 0.0;
@@ -74,6 +85,7 @@ class FareCalculator
             'minimum_applied' => $minimaAplicada,
             'dynamic_multiplier' => round($dinamica, 2),
             'night_surcharge_percent' => $porcentajeNocturno,
+            'night_surcharge_amount' => $recargoNocturno,
             'night' => $nocturno,
             'subtotal' => round($subtotal, 2),
             'total' => $total,

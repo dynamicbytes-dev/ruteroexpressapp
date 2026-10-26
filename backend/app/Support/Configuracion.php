@@ -31,26 +31,27 @@ class Configuracion
         return [
             // Tarifas
             'tarifa_base' => [
-                'value' => 1.00,
+                'value' => 0.00,
                 'type' => 'decimal',
                 'group' => 'tarifas',
                 'label' => 'Tarifa base (USD)',
-                'description' => 'Monto fijo que se cobra al iniciar cualquier viaje.',
+                'description' => 'Monto fijo que se cobra al iniciar cualquier viaje (0 para no cobrar inicio fijo).',
             ],
             'precio_km' => [
-                'value' => 0.35,
+                'value' => 1.00,
                 'type' => 'decimal',
                 'group' => 'tarifas',
                 'label' => 'Precio por kilómetro (USD)',
             ],
             'precio_minuto' => [
-                'value' => 0.05,
+                'value' => 0.00,
                 'type' => 'decimal',
                 'group' => 'tarifas',
                 'label' => 'Precio por minuto (USD)',
+                'description' => 'Cobro adicional por tiempo transcurrido (0 para no cobrar por tiempo).',
             ],
             'tarifa_minima' => [
-                'value' => 1.50,
+                'value' => 1.00,
                 'type' => 'decimal',
                 'group' => 'tarifas',
                 'label' => 'Mínimo por viaje (USD)',
