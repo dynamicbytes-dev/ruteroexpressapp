@@ -141,6 +141,8 @@ class _HistorialViajesScreenState extends State<HistorialViajesScreen> {
   @override
   Widget build(BuildContext context) {
     final esConductor = context.watch<SesionController>().esConductor;
+    final bottomInset = MediaQuery.of(context).padding.bottom;
+    final paddingInferior = 110.0 + bottomInset;
 
     return Scaffold(
       appBar: widget.mostrarAppBar
@@ -149,7 +151,7 @@ class _HistorialViajesScreenState extends State<HistorialViajesScreen> {
       body: RefreshIndicator(
         onRefresh: _cargar,
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 36),
+          padding: EdgeInsets.fromLTRB(20, 16, 20, paddingInferior),
           children: <Widget>[
             if (esConductor) ...<Widget>[
               _FiltroPeriodo(

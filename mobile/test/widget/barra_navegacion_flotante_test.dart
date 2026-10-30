@@ -183,14 +183,13 @@ void main() {
     // Título inicial 'Mi cuenta'
     expect(find.text('Mi cuenta'), findsOneWidget);
 
-    // Cambiar a Agendados (índice 3)
-    await tester.tap(find.text('Agendados'));
+    // Cambiar a Billetera (índice 3)
+    await tester.tap(find.text('Billetera'));
     await tester.pumpAndSettle();
 
-    // Verifica que se muestra la vista de Viajes Agendados
-    expect(find.text('Viajes agendados'), findsWidgets);
-    expect(find.text('No tienes viajes agendados'), findsOneWidget);
-    expect(find.text('Agendar un viaje'), findsOneWidget);
+    // Verifica que se muestra la vista de Billetera
+    expect(find.text('Billetera'), findsWidgets);
+    expect(find.text('Recargar'), findsWidgets);
 
     // Cambiar a Perfil (índice 4)
     await tester.tap(find.text('Perfil'));

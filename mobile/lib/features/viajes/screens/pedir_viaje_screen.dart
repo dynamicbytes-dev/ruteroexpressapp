@@ -400,13 +400,17 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
   @override
   Widget build(BuildContext context) {
     final listo = _origen != null && _destino != null;
+    final bottomInset = MediaQuery.of(context).padding.bottom;
+    // Espacio de relleno inferior suficiente (barra flotante 72px + 16px margen + safe area + holgura)
+    // para asegurar que el botón "Cotizar viaje" quede completamente visible y accesible.
+    final paddingInferior = 110.0 + bottomInset;
 
     return Scaffold(
       appBar: widget.mostrarAppBar
           ? AppBar(title: const Text('Pedir un viaje'))
           : null,
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+        padding: EdgeInsets.fromLTRB(20, 16, 20, paddingInferior),
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
@@ -783,6 +787,7 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
             cargando: _cotizando,
             alPresionar: listo && !_cotizando ? _cotizar : null,
           ),
+          const SizedBox(height: 16),
         ],
       ),
     );

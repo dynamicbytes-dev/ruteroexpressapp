@@ -1,11 +1,11 @@
 # Dependencias
 /backend/vendor
 /backend/node_modules
-/mobile/.dart_tool
-/mobile/build
-/mobile/.flutter-plugins*
-/mobile/ios/Pods
-/mobile/android/.gradle
+**/build/
+**/.dart_tool/
+**/.flutter-plugins*
+**/ios/Pods/
+**/android/.gradle/
 
 # Entorno
 /backend/.env

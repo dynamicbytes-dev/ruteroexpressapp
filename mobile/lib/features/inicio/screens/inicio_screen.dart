@@ -23,6 +23,7 @@ import '../../viajes/screens/pedir_viaje_screen.dart';
 import '../../viajes/screens/viaje_pasajero_screen.dart';
 import '../../viajes/viajes_ui.dart';
 import '../../../core/ui/barra_navegacion_flotante.dart';
+import '../../billetera/screens/billetera_screen.dart';
 import '../../viajes/screens/viajes_agendados_screen.dart';
 import '../../viajes/widgets/panel_conductor.dart';
 import '../widgets/carrusel_banners.dart';
@@ -348,7 +349,7 @@ class _InicioScreenState extends State<InicioScreen> {
       0 => 'Mi cuenta',
       1 => 'Historial de viajes',
       2 => 'Pedir un viaje',
-      3 => 'Viajes agendados',
+      3 => 'Billetera',
       4 => 'Mi perfil',
       _ => 'GAZ',
     };
@@ -408,20 +409,6 @@ class _InicioScreenState extends State<InicioScreen> {
               alMarcarTodos: sesion.marcarAvisosLeidos,
             ),
           ],
-          if (sesion.billeteraConfigurada) ...<Widget>[
-            const SizedBox(height: 18),
-            _TarjetaBilletera(
-              sesion: sesion,
-              esConductor: false,
-              alRecargar: () => _abrir(const RecargarScreen()),
-              alRetirar: () => _abrir(const RetirarScreen()),
-              alVerMovimientos: () => _abrir(const MovimientosScreen()),
-            ),
-          ],
-          if (sesion.banners.isNotEmpty) ...<Widget>[
-            const SizedBox(height: 18),
-            CarruselBanners(banners: sesion.banners),
-          ],
           const SizedBox(height: 18),
           _AccionesPasajero(
             viaje: sesion.viajeActivo,
@@ -430,187 +417,10 @@ class _InicioScreenState extends State<InicioScreen> {
               ViajePasajeroScreen(inicial: viaje),
             ).then((_) => sesion.cargarViajeActivo(silencioso: true)),
           ),
-          const SizedBox(height: 14),
-          Tarjeta(
-            onTap: () => setState(() => _indicePestana = 1),
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  width: 44,
-                  height: 44,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: MotorutaColors.brand50,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: MotorutaColors.brand100),
-                  ),
-                  child: const Icon(
-                    Icons.history_rounded,
-                    color: MotorutaColors.brand800,
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Historial de viajes',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15.5,
-                          color: MotorutaColors.ink900,
-                        ),
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        'Consulta tus viajes anteriores',
-                        style: TextStyle(
-                          fontSize: 12.5,
-                          color: MotorutaColors.ink500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(
-                  Icons.chevron_right_rounded,
-                  color: MotorutaColors.ink400,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          Tarjeta(
-            onTap: () => _abrir(const FavoritosScreen()),
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  width: 44,
-                  height: 44,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: MotorutaColors.rojoFondo,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: MotorutaColors.rojo.withOpacity(0.2),
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.favorite_rounded,
-                    color: MotorutaColors.rojo,
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Mis conductores favoritos',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15.5,
-                          color: MotorutaColors.ink900,
-                        ),
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        'Tienen prioridad cuando pides un viaje',
-                        style: TextStyle(
-                          fontSize: 12.5,
-                          color: MotorutaColors.ink500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(
-                  Icons.chevron_right_rounded,
-                  color: MotorutaColors.ink400,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 18),
-          Tarjeta(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text('Tus datos', style: MotorutaTheme.titulo(tamano: 18)),
-                const SizedBox(height: 12),
-                DatoFila(etiqueta: 'Nombre', valor: usuario.nombreCompleto),
-                DatoFila(etiqueta: 'Cédula', valor: usuario.cedula),
-                DatoFila(etiqueta: 'Correo', valor: usuario.correo),
-                DatoFila(etiqueta: 'Teléfono', valor: usuario.telefono),
-                DatoFila(etiqueta: 'Dirección', valor: usuario.direccion),
-                DatoFila(
-                  etiqueta: 'Ciudad',
-                  valor: usuario.ciudad?.etiqueta ?? 'Sin asignar',
-                ),
-                DatoFila(
-                  etiqueta: 'Correo confirmado',
-                  valor: usuario.correoVerificado ? 'Sí' : 'Todavía no',
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 14),
-          Tarjeta(
-            onTap: () => _abrir(const MisDatosScreen()),
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  width: 44,
-                  height: 44,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: MotorutaColors.accent50,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: MotorutaColors.accent100),
-                  ),
-                  child: const Icon(
-                    Icons.edit_outlined,
-                    color: MotorutaColors.brand800,
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Editar mis datos',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15.5,
-                          color: MotorutaColors.ink900,
-                        ),
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        'Nombre, teléfono, dirección y correo',
-                        style: TextStyle(
-                          fontSize: 12.5,
-                          color: MotorutaColors.ink500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(
-                  Icons.chevron_right_rounded,
-                  color: MotorutaColors.ink400,
-                ),
-              ],
-            ),
-          ),
+          if (sesion.banners.isNotEmpty) ...<Widget>[
+            const SizedBox(height: 18),
+            CarruselBanners(banners: sesion.banners),
+          ],
         ],
       ),
     );
@@ -641,10 +451,7 @@ class _InicioScreenState extends State<InicioScreen> {
               ? const PedirViajeScreen(mostrarAppBar: false)
               : const SizedBox.shrink(),
           _pestanasCargadas.contains(3)
-              ? ViajesAgendadosScreen(
-                  mostrarAppBar: false,
-                  alAgendar: () => _cambiarPestana(2),
-                )
+              ? const BilleteraScreen(mostrarAppBar: false)
               : const SizedBox.shrink(),
           _pestanasCargadas.contains(4)
               ? _PestanaPerfilPasajero(
@@ -655,7 +462,7 @@ class _InicioScreenState extends State<InicioScreen> {
                   alAbrirSoporte: () => _abrir(const SoporteChatScreen()),
                   alRecargar: () => _abrir(const RecargarScreen()),
                   alRetirar: () => _abrir(const RetirarScreen()),
-                  alVerMovimientos: () => _abrir(const MovimientosScreen()),
+                  alVerMovimientos: () => _cambiarPestana(3),
                 )
               : const SizedBox.shrink(),
         ],
@@ -680,9 +487,9 @@ class _InicioScreenState extends State<InicioScreen> {
             etiqueta: 'Viajes',
           ),
           ElementoNavegacion(
-            icono: Icons.calendar_month_outlined,
-            iconoActivo: Icons.calendar_month_rounded,
-            etiqueta: 'Agendados',
+            icono: Icons.account_balance_wallet_outlined,
+            iconoActivo: Icons.account_balance_wallet_rounded,
+            etiqueta: 'Billetera',
           ),
           ElementoNavegacion(
             icono: Icons.person_outline_rounded,
