@@ -1,7 +1,7 @@
 <x-guest-layout :title="'Recuperar contraseña'" :contexto="'app'">
     <div class="mb-6">
-        <h1 class="font-display text-2xl font-semibold text-brand-900">Recuperar contraseña</h1>
-        <p class="mt-1 text-sm text-ink-500">
+        <h1 class="font-display text-2xl font-semibold text-brand-900 dark:text-content">Recuperar contraseña</h1>
+        <p class="mt-1 text-sm text-content-muted">
             Escribe el correo con el que te registraste y te enviamos un enlace para crear
             una contraseña nueva.
         </p>
@@ -27,8 +27,8 @@
         </x-primary-button>
     </form>
 
-    <p class="mt-6 text-center text-sm text-ink-500">
-        <a href="{{ route('login') }}" class="font-medium text-brand-700 underline decoration-brand-300 underline-offset-4 hover:text-brand-900">
+    <p class="mt-6 text-center text-sm text-content-muted">
+        <a href="{{ route('login') }}" class="font-medium text-brand-700 dark:text-accent-300 underline decoration-brand-300 underline-offset-4 hover:text-brand-900 dark:hover:text-content">
             Volver al inicio de sesión
         </a>
     </p>

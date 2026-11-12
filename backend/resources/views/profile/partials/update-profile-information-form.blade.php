@@ -1,7 +1,7 @@
 <section>
     <header>
         <h2 class="panel-title">Datos de la cuenta</h2>
-        <p class="mt-1 text-sm text-ink-500">
+        <p class="mt-1 text-sm text-content-muted">
             Nombre, apellidos y correo con los que entras al panel.
         </p>
     </header>
@@ -38,7 +38,7 @@
                 <x-text-input id="national_id" type="text"
                               :value="'V-'.$user->national_id"
                               disabled autocomplete="off" />
-                <p class="mt-2 text-xs text-ink-500">
+                <p class="mt-2 text-xs text-content-muted">
                     La cédula es de solo lectura. Si hay un error, el auditor debe corregirla con un motivo.
                 </p>
             </div>
@@ -68,16 +68,16 @@
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <p class="mt-2 text-sm text-ink-600">
+                <p class="mt-2 text-sm text-content-muted">
                     Tu correo no está verificado.
                     <button form="send-verification"
-                            class="font-medium text-brand-700 underline decoration-brand-300 underline-offset-4">
+                            class="font-medium text-brand-700 dark:text-accent-300 underline decoration-brand-300 underline-offset-4">
                         Reenviar el enlace de verificación
                     </button>
                 </p>
 
                 @if (session('status') === 'verification-link-sent')
-                    <p class="mt-2 text-sm font-medium text-accent-700">
+                    <p class="mt-2 text-sm font-medium text-accent-700 dark:text-accent-300">
                         Se envió un nuevo enlace a tu correo.
                     </p>
                 @endif
@@ -90,7 +90,7 @@
             @if (session('status') === 'profile-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition
                    x-init="setTimeout(() => show = false, 2500)"
-                   class="text-sm font-medium text-accent-700">
+                   class="text-sm font-medium text-accent-700 dark:text-accent-300">
                     Cambios guardados.
                 </p>
             @endif

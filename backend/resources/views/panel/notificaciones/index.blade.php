@@ -20,15 +20,15 @@
         <nav class="card flex flex-wrap gap-1 p-1.5">
             <a href="{{ route('panel.notificaciones.index') }}"
                class="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition
-                      {{ $filtro === 'no_leidas' ? 'bg-brand-800 text-white' : 'text-ink-600 hover:bg-ink-100 hover:text-brand-800' }}">
+                      {{ $filtro === 'no_leidas' ? 'bg-brand-800 text-white' : 'text-content-muted hover:bg-line hover:text-brand-800 dark:hover:text-content' }}">
                 No leídas
                 @if ($noLeidas > 0)
-                    <span class="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">{{ $noLeidas }}</span>
+                    <span class="rounded-full bg-amber-100 dark:bg-amber-950 px-2 py-0.5 text-xs font-semibold text-amber-800 dark:text-amber-300">{{ $noLeidas }}</span>
                 @endif
             </a>
             <a href="{{ route('panel.notificaciones.index', ['filtro' => 'todas']) }}"
                class="rounded-xl px-3.5 py-2 text-sm font-medium transition
-                      {{ $filtro === 'todas' ? 'bg-brand-800 text-white' : 'text-ink-600 hover:bg-ink-100 hover:text-brand-800' }}">
+                      {{ $filtro === 'todas' ? 'bg-brand-800 text-white' : 'text-content-muted hover:bg-line hover:text-brand-800 dark:hover:text-content' }}">
                 Todas
             </a>
         </nav>
@@ -44,16 +44,16 @@
     <section class="card mt-4 overflow-hidden">
         @if ($notificaciones->isEmpty())
             <div class="px-5 py-14 text-center">
-                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-ink-100 text-ink-400">
+                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-line text-content-subtle">
                     <x-icon name="bell" class="h-6 w-6" />
                 </span>
-                <p class="mt-3 font-display text-base font-semibold text-brand-900">No hay notificaciones en esta lista</p>
-                <p class="mt-1 text-sm text-ink-500">
+                <p class="mt-3 font-display text-base font-semibold text-brand-900 dark:text-content">No hay notificaciones en esta lista</p>
+                <p class="mt-1 text-sm text-content-muted">
                     Los eventos operativos aparecerán aquí para que el equipo los revise.
                 </p>
             </div>
         @else
-            <ul class="divide-y divide-ink-100">
+            <ul class="divide-y divide-line">
                 @foreach ($notificaciones as $aviso)
                     @php
                         $datos = is_array($aviso->data) ? $aviso->data : [];
@@ -62,8 +62,8 @@
                         $sinLeer = $aviso->read_at === null;
                     @endphp
 
-                    <li class="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-start {{ $sinLeer ? 'bg-accent-50/40' : '' }}">
-                        <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl {{ $sinLeer ? 'bg-accent-100 text-accent-800' : 'bg-ink-100 text-ink-500' }}">
+                    <li class="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-start {{ $sinLeer ? 'bg-accent-50/40 dark:bg-accent-900' : '' }}">
+                        <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl {{ $sinLeer ? 'bg-accent-100 dark:bg-accent-900 text-accent-800 dark:text-accent-300' : 'bg-line text-content-muted' }}">
                             <x-icon :name="$icono" class="h-5 w-5" />
                         </span>
 
@@ -71,12 +71,12 @@
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="{{ $tono }}">{{ $etiqueta }}</span>
                                 @if ($sinLeer)
-                                    <span class="text-[11px] font-semibold uppercase tracking-wide text-accent-700">Sin leer</span>
+                                    <span class="text-[11px] font-semibold uppercase tracking-wide text-accent-700 dark:text-accent-300">Sin leer</span>
                                 @endif
-                                <span class="text-xs text-ink-400">{{ $aviso->created_at?->diffForHumans() }}</span>
+                                <span class="text-xs text-content-subtle">{{ $aviso->created_at?->diffForHumans() }}</span>
                             </div>
-                            <p class="mt-1 font-semibold text-ink-900">{{ $datos['title'] ?? 'Aviso operativo' }}</p>
-                            <p class="mt-1 text-sm text-ink-600">{{ $datos['message'] ?? '' }}</p>
+                            <p class="mt-1 font-semibold text-content">{{ $datos['title'] ?? 'Aviso operativo' }}</p>
+                            <p class="mt-1 text-sm text-content-muted">{{ $datos['message'] ?? '' }}</p>
                         </div>
 
                         <form method="POST" action="{{ route('panel.notificaciones.leer', $aviso->id) }}" class="shrink-0">
@@ -90,7 +90,7 @@
             </ul>
 
             @if ($notificaciones->hasPages())
-                <div class="border-t border-ink-100 px-5 py-4">
+                <div class="border-t border-line px-5 py-4">
                     {{ $notificaciones->links() }}
                 </div>
             @endif

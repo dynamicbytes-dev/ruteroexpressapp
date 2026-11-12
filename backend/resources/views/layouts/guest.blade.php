@@ -79,18 +79,18 @@
             </div>
 
             {{-- Formulario --}}
-            <div class="flex items-center justify-center bg-ink-50 px-6 py-12">
+            <div class="flex items-center justify-center bg-surface-alt px-6 py-12">
                 <div class="w-full max-w-md">
                     <div class="mb-8 flex items-center gap-3 lg:hidden">
                         <x-logo class="h-10 w-auto" />
-                        <span class="font-display text-xl font-semibold text-brand-900">gaz</span>
+                        <span class="font-display text-xl font-semibold text-brand-900 dark:text-content">gaz</span>
                     </div>
 
                     <div class="card-pad">
                         {{ $slot }}
                     </div>
 
-                    <p class="mt-6 text-center text-xs text-ink-500">
+                    <p class="mt-6 text-center text-xs text-content-muted">
                         {{ $esApp ? 'gaz · Seguridad de la cuenta' : 'Acceso restringido · '.config('app.name').' · Auditoría' }}
                     </p>
                 </div>

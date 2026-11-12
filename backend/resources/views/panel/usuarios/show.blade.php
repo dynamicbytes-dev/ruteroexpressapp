@@ -34,30 +34,30 @@
                 @php
                     $esSuspension = $usuario->status === \App\Enums\UserStatus::Suspended;
                 @endphp
-                <div class="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-3">
-                    <x-icon name="alert" class="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
+                <div class="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 dark:bg-red-950 px-4 py-3">
+                    <x-icon name="alert" class="mt-0.5 h-5 w-5 shrink-0 text-red-600 dark:text-red-300" />
                     <div>
-                        <p class="text-sm font-semibold text-red-700">
+                        <p class="text-sm font-semibold text-red-700 dark:text-red-300">
                             {{ $esSuspension ? 'Esta cuenta está suspendida' : 'Esta cuenta fue rechazada' }}
                         </p>
-                        <p class="mt-0.5 text-sm text-red-700/90">{{ $usuario->status_reason }}</p>
+                        <p class="mt-0.5 text-sm text-red-700/90 dark:text-red-300">{{ $usuario->status_reason }}</p>
                     </div>
                 </div>
             @endif
 
             {{-- Documentos --}}
             <section class="card">
-                <header class="flex flex-wrap items-center justify-between gap-3 border-b border-ink-100 px-5 py-4">
+                <header class="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-4">
                     <div>
                         <h2 class="panel-title">Documentos</h2>
-                        <p class="text-xs text-ink-500">
+                        <p class="text-xs text-content-muted">
                             {{ $aprobados }} de {{ $total }} aprobados ·
                             El archivo se sirve con un enlace temporal y privado
                         </p>
                     </div>
                 </header>
 
-                <div class="divide-y divide-ink-100">
+                <div class="divide-y divide-line">
                     @foreach ($documentos as $documento)
                         @continue($documento === null)
 
@@ -67,14 +67,14 @@
                                 <div class="shrink-0">
                                     @if (str_starts_with((string) $documento->mime_type, 'image/'))
                                         <a href="{{ $documento->temporaryUrl() }}" target="_blank" rel="noopener"
-                                           class="block h-32 w-40 overflow-hidden rounded-xl border border-ink-200 bg-ink-50">
+                                           class="block h-32 w-40 overflow-hidden rounded-xl border border-line bg-surface-alt">
                                             <img src="{{ $documento->temporaryUrl() }}"
                                                  alt="{{ $documento->type->label() }} de {{ $usuario->name }}"
                                                  class="h-full w-full object-cover">
                                         </a>
                                     @else
                                         <a href="{{ $documento->temporaryUrl() }}" target="_blank" rel="noopener"
-                                           class="flex h-32 w-40 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-ink-300 bg-ink-50 text-ink-500 hover:border-brand-300 hover:text-brand-700">
+                                           class="flex h-32 w-40 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-line-strong bg-surface-alt text-content-muted hover:border-brand-300 hover:text-brand-700 dark:hover:text-accent-300">
                                             <x-icon name="document" class="h-7 w-7" />
                                             <span class="text-xs font-medium">Abrir archivo</span>
                                         </a>
@@ -84,7 +84,7 @@
                                 {{-- Datos y decisiones --}}
                                 <div class="min-w-64 flex-1" x-data="{ rechazando: false }">
                                     <div class="flex flex-wrap items-center gap-2">
-                                        <h3 class="font-display text-base font-semibold text-brand-900">
+                                        <h3 class="font-display text-base font-semibold text-brand-900 dark:text-content">
                                             {{ $documento->type->label() }}
                                         </h3>
                                         <span class="{{ $tintes[$documento->status->tone()] ?? 'badge-neutral' }}">
@@ -99,29 +99,29 @@
                                         @endif
                                     </div>
 
-                                    <p class="mt-1 text-xs text-ink-500">{{ $documento->type->hint() }}</p>
+                                    <p class="mt-1 text-xs text-content-muted">{{ $documento->type->hint() }}</p>
 
-                                    <dl class="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-xs text-ink-500">
+                                    <dl class="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-xs text-content-muted">
                                         <div class="flex gap-1">
-                                            <dt class="font-medium text-ink-600">Subido:</dt>
+                                            <dt class="font-medium text-content-muted">Subido:</dt>
                                             <dd>{{ $documento->uploaded_at?->translatedFormat('d M Y, H:i') ?? '—' }}</dd>
                                         </div>
                                         @if ($documento->expires_at)
                                             <div class="flex gap-1">
-                                                <dt class="font-medium text-ink-600">Vence:</dt>
+                                                <dt class="font-medium text-content-muted">Vence:</dt>
                                                 <dd>{{ $documento->expires_at->translatedFormat('d M Y') }}</dd>
                                             </div>
                                         @endif
                                         @if ($documento->reviewer)
                                             <div class="flex gap-1">
-                                                <dt class="font-medium text-ink-600">Revisado por:</dt>
+                                                <dt class="font-medium text-content-muted">Revisado por:</dt>
                                                 <dd>{{ $documento->reviewer->name }}</dd>
                                             </div>
                                         @endif
                                     </dl>
 
                                     @if ($documento->status === \App\Enums\DocumentStatus::Rejected && $documento->rejection_reason)
-                                        <p class="mt-3 rounded-xl bg-red-50 px-3 py-2 text-xs text-red-700">
+                                        <p class="mt-3 rounded-xl bg-red-50 dark:bg-red-950 px-3 py-2 text-xs text-red-700 dark:text-red-300">
                                             <span class="font-semibold">Motivo enviado:</span> {{ $documento->rejection_reason }}
                                         </p>
                                     @endif
@@ -189,14 +189,14 @@
                     {{-- Documentos que todavía no subió --}}
                     @foreach ($usuario->missingDocuments() as $tipo)
                         <article class="flex items-center gap-5 p-5">
-                            <div class="flex h-32 w-40 shrink-0 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-ink-300 bg-ink-50 text-ink-400">
+                            <div class="flex h-32 w-40 shrink-0 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-line-strong bg-surface-alt text-content-subtle">
                                 <x-icon name="image" class="h-7 w-7" />
                                 <span class="text-xs font-medium">Sin subir</span>
                             </div>
                             <div>
-                                <h3 class="font-display text-base font-semibold text-ink-600">{{ $tipo->label() }}</h3>
-                                <p class="mt-1 text-xs text-ink-500">{{ $tipo->hint() }}</p>
-                                <p class="mt-2 text-xs font-medium text-amber-700">La persona todavía no lo envió.</p>
+                                <h3 class="font-display text-base font-semibold text-content-muted">{{ $tipo->label() }}</h3>
+                                <p class="mt-1 text-xs text-content-muted">{{ $tipo->hint() }}</p>
+                                <p class="mt-2 text-xs font-medium text-amber-700 dark:text-amber-300">La persona todavía no lo envió.</p>
                             </div>
                         </article>
                     @endforeach
@@ -205,36 +205,36 @@
 
             {{-- Historial --}}
             <section class="card">
-                <header class="border-b border-ink-100 px-5 py-4">
+                <header class="border-b border-line px-5 py-4">
                     <h2 class="panel-title">Historial de revisiones</h2>
-                    <p class="text-xs text-ink-500">Cada decisión queda registrada y no se puede editar</p>
+                    <p class="text-xs text-content-muted">Cada decisión queda registrada y no se puede editar</p>
                 </header>
 
                 @if ($revisiones->isEmpty())
-                    <p class="px-5 py-8 text-center text-sm text-ink-500">
+                    <p class="px-5 py-8 text-center text-sm text-content-muted">
                         Todavía no hay decisiones registradas para esta cuenta.
                     </p>
                 @else
-                    <ol class="divide-y divide-ink-100">
+                    <ol class="divide-y divide-line">
                         @foreach ($revisiones as $revision)
                             <li class="flex items-start gap-3 px-5 py-4">
                                 <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full
-                                             {{ $revision->isPositive() ? 'bg-accent-100 text-accent-800' : 'bg-red-100 text-red-600' }}">
+                                             {{ $revision->isPositive() ? 'bg-accent-100 dark:bg-accent-900 text-accent-800 dark:text-accent-300' : 'bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-300' }}">
                                     <x-icon :name="$revision->isPositive() ? 'check' : 'x'" class="h-4 w-4" />
                                 </span>
                                 <div class="min-w-0">
-                                    <p class="text-sm font-medium text-ink-800">
+                                    <p class="text-sm font-medium text-content">
                                         {{ $revision->decisionLabel() }}
                                         {{ $revision->scope === \App\Models\VerificationReview::SCOPE_ACCOUNT
                                             ? 'la cuenta'
                                             : '«'.$revision->document_type?->label().'»' }}
                                     </p>
-                                    <p class="text-xs text-ink-500">
+                                    <p class="text-xs text-content-muted">
                                         {{ $revision->auditor?->name ?? 'Auditor' }} ·
                                         {{ $revision->created_at->translatedFormat('d M Y, H:i') }}
                                     </p>
                                     @if ($revision->reason)
-                                        <p class="mt-1 text-xs text-ink-600">{{ $revision->reason }}</p>
+                                        <p class="mt-1 text-xs text-content-muted">{{ $revision->reason }}</p>
                                     @endif
                                 </div>
                             </li>
@@ -253,14 +253,14 @@
                     @if ($selfie)
                         <img src="{{ $selfie->temporaryUrl() }}"
                              alt="Foto de {{ $usuario->name }}"
-                             class="h-12 w-12 shrink-0 rounded-2xl border border-ink-100 object-cover">
+                             class="h-12 w-12 shrink-0 rounded-2xl border border-line object-cover">
                     @else
-                        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 font-display text-lg font-bold text-brand-700">
+                        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 dark:bg-brand-900/30 font-display text-lg font-bold text-brand-700 dark:text-accent-300">
                             {{ strtoupper(substr($usuario->first_name, 0, 1)) }}
                         </span>
                     @endif
                     <div class="min-w-0">
-                        <p class="truncate font-display text-base font-semibold text-brand-900">{{ $usuario->name }}</p>
+                        <p class="truncate font-display text-base font-semibold text-brand-900 dark:text-content">{{ $usuario->name }}</p>
                         <span class="{{ $tintes[$usuario->status->tone()] ?? 'badge-neutral' }}">
                             {{ $usuario->status->label() }}
                         </span>
@@ -276,14 +276,14 @@
                         'Registro' => $usuario->created_at->translatedFormat('d M Y'),
                     ] as $etiqueta => $valor)
                         <div>
-                            <dt class="text-xs font-medium uppercase tracking-wide text-ink-400">{{ $etiqueta }}</dt>
-                            <dd class="text-ink-800">{{ $valor }}</dd>
+                            <dt class="text-xs font-medium uppercase tracking-wide text-content-subtle">{{ $etiqueta }}</dt>
+                            <dd class="text-content">{{ $valor }}</dd>
                         </div>
                     @endforeach
 
                     <div>
-                        <dt class="text-xs font-medium uppercase tracking-wide text-ink-400">Correo</dt>
-                        <dd class="flex flex-wrap items-center gap-2 text-ink-800">
+                        <dt class="text-xs font-medium uppercase tracking-wide text-content-subtle">Correo</dt>
+                        <dd class="flex flex-wrap items-center gap-2 text-content">
                             {{ $usuario->email }}
                             @if ($usuario->hasVerifiedEmail())
                                 <span class="badge-approved">Verificado</span>
@@ -297,11 +297,11 @@
 
             <section class="card-pad" x-data="{ corrigiendo: false }">
                 <h2 class="panel-title">Cédula</h2>
-                <p class="mt-2 text-sm text-ink-600">
+                <p class="mt-2 text-sm text-content-muted">
                     V-{{ $usuario->national_id }}
-                    <span class="ml-1 text-xs text-ink-400">Solo lectura para la persona</span>
+                    <span class="ml-1 text-xs text-content-subtle">Solo lectura para la persona</span>
                 </p>
-                <p class="mt-2 text-xs text-ink-500">
+                <p class="mt-2 text-xs text-content-muted">
                     Corrige únicamente errores de digitación. La persona no puede cambiarla
                     desde su perfil y la corrección queda en la auditoría con tu nombre y motivo.
                 </p>
@@ -320,7 +320,7 @@
                                pattern="[0-9]{6,9}" minlength="6" maxlength="9" class="form-input"
                                value="{{ $usuario->national_id }}" required>
                         @error('national_id')
-                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-xs text-red-600 dark:text-red-300">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
@@ -329,7 +329,7 @@
                                   required minlength="10" maxlength="500"
                                   placeholder="Ej.: la persona se equivocó al escribir el número en el registro"></textarea>
                         @error('reason')
-                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-xs text-red-600 dark:text-red-300">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="flex gap-2">
@@ -351,8 +351,8 @@
                             'Placa' => $usuario->driverProfile->vehicle_plate,
                         ] as $etiqueta => $valor)
                             <div class="flex items-baseline justify-between gap-3">
-                                <dt class="text-ink-500">{{ $etiqueta }}</dt>
-                                <dd class="font-medium text-ink-900">{{ $valor }}</dd>
+                                <dt class="text-content-muted">{{ $etiqueta }}</dt>
+                                <dd class="font-medium text-content">{{ $valor }}</dd>
                             </div>
                         @endforeach
                     </dl>
@@ -365,14 +365,14 @@
 
                 <dl class="mt-4 space-y-2 text-sm">
                     <div class="flex items-baseline justify-between gap-3">
-                        <dt class="text-ink-500">Saldo</dt>
-                        <dd class="font-display text-lg font-semibold text-brand-900">
+                        <dt class="text-content-muted">Saldo</dt>
+                        <dd class="font-display text-lg font-semibold text-brand-900 dark:text-content">
                             ${{ number_format((float) ($usuario->wallet?->balance ?? 0), 2, '.', ',') }}
                         </dd>
                     </div>
                     <div class="flex items-baseline justify-between gap-3">
-                        <dt class="text-ink-500">Retenido</dt>
-                        <dd class="font-medium text-ink-800">
+                        <dt class="text-content-muted">Retenido</dt>
+                        <dd class="font-medium text-content">
                             ${{ number_format((float) ($usuario->wallet?->held_balance ?? 0), 2, '.', ',') }}
                         </dd>
                     </div>
@@ -410,11 +410,11 @@
                 <h2 class="panel-title">Decisión de la cuenta</h2>
 
                 @if ($usuario->status === \App\Enums\UserStatus::Approved)
-                    <p class="mt-3 flex items-center gap-2 text-sm text-accent-800">
+                    <p class="mt-3 flex items-center gap-2 text-sm text-accent-800 dark:text-accent-300">
                         <x-icon name="check" class="h-5 w-5" />
                         Cuenta aprobada el {{ $usuario->approved_at?->translatedFormat('d M Y') }}.
                     </p>
-                    <p class="mt-2 text-xs text-ink-500">
+                    <p class="mt-2 text-xs text-content-muted">
                         {{ $usuario->isDriver()
                             ? 'El conductor ya puede activarse para recibir viajes.'
                             : 'El pasajero ya puede pedir viajes y recargar su billetera.' }}
@@ -438,11 +438,11 @@
                         </div>
                     </form>
                 @elseif ($usuario->status === \App\Enums\UserStatus::Suspended)
-                    <p class="mt-3 flex items-center gap-2 text-sm text-red-700">
+                    <p class="mt-3 flex items-center gap-2 text-sm text-red-700 dark:text-red-300">
                         <x-icon name="alert" class="h-5 w-5" />
                         Cuenta suspendida. No puede operar en la app.
                     </p>
-                    <p class="mt-2 text-xs text-ink-500">
+                    <p class="mt-2 text-xs text-content-muted">
                         Al reactivarla vuelve a estar aprobada con los mismos documentos que ya revisaste.
                     </p>
 
@@ -455,7 +455,7 @@
                     </form>
                 @else
                     @if ($puedeAprobar)
-                        <p class="mt-2 text-sm text-ink-600">
+                        <p class="mt-2 text-sm text-content-muted">
                             Todos los documentos están aprobados. Al aprobar la cuenta, la persona podrá
                             {{ $usuario->isDriver() ? 'activarse para recibir viajes' : 'pedir viajes y recargar su billetera' }}.
                         </p>
@@ -468,7 +468,7 @@
                             </button>
                         </form>
                     @else
-                        <p class="mt-2 rounded-xl bg-ink-50 px-3 py-2 text-xs text-ink-600">
+                        <p class="mt-2 rounded-xl bg-surface-alt px-3 py-2 text-xs text-content-muted">
                             Todavía no se puede aprobar: hay documentos sin aprobar, vencidos o sin subir.
                             Revisa cada uno en la lista de documentos.
                         </p>

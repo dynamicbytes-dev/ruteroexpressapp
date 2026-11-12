@@ -1,7 +1,7 @@
 <x-guest-layout :title="'Nueva contraseña'" :contexto="'app'">
     <div class="mb-6">
-        <h1 class="font-display text-2xl font-semibold text-brand-900">Crea una contraseña nueva</h1>
-        <p class="mt-1 text-sm text-ink-500">
+        <h1 class="font-display text-2xl font-semibold text-brand-900 dark:text-content">Crea una contraseña nueva</h1>
+        <p class="mt-1 text-sm text-content-muted">
             Al guardarla se cierran todas las sesiones abiertas de tu cuenta, incluida la del teléfono.
         </p>
     </div>

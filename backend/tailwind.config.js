@@ -16,14 +16,31 @@ export default {
         './resources/views/**/*.blade.php',
     ],
 
+    // El panel persiste `gaz2027-tema` y aplica `.dark` en <html>.
+    darkMode: 'class',
+
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
-                display: ['Poppins', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                display: ['Sora', ...defaultTheme.fontFamily.sans],
             },
 
             colors: {
+                // Tokens semánticos compartidos con la app móvil. Los valores
+                // viven en `resources/css/app.css` para poder cambiar claro y
+                // oscuro sin duplicar clases en cada vista.
+                surface: 'rgb(var(--gz-surface) / <alpha-value>)',
+                'surface-alt': 'rgb(var(--gz-surface-alt) / <alpha-value>)',
+                'surface-elevated':
+                    'rgb(var(--gz-surface-elevated) / <alpha-value>)',
+                line: 'rgb(var(--gz-line) / <alpha-value>)',
+                'line-strong': 'rgb(var(--gz-line-strong) / <alpha-value>)',
+                content: 'rgb(var(--gz-content) / <alpha-value>)',
+                'content-muted':
+                    'rgb(var(--gz-content-muted) / <alpha-value>)',
+                'content-subtle':
+                    'rgb(var(--gz-content-subtle) / <alpha-value>)',
                 // Morado de marca: 800 es el color principal (#310F38).
                 brand: {
                     50: '#F7F2F9',
@@ -81,6 +98,26 @@ export default {
                 xl: '1rem',
                 '2xl': '1.25rem',
                 '3xl': '1.5rem',
+                'panel-sm': '10px',
+                panel: '14px',
+                'panel-lg': '18px',
+                'panel-xl': '24px',
+            },
+
+            height: {
+                'panel-header': '64px',
+                'mobile-nav': '68px',
+            },
+
+            minHeight: {
+                button: '44px',
+                'mobile-button': '52px',
+            },
+
+            transitionDuration: {
+                120: '120ms',
+                200: '200ms',
+                320: '320ms',
             },
         },
     },

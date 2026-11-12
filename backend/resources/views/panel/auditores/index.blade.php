@@ -34,18 +34,18 @@
              }">
         @if ($auditores->isEmpty())
             <div class="px-5 py-14 text-center">
-                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-ink-100 text-ink-400">
+                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-line text-content-subtle">
                     <x-icon name="shield" class="h-6 w-6" />
                 </span>
-                <p class="mt-3 font-display text-base font-semibold text-brand-900">Todavía no hay auditores</p>
-                <p class="mt-1 text-sm text-ink-500">
+                <p class="mt-3 font-display text-base font-semibold text-brand-900 dark:text-content">Todavía no hay auditores</p>
+                <p class="mt-1 text-sm text-content-muted">
                     {{ $puedeCrear ? 'Crea el primero con el botón «Nuevo auditor».' : 'El auditor principal todavía no ha creado otras cuentas.' }}
                 </p>
             </div>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
-                    <thead class="bg-ink-50/70 text-xs uppercase tracking-wide text-ink-500">
+                    <thead class="bg-surface-alt/70 text-xs uppercase tracking-wide text-content-muted">
                         <tr>
                             <th class="px-5 py-3 font-semibold">Auditor</th>
                             <th class="px-5 py-3 font-semibold">Contacto</th>
@@ -57,23 +57,23 @@
                             @endif
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-ink-100">
+                    <tbody class="divide-y divide-line">
                         @foreach ($auditores as $auditor)
-                            <tr class="hover:bg-ink-50/60">
+                            <tr class="hover:bg-surface-alt/60">
                                 <td class="px-5 py-3">
                                     <div class="flex flex-wrap items-center gap-2">
-                                        <span class="font-medium text-ink-900">{{ $auditor->name }}</span>
+                                        <span class="font-medium text-content">{{ $auditor->name }}</span>
                                         @if ($auditor->isOwner())
                                             <span class="badge-approved">Auditor principal</span>
                                         @else
                                             <span class="badge-neutral">Auditor secundario</span>
                                         @endif
                                     </div>
-                                    <div class="text-xs text-ink-500">V-{{ $auditor->national_id }}</div>
+                                    <div class="text-xs text-content-muted">V-{{ $auditor->national_id }}</div>
                                 </td>
                                 <td class="px-5 py-3">
-                                    <div class="text-ink-700">{{ $auditor->email }}</div>
-                                    <div class="text-xs text-ink-500">{{ $auditor->phone ?? 'Sin teléfono' }}</div>
+                                    <div class="text-content-muted">{{ $auditor->email }}</div>
+                                    <div class="text-xs text-content-muted">{{ $auditor->phone ?? 'Sin teléfono' }}</div>
                                 </td>
                                 <td class="px-5 py-3">
                                     <span class="{{ $auditor->status === \App\Enums\UserStatus::Approved ? 'badge-approved' : 'badge-rejected' }}">
@@ -87,7 +87,7 @@
                                         <span class="badge-pending">Pendiente</span>
                                     @endif
                                 </td>
-                                <td class="px-5 py-3 text-ink-500">
+                                <td class="px-5 py-3 text-content-muted">
                                     {{ $auditor->created_at?->translatedFormat('d M Y') }}
                                 </td>
                                 @if ($puedeCrear || auth()->user()->is_main_auditor)
@@ -106,7 +106,7 @@
                                             class="btn-secondary !py-1 !px-3 text-xs inline-flex items-center gap-1.5 shadow-sm"
                                             title="Editar datos del auditor"
                                         >
-                                            <x-icon name="pencil" class="h-3.5 w-3.5 text-brand-700" />
+                                            <x-icon name="pencil" class="h-3.5 w-3.5 text-brand-700 dark:text-accent-300" />
                                             <span>Editar</span>
                                         </button>
                                     </td>
@@ -118,7 +118,7 @@
             </div>
 
             @if ($auditores->hasPages())
-                <div class="border-t border-ink-100 px-5 py-4">
+                <div class="border-t border-line px-5 py-4">
                     {{ $auditores->links() }}
                 </div>
             @endif

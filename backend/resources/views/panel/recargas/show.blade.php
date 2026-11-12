@@ -26,10 +26,10 @@
              Comprobante
              ------------------------------------------------------------ --}}
         <section class="card xl:col-span-3">
-            <header class="flex items-center justify-between gap-3 border-b border-ink-100 px-5 py-4">
+            <header class="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
                 <div>
                     <h2 class="panel-title">Comprobante</h2>
-                    <p class="text-xs text-ink-500">Archivo privado · enlace temporal</p>
+                    <p class="text-xs text-content-muted">Archivo privado · enlace temporal</p>
                 </div>
                 <a href="{{ $recarga->proofUrl() }}" target="_blank" rel="noopener" class="btn-outline">
                     <x-icon name="external" class="h-4 w-4" />
@@ -37,19 +37,19 @@
                 </a>
             </header>
 
-            <div class="bg-ink-50/60 p-4">
+            <div class="bg-surface-alt/60 p-4">
                 @if ($recarga->proofIsImage())
                     <a href="{{ $recarga->proofUrl() }}" target="_blank" rel="noopener" class="block">
                         <img src="{{ $recarga->proofUrl() }}"
                              alt="Comprobante de la recarga"
-                             class="mx-auto max-h-[32rem] w-auto rounded-xl border border-ink-200 bg-white object-contain">
+                             class="mx-auto max-h-[32rem] w-auto rounded-xl border border-line bg-surface object-contain">
                     </a>
                 @else
                     <div class="flex flex-col items-center justify-center gap-3 py-16 text-center">
-                        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-brand-700 shadow-sm">
+                        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-surface text-brand-700 dark:text-accent-300 shadow-sm">
                             <x-icon name="document" class="h-7 w-7" />
                         </span>
-                        <p class="text-sm font-medium text-ink-700">El comprobante está en PDF.</p>
+                        <p class="text-sm font-medium text-content-muted">El comprobante está en PDF.</p>
                         <a href="{{ $recarga->proofUrl() }}" target="_blank" rel="noopener" class="btn-primary">
                             Abrir PDF
                         </a>
@@ -66,7 +66,7 @@
                 <div class="flex items-start justify-between gap-3">
                     <div>
                         <h2 class="panel-title">Datos de la transferencia</h2>
-                        <p class="mt-1 text-sm text-ink-500">{{ $recarga->user->nameWithId }}</p>
+                        <p class="mt-1 text-sm text-content-muted">{{ $recarga->user->nameWithId }}</p>
                     </div>
                     <span class="{{ $tintes[$recarga->status->tone()] ?? 'badge-neutral' }}">
                         {{ $recarga->status->label() }}
@@ -75,32 +75,32 @@
 
                 <dl class="mt-4 space-y-3 text-sm">
                     <div class="flex items-baseline justify-between gap-3">
-                        <dt class="text-ink-500">Monto transferido</dt>
-                        <dd class="font-display text-lg font-semibold text-brand-900">
+                        <dt class="text-content-muted">Monto transferido</dt>
+                        <dd class="font-display text-lg font-semibold text-brand-900 dark:text-content">
                             Bs {{ number_format((float) $recarga->amount_bs, 2, ',', '.') }}
                         </dd>
                     </div>
                     <div class="flex items-baseline justify-between gap-3">
-                        <dt class="text-ink-500">Banco</dt>
-                        <dd class="font-medium text-ink-800">{{ $recarga->bank }}</dd>
+                        <dt class="text-content-muted">Banco</dt>
+                        <dd class="font-medium text-content">{{ $recarga->bank }}</dd>
                     </div>
                     <div class="flex items-baseline justify-between gap-3">
-                        <dt class="text-ink-500">Referencia</dt>
-                        <dd class="font-mono text-sm font-semibold text-ink-900">{{ $recarga->reference }}</dd>
+                        <dt class="text-content-muted">Referencia</dt>
+                        <dd class="font-mono text-sm font-semibold text-content">{{ $recarga->reference }}</dd>
                     </div>
                     <div class="flex items-baseline justify-between gap-3">
-                        <dt class="text-ink-500">Fecha de la transferencia</dt>
-                        <dd class="font-medium text-ink-800">{{ $recarga->transferred_at?->format('d/m/Y') }}</dd>
+                        <dt class="text-content-muted">Fecha de la transferencia</dt>
+                        <dd class="font-medium text-content">{{ $recarga->transferred_at?->format('d/m/Y') }}</dd>
                     </div>
-                    <div class="flex items-baseline justify-between gap-3 border-t border-ink-100 pt-3">
-                        <dt class="text-ink-500">Billetera actual</dt>
-                        <dd class="font-semibold text-ink-900">
+                    <div class="flex items-baseline justify-between gap-3 border-t border-line pt-3">
+                        <dt class="text-content-muted">Billetera actual</dt>
+                        <dd class="font-semibold text-content">
                             ${{ number_format((float) ($billetera?->balance ?? 0), 2, '.', ',') }}
                         </dd>
                     </div>
                     <div class="flex items-baseline justify-between gap-3">
-                        <dt class="text-ink-500">Disponible</dt>
-                        <dd class="text-ink-700">
+                        <dt class="text-content-muted">Disponible</dt>
+                        <dd class="text-content-muted">
                             ${{ number_format((float) ($billetera?->available() ?? 0), 2, '.', ',') }}
                         </dd>
                     </div>
@@ -108,16 +108,16 @@
             </section>
 
             @if ($referenciaRepetida)
-                <section class="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+                <section class="rounded-2xl border border-amber-200 bg-amber-50 dark:bg-amber-950 p-5">
                     <div class="flex items-start gap-3">
-                        <x-icon name="alert" class="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
+                        <x-icon name="alert" class="mt-0.5 h-5 w-5 shrink-0 text-amber-700 dark:text-amber-300" />
                         <div>
-                            <p class="text-sm font-semibold text-amber-900">Esta referencia ya aparece en otra recarga</p>
-                            <p class="mt-1 text-xs text-amber-800">
+                            <p class="text-sm font-semibold text-amber-900 dark:text-amber-300">Esta referencia ya aparece en otra recarga</p>
+                            <p class="mt-1 text-xs text-amber-800 dark:text-amber-300">
                                 Revisa antes de aprobar: puede ser un error de la persona o un intento de usar el mismo comprobante dos veces.
                             </p>
 
-                            <ul class="mt-3 space-y-1 text-xs text-amber-900">
+                            <ul class="mt-3 space-y-1 text-xs text-amber-900 dark:text-amber-300">
                                 @foreach ($otrasConLaMismaReferencia as $otra)
                                     <li class="flex items-center justify-between gap-3 border-t border-amber-200/70 pt-1">
                                         <a href="{{ route('panel.recargas.show', $otra) }}" class="font-medium underline">
@@ -139,24 +139,24 @@
                     @if ($recarga->status === \App\Enums\RechargeStatus::Approved)
                         <dl class="mt-4 space-y-3 text-sm">
                             <div class="flex items-baseline justify-between gap-3">
-                                <dt class="text-ink-500">Monto acreditado</dt>
-                                <dd class="font-display text-lg font-semibold text-brand-800">
+                                <dt class="text-content-muted">Monto acreditado</dt>
+                                <dd class="font-display text-lg font-semibold text-brand-800 dark:text-content">
                                     ${{ number_format((float) $recarga->amount_usd, 2, '.', ',') }}
                                 </dd>
                             </div>
                             <div class="flex items-baseline justify-between gap-3">
-                                <dt class="text-ink-500">Tasa aplicada</dt>
-                                <dd class="font-medium text-ink-800">{{ $recarga->exchange_rate }} Bs/$</dd>
+                                <dt class="text-content-muted">Tasa aplicada</dt>
+                                <dd class="font-medium text-content">{{ $recarga->exchange_rate }} Bs/$</dd>
                             </div>
                         </dl>
                     @else
-                        <div class="mt-3 rounded-xl bg-red-50 px-4 py-3">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-red-700">Motivo del rechazo</p>
-                            <p class="mt-1 text-sm text-red-800">{{ $recarga->rejection_reason }}</p>
+                        <div class="mt-3 rounded-xl bg-red-50 dark:bg-red-950 px-4 py-3">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-red-700 dark:text-red-300">Motivo del rechazo</p>
+                            <p class="mt-1 text-sm text-red-800 dark:text-red-300">{{ $recarga->rejection_reason }}</p>
                         </div>
                     @endif
 
-                    <p class="mt-4 text-xs text-ink-500">
+                    <p class="mt-4 text-xs text-content-muted">
                         Revisada por {{ $recarga->reviewer?->name ?? '—' }}
                         el {{ $recarga->reviewed_at?->translatedFormat('d M Y, H:i') ?? '—' }}.
                     </p>
@@ -172,7 +172,7 @@
                  -------------------------------------------------------- --}}
             <section class="card p-5" x-data="{ tasa: '{{ old('exchange_rate', $tasaVigente?->rate) }}', bs: {{ (float) $recarga->amount_bs }} }">
                 <h2 class="panel-title">Aprobar recarga</h2>
-                <p class="mt-1 text-sm text-ink-500">
+                <p class="mt-1 text-sm text-content-muted">
                     Se acredita el monto en dólares a la billetera de {{ $recarga->user->first_name }}.
                 </p>
 
@@ -198,12 +198,12 @@
                         </p>
                     </div>
 
-                    <div class="rounded-xl bg-brand-50 px-4 py-3">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-brand-700">Se acreditará</p>
-                        <p class="mt-1 font-display text-2xl font-semibold text-brand-900">
+                    <div class="rounded-xl bg-brand-50 dark:bg-brand-900/30 px-4 py-3">
+                        <p class="text-xs font-semibold uppercase tracking-wide text-brand-700 dark:text-accent-300">Se acreditará</p>
+                        <p class="mt-1 font-display text-2xl font-semibold text-brand-900 dark:text-content">
                             $<span x-text="tasa > 0 ? (bs / tasa).toFixed(2) : '0.00'">0.00</span>
                         </p>
-                        <p class="text-xs text-ink-500">Redondeado al centavo. El monto final lo calcula el servidor.</p>
+                        <p class="text-xs text-content-muted">Redondeado al centavo. El monto final lo calcula el servidor.</p>
                     </div>
 
                     <button type="submit" class="btn-primary w-full">
@@ -218,7 +218,7 @@
                  -------------------------------------------------------- --}}
             <section class="card p-5">
                 <h2 class="panel-title">Rechazar recarga</h2>
-                <p class="mt-1 text-sm text-ink-500">
+                <p class="mt-1 text-sm text-content-muted">
                     No se acredita saldo. La persona verá el motivo en la app y podrá subir un comprobante nuevo.
                 </p>
 

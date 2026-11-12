@@ -35,8 +35,8 @@
                 @endif
             </div>
 
-            <div class="p-5 border-t border-ink-100 bg-white">
-                <p class="text-xs text-ink-500">
+            <div class="p-5 border-t border-line bg-surface">
+                <p class="text-xs text-content-muted">
                     Las recargas y pagos en bolívares se calculan con esta tasa oficial vigente.
                     Cada cambio queda registrado en el historial de auditoría.
                 </p>
@@ -75,7 +75,7 @@
                 @endif
             </div>
 
-            <div class="p-5 border-t border-ink-100 bg-white space-y-3">
+            <div class="p-5 border-t border-line bg-surface space-y-3">
                 <form method="POST" action="{{ route('panel.tasa.bcv') }}">
                     @csrf
                     <button type="submit" class="btn-primary w-full justify-center">
@@ -87,7 +87,7 @@
                 @if (!empty($bcv) && $bcv['success'] && !empty($bcv['rate']))
                     <button type="button"
                             onclick="document.getElementById('rate').value = '{{ $bcv['rate'] }}'; document.getElementById('effective_date').value = '{{ $bcv['effective_date'] }}';"
-                            class="btn-ghost w-full justify-center text-xs text-brand-800">
+                            class="btn-ghost w-full justify-center text-xs text-brand-800 dark:text-content">
                         Copiar valores al formulario manual
                     </button>
                 @endif
@@ -99,7 +99,7 @@
              ------------------------------------------------------------ --}}
         <section class="card p-5 xl:col-span-1">
             <h2 class="panel-title">Carga manual</h2>
-            <p class="mt-1 text-sm text-ink-500">
+            <p class="mt-1 text-sm text-content-muted">
                 Puedes fijar una tasa personalizada si lo requieres operativamente.
             </p>
 
@@ -139,19 +139,19 @@
          Histórico de tasas registradas
          ------------------------------------------------------------ --}}
     <section class="card mt-6">
-        <header class="border-b border-ink-100 px-5 py-4">
+        <header class="border-b border-line px-5 py-4">
             <h2 class="panel-title">Historial de tasas registradas</h2>
-            <p class="text-xs text-ink-500">Registro histórico inmutable para respaldo de recargas y pagos en bolívares.</p>
+            <p class="text-xs text-content-muted">Registro histórico inmutable para respaldo de recargas y pagos en bolívares.</p>
         </header>
 
         @if ($historial->isEmpty())
-            <p class="px-5 py-10 text-center text-sm text-ink-500">
+            <p class="px-5 py-10 text-center text-sm text-content-muted">
                 Todavía no se ha cargado ninguna tasa.
             </p>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
-                    <thead class="bg-ink-50/70 text-xs uppercase tracking-wide text-ink-500">
+                    <thead class="bg-surface-alt/70 text-xs uppercase tracking-wide text-content-muted">
                         <tr>
                             <th class="px-5 py-3 font-semibold">Vigente desde</th>
                             <th class="px-5 py-3 font-semibold">Tasa</th>
@@ -159,22 +159,22 @@
                             <th class="px-5 py-3 font-semibold">Fecha de registro</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-ink-100">
+                    <tbody class="divide-y divide-line">
                         @foreach ($historial as $tasa)
-                            <tr class="hover:bg-ink-50/60">
-                                <td class="px-5 py-3 font-medium text-ink-900">
+                            <tr class="hover:bg-surface-alt/60">
+                                <td class="px-5 py-3 font-medium text-content">
                                     {{ $tasa->effective_date->format('d/m/Y') }}
                                 </td>
                                 <td class="px-5 py-3">
-                                    <span class="font-display text-base font-semibold text-brand-900">
+                                    <span class="font-display text-base font-semibold text-brand-900 dark:text-content">
                                         {{ number_format((float) $tasa->rate, 4, ',', '.') }}
                                     </span>
-                                    <span class="text-xs text-ink-500">Bs/$</span>
+                                    <span class="text-xs text-content-muted">Bs/$</span>
                                 </td>
-                                <td class="px-5 py-3 text-ink-600">
+                                <td class="px-5 py-3 text-content-muted">
                                     {{ $tasa->author?->name ?? 'API BCV / Sistema' }}
                                 </td>
-                                <td class="px-5 py-3 text-ink-500">
+                                <td class="px-5 py-3 text-content-muted">
                                     {{ $tasa->created_at?->translatedFormat('d M Y, H:i') }}
                                 </td>
                             </tr>
@@ -184,7 +184,7 @@
             </div>
 
             @if ($historial->hasPages())
-                <div class="border-t border-ink-100 px-5 py-4">
+                <div class="border-t border-line px-5 py-4">
                     {{ $historial->links() }}
                 </div>
             @endif

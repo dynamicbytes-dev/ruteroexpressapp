@@ -3,7 +3,7 @@
     <x-slot name="subtitle">Contenido promocional dinámico administrado para las aplicaciones móviles</x-slot>
 
     @if (session('status'))
-        <div class="mb-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 p-4 text-emerald-800 text-sm font-medium">
+        <div class="mb-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 p-4 text-emerald-800 dark:text-emerald-300 text-sm font-medium">
             {{ session('status') }}
         </div>
     @endif
@@ -40,12 +40,12 @@
     </div>
 
     @if ($banners->isEmpty())
-        <div class="card p-12 text-center text-ink-500">
-            <div class="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-ink-100 text-ink-400">
+        <div class="card p-12 text-center text-content-muted">
+            <div class="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-line text-content-subtle">
                 <x-icon name="image" class="h-7 w-7" />
             </div>
-            <h3 class="font-display font-semibold text-ink-800 text-base">No hay tarjetas de publicidad</h3>
-            <p class="mt-1 text-xs text-ink-400 max-w-sm mx-auto">
+            <h3 class="font-display font-semibold text-content text-base">No hay tarjetas de publicidad</h3>
+            <p class="mt-1 text-xs text-content-subtle max-w-sm mx-auto">
                 Crea banners promocionales con imágenes, colores de marca y enlaces para destacar ofertas en la app de pasajeros.
             </p>
             <div class="mt-5">
@@ -57,7 +57,7 @@
     @else
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             @foreach ($banners as $banner)
-                <div class="card overflow-hidden flex flex-col justify-between border border-ink-100 shadow-card transition-all hover:shadow-lg">
+                <div class="card overflow-hidden flex flex-col justify-between border border-line shadow-card transition-all hover:shadow-lg">
                     {{-- Vista previa visual de la tarjeta tal como la verá la app móvil --}}
                     <div class="p-5 text-white relative overflow-hidden rounded-t-3xl min-h-[140px] flex flex-col justify-between"
                          style="background: {{ $banner->background_color_end ? 'linear-gradient(135deg, '.$banner->background_color.', '.$banner->background_color_end.')' : $banner->background_color }}; color: {{ $banner->text_color }};">
@@ -106,34 +106,34 @@
                     </div>
 
                     {{-- Detalles de control y acciones para el auditor --}}
-                    <div class="p-4 bg-white flex-1 flex flex-col justify-between text-xs text-ink-600 gap-3 border-t border-ink-100">
+                    <div class="p-4 bg-surface flex-1 flex flex-col justify-between text-xs text-content-muted gap-3 border-t border-line">
                         <div class="space-y-1">
                             <div class="flex items-center justify-between">
-                                <span class="font-medium text-ink-400">Público:</span>
-                                <span class="font-semibold text-ink-800">
+                                <span class="font-medium text-content-subtle">Público:</span>
+                                <span class="font-semibold text-content">
                                     {{ match($banner->target_role) { 'passenger' => 'Pasajeros', 'driver' => 'Conductores', default => 'Todos' } }}
                                 </span>
                             </div>
                             @if ($banner->action_url)
                                 <div class="flex items-center justify-between truncate">
-                                    <span class="font-medium text-ink-400">Enlace:</span>
-                                    <span class="truncate max-w-[170px] text-brand-700 font-mono text-[11px]" title="{{ $banner->action_url }}">
+                                    <span class="font-medium text-content-subtle">Enlace:</span>
+                                    <span class="truncate max-w-[170px] text-brand-700 dark:text-accent-300 font-mono text-[11px]" title="{{ $banner->action_url }}">
                                         {{ $banner->action_url }}
                                     </span>
                                 </div>
                             @endif
                             @if ($banner->city)
                                 <div class="flex items-center justify-between">
-                                    <span class="font-medium text-ink-400">Ciudad:</span>
-                                    <span class="font-semibold text-ink-800">{{ $banner->city->name }}</span>
+                                    <span class="font-medium text-content-subtle">Ciudad:</span>
+                                    <span class="font-semibold text-content">{{ $banner->city->name }}</span>
                                 </div>
                             @endif
                         </div>
 
-                        <div class="flex items-center justify-between pt-3 border-t border-ink-100 gap-2">
+                        <div class="flex items-center justify-between pt-3 border-t border-line gap-2">
                             <form method="POST" action="{{ route('panel.banners.toggle', $banner) }}">
                                 @csrf
-                                <button type="submit" class="px-2.5 py-1 rounded-xl text-xs font-semibold {{ $banner->is_active ? 'bg-amber-50 text-amber-700 hover:bg-amber-100' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100' }}">
+                                <button type="submit" class="px-2.5 py-1 rounded-xl text-xs font-semibold {{ $banner->is_active ? 'bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950' : 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-950' }}">
                                     {{ $banner->is_active ? 'Pausar' : 'Activar' }}
                                 </button>
                             </form>
@@ -147,7 +147,7 @@
                                       onsubmit="return confirm('¿Seguro que deseas eliminar este banner?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg" title="Eliminar">
+                                    <button type="submit" class="p-1.5 text-rose-500 dark:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950 rounded-lg" title="Eliminar">
                                         <x-icon name="x" class="h-4 w-4" />
                                     </button>
                                 </form>

@@ -41,7 +41,7 @@
             <div class="xl:col-span-2">
                 <label for="q" class="form-label">Buscar</label>
                 <div class="relative">
-                    <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-ink-400">
+                    <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-content-subtle">
                         <x-icon name="search" class="h-5 w-5" />
                     </span>
                     <input id="q" name="q" type="search" value="{{ $filtros['q'] }}"
@@ -86,23 +86,23 @@
         <div class="mt-4 flex flex-wrap items-center gap-3">
             <button type="submit" class="btn-primary">Filtrar</button>
             <a href="{{ route('panel.auditoria.index') }}" class="btn-ghost">Limpiar</a>
-            <span class="ml-auto text-xs text-ink-500">{{ number_format($total, 0, ',', '.') }} registro(s)</span>
+            <span class="ml-auto text-xs text-content-muted">{{ number_format($total, 0, ',', '.') }} registro(s)</span>
         </div>
     </form>
 
     <section class="card mt-4">
         @if ($actividades->isEmpty())
             <div class="px-5 py-14 text-center">
-                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-ink-100 text-ink-400">
+                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-line text-content-subtle">
                     <x-icon name="list" class="h-6 w-6" />
                 </span>
-                <p class="mt-3 font-display text-base font-semibold text-brand-900">No hay registros con estos filtros</p>
-                <p class="mt-1 text-sm text-ink-500">Prueba con otro rango de fechas o limpia la búsqueda.</p>
+                <p class="mt-3 font-display text-base font-semibold text-brand-900 dark:text-content">No hay registros con estos filtros</p>
+                <p class="mt-1 text-sm text-content-muted">Prueba con otro rango de fechas o limpia la búsqueda.</p>
             </div>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
-                    <thead class="bg-ink-50/70 text-xs uppercase tracking-wide text-ink-500">
+                    <thead class="bg-surface-alt/70 text-xs uppercase tracking-wide text-content-muted">
                         <tr>
                             <th class="px-5 py-3 font-semibold">Fecha</th>
                             <th class="px-5 py-3 font-semibold">Autor</th>
@@ -112,16 +112,16 @@
                             <th class="px-5 py-3"></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-ink-100">
+                    <tbody class="divide-y divide-line">
                         @foreach ($actividades as $actividad)
-                            <tr class="align-top hover:bg-ink-50/60">
-                                <td class="whitespace-nowrap px-5 py-3 text-ink-500">
+                            <tr class="align-top hover:bg-surface-alt/60">
+                                <td class="whitespace-nowrap px-5 py-3 text-content-muted">
                                     {{ $actividad->created_at?->translatedFormat('d M Y, H:i') }}
                                 </td>
                                 <td class="px-5 py-3">
                                     @if ($actividad->causer instanceof \App\Models\User)
-                                        <div class="font-medium text-ink-900">{{ $actividad->causer->name }}</div>
-                                        <div class="text-xs text-ink-500">{{ $actividad->causer->email }}</div>
+                                        <div class="font-medium text-content">{{ $actividad->causer->name }}</div>
+                                        <div class="text-xs text-content-muted">{{ $actividad->causer->email }}</div>
                                     @else
                                         <span class="badge-neutral">Sistema</span>
                                     @endif
@@ -131,13 +131,13 @@
                                         {{ $eventos[$actividad->event] ?? ($actividad->event ?: 'Acción') }}
                                     </span>
                                 </td>
-                                <td class="px-5 py-3 text-ink-600">
+                                <td class="px-5 py-3 text-content-muted">
                                     {{ $modulos[$actividad->log_name] ?? ucfirst(str_replace('_', ' ', (string) $actividad->log_name)) }}
                                 </td>
                                 <td class="px-5 py-3">
-                                    <div class="max-w-xl text-ink-800">{{ $actividad->description }}</div>
+                                    <div class="max-w-xl text-content">{{ $actividad->description }}</div>
                                     @if ($actividad->subject)
-                                        <div class="mt-1 text-xs text-ink-500">
+                                        <div class="mt-1 text-xs text-content-muted">
                                             {{ class_basename((string) $actividad->subject_type) }} #{{ $actividad->subject_id }}
                                         </div>
                                     @endif
@@ -146,12 +146,12 @@
                                     @if ($actividad->changes()->isNotEmpty())
                                         <details class="group text-left">
                                             <summary class="btn-ghost cursor-pointer list-none py-1.5 text-xs">Detalle</summary>
-                                            <div class="absolute z-20 mt-2 w-[min(34rem,80vw)] rounded-xl border border-ink-200 bg-white p-3 shadow-xl">
-                                                <pre class="max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-ink-50 p-3 text-xs text-ink-700">{{ json_encode($actividad->changes(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) }}</pre>
+                                            <div class="absolute z-20 mt-2 w-[min(34rem,80vw)] rounded-xl border border-line bg-surface p-3 shadow-xl">
+                                                <pre class="max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-surface-alt p-3 text-xs text-content-muted">{{ json_encode($actividad->changes(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) }}</pre>
                                             </div>
                                         </details>
                                     @else
-                                        <span class="text-xs text-ink-400">—</span>
+                                        <span class="text-xs text-content-subtle">—</span>
                                     @endif
                                 </td>
                             </tr>
@@ -161,7 +161,7 @@
             </div>
 
             @if ($actividades->hasPages())
-                <div class="border-t border-ink-100 px-5 py-4">
+                <div class="border-t border-line px-5 py-4">
                     {{ $actividades->links() }}
                 </div>
             @endif

@@ -21,10 +21,10 @@
 
             <a href="{{ route('panel.conductores.index', array_filter(['tab' => $clave, 'buscar' => $busqueda ?: null])) }}"
                class="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition
-                      {{ $activa ? 'bg-brand-800 text-white' : 'text-ink-600 hover:bg-ink-100 hover:text-brand-800' }}">
+                      {{ $activa ? 'bg-brand-800 text-white' : 'text-content-muted hover:bg-line hover:text-brand-800 dark:hover:text-content' }}">
                 {{ $etiqueta }}
                 <span class="rounded-full px-2 py-0.5 text-xs font-semibold
-                             {{ $activa ? 'bg-white/20 text-white' : ($pendiente ? 'bg-amber-100 text-amber-800' : 'bg-ink-100 text-ink-500') }}">
+                             {{ $activa ? 'bg-white/20 text-white' : ($pendiente ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300' : 'bg-line text-content-muted') }}">
                     {{ $total }}
                 </span>
             </a>
@@ -37,7 +37,7 @@
         <div class="min-w-64 flex-1">
             <label for="buscar" class="form-label">Buscar</label>
             <div class="relative">
-                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-ink-400">
+                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-content-subtle">
                     <x-icon name="search" class="h-5 w-5" />
                 </span>
                 <input id="buscar" name="buscar" type="search" value="{{ $busqueda }}"
@@ -55,11 +55,11 @@
     <section class="card mt-4">
         @if ($conductores->isEmpty())
             <div class="px-5 py-14 text-center">
-                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-ink-100 text-ink-400">
+                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-line text-content-subtle">
                     <x-icon name="moto" class="h-6 w-6" />
                 </span>
-                <p class="mt-3 font-display text-base font-semibold text-brand-900">No hay conductores en esta lista</p>
-                <p class="mt-1 text-sm text-ink-500">
+                <p class="mt-3 font-display text-base font-semibold text-brand-900 dark:text-content">No hay conductores en esta lista</p>
+                <p class="mt-1 text-sm text-content-muted">
                     @if ($busqueda !== '')
                         Prueba con otra búsqueda o limpia el filtro.
                     @else
@@ -70,7 +70,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
-                    <thead class="bg-ink-50/70 text-xs uppercase tracking-wide text-ink-500">
+                    <thead class="bg-surface-alt/70 text-xs uppercase tracking-wide text-content-muted">
                         <tr>
                             <th class="px-5 py-3 font-semibold">Conductor</th>
                             <th class="px-5 py-3 font-semibold">Vehículo</th>
@@ -83,7 +83,7 @@
                             <th class="px-5 py-3"></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-ink-100">
+                    <tbody class="divide-y divide-line">
                         @foreach ($conductores as $conductor)
                             @php
                                 $perfil = $conductor->driverProfile;
@@ -92,10 +92,10 @@
                                 $porVencer = (int) $conductor->expiring_documents_count;
                                 $vencidos = (int) $conductor->expired_documents_count;
                             @endphp
-                            <tr class="hover:bg-ink-50/60">
+                            <tr class="hover:bg-surface-alt/60">
                                 <td class="px-5 py-3">
-                                    <div class="font-medium text-ink-900">{{ $conductor->name }}</div>
-                                    <div class="text-xs text-ink-500">V-{{ $conductor->national_id }} · {{ $conductor->email }}</div>
+                                    <div class="font-medium text-content">{{ $conductor->name }}</div>
+                                    <div class="text-xs text-content-muted">V-{{ $conductor->national_id }} · {{ $conductor->email }}</div>
                                     <div class="mt-1">
                                         <span class="{{ $tintes[$conductor->status->tone()] ?? 'badge-neutral' }}">
                                             {{ $conductor->status->label() }}
@@ -104,17 +104,17 @@
                                 </td>
                                 <td class="px-5 py-3">
                                     @if ($perfil)
-                                        <div class="font-medium text-ink-800">{{ $perfil->vehicleTypeLabel() }}</div>
-                                        <div class="text-xs text-ink-500">{{ $perfil->vehicle_brand }} {{ $perfil->vehicle_model }} {{ $perfil->vehicle_year }}</div>
-                                        <div class="mt-1 font-mono text-xs font-semibold text-brand-800">{{ $perfil->vehicle_plate }}</div>
+                                        <div class="font-medium text-content">{{ $perfil->vehicleTypeLabel() }}</div>
+                                        <div class="text-xs text-content-muted">{{ $perfil->vehicle_brand }} {{ $perfil->vehicle_model }} {{ $perfil->vehicle_year }}</div>
+                                        <div class="mt-1 font-mono text-xs font-semibold text-brand-800 dark:text-content">{{ $perfil->vehicle_plate }}</div>
                                     @else
                                         <span class="badge-neutral">Sin vehículo</span>
                                     @endif
                                 </td>
                                 <td class="px-5 py-3">
                                     @if ($perfil?->city)
-                                        <div class="font-medium text-ink-800">{{ $perfil->city->name }}</div>
-                                        <div class="text-xs text-ink-500">{{ $perfil->city->state }}</div>
+                                        <div class="font-medium text-content">{{ $perfil->city->name }}</div>
+                                        <div class="text-xs text-content-muted">{{ $perfil->city->state }}</div>
                                     @else
                                         <span class="badge-pending">Sin zona</span>
                                     @endif
@@ -122,12 +122,12 @@
                                 <td class="px-5 py-3">
                                     @if ($bloqueado)
                                         <span class="badge-rejected">Bloqueado</span>
-                                        <div class="mt-1 text-xs text-ink-500">
+                                        <div class="mt-1 text-xs text-content-muted">
                                             Hasta {{ $perfil->blocked_until->translatedFormat('d M, H:i') }}
                                         </div>
                                     @elseif ($perfil?->is_online)
                                         <span class="badge-approved">En línea</span>
-                                        <div class="mt-1 text-xs text-ink-500">
+                                        <div class="mt-1 text-xs text-content-muted">
                                             {{ $perfil->last_location_at?->diffForHumans() ?? 'Sin ubicación' }}
                                         </div>
                                     @else
@@ -135,10 +135,10 @@
                                     @endif
                                 </td>
                                 <td class="px-5 py-3">
-                                    <div class="font-semibold {{ $deuda ? 'text-red-700' : 'text-brand-800' }}">
+                                    <div class="font-semibold {{ $deuda ? 'text-red-700 dark:text-red-300' : 'text-brand-800 dark:text-content' }}">
                                         ${{ number_format((float) ($conductor->wallet?->balance ?? 0), 2, '.', ',') }}
                                     </div>
-                                    <div class="text-xs text-ink-500">
+                                    <div class="text-xs text-content-muted">
                                         Retenido: ${{ number_format((float) ($conductor->wallet?->held_balance ?? 0), 2, '.', ',') }}
                                     </div>
                                     @if ($deuda)
@@ -157,8 +157,8 @@
                                     @endif
                                 </td>
                                 <td class="px-5 py-3">
-                                    <div class="font-medium text-ink-800">{{ (int) $conductor->completed_trips_count }} completados</div>
-                                    <div class="text-xs text-ink-500">
+                                    <div class="font-medium text-content">{{ (int) $conductor->completed_trips_count }} completados</div>
+                                    <div class="text-xs text-content-muted">
                                         ${{ number_format((float) ($conductor->earnings_sum ?? 0), 2, '.', ',') }} generados
                                     </div>
                                 </td>
@@ -167,12 +167,12 @@
                                         $promedio = $perfil?->ratingOrNull();
                                     @endphp
                                     @if ($promedio !== null)
-                                        <div class="font-semibold text-amber-600">★ {{ number_format($promedio, 1, '.', ',') }}</div>
-                                        <div class="text-xs text-ink-500">
+                                        <div class="font-semibold text-amber-600 dark:text-amber-300">★ {{ number_format($promedio, 1, '.', ',') }}</div>
+                                        <div class="text-xs text-content-muted">
                                             {{ (int) $perfil->ratings_count }} calificación{{ (int) $perfil->ratings_count === 1 ? '' : 'es' }}
                                         </div>
                                     @else
-                                        <span class="text-xs text-ink-400">Sin calificaciones</span>
+                                        <span class="text-xs text-content-subtle">Sin calificaciones</span>
                                     @endif
                                 </td>
                                 <td class="px-5 py-3 text-right">
@@ -205,7 +205,7 @@
             </div>
 
             @if ($conductores->hasPages())
-                <div class="border-t border-ink-100 px-5 py-4">
+                <div class="border-t border-line px-5 py-4">
                     {{ $conductores->links() }}
                 </div>
             @endif

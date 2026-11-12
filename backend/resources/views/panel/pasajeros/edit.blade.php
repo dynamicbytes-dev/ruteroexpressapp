@@ -4,7 +4,7 @@
 
     <div class="max-w-3xl">
         <div class="mb-4">
-            <a href="{{ route('panel.pasajeros.show', $pasajero) }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:underline">
+            <a href="{{ route('panel.pasajeros.show', $pasajero) }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 dark:text-accent-300 hover:underline">
                 <x-icon name="arrow-left" class="h-4 w-4" />
                 Volver a la ficha del pasajero
             </a>
@@ -105,7 +105,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-end gap-3 border-t border-ink-100 pt-5">
+                <div class="flex items-center justify-end gap-3 border-t border-line pt-5">
                     <a href="{{ route('panel.pasajeros.show', $pasajero) }}" class="btn-ghost">
                         Cancelar
                     </a>

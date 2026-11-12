@@ -1,7 +1,7 @@
 <x-guest-layout :title="__('Iniciar sesión')">
     <div class="mb-6">
-        <h1 class="font-display text-2xl font-semibold text-brand-900">Iniciar sesión</h1>
-        <p class="mt-1 text-sm text-ink-500">Ingresa con tu cuenta de auditor.</p>
+        <h1 class="font-display text-2xl font-semibold text-brand-900 dark:text-content">Iniciar sesión</h1>
+        <p class="mt-1 text-sm text-content-muted">Ingresa con tu cuenta de auditor.</p>
     </div>
 
     <x-auth-session-status class="mb-5" :status="session('status')" />
@@ -28,13 +28,13 @@
         <div class="flex items-center justify-between">
             <label for="remember_me" class="inline-flex items-center gap-2">
                 <input id="remember_me" type="checkbox" name="remember"
-                       class="rounded border-ink-300 text-brand-700 shadow-sm focus:ring-brand-500">
-                <span class="text-sm text-ink-600">Mantener sesión</span>
+                       class="rounded border-line-strong text-brand-700 dark:text-accent-300 shadow-sm focus:ring-brand-500">
+                <span class="text-sm text-content-muted">Mantener sesión</span>
             </label>
 
             @if (Route::has('password.request'))
                 <a href="{{ route('password.request') }}"
-                   class="text-sm font-medium text-brand-700 underline decoration-brand-300 underline-offset-4 hover:text-brand-900">
+                   class="text-sm font-medium text-brand-700 dark:text-accent-300 underline decoration-brand-300 underline-offset-4 hover:text-brand-900 dark:hover:text-content">
                     ¿Olvidaste tu contraseña?
                 </a>
             @endif

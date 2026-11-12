@@ -34,13 +34,13 @@
     </div>
 
     @if ($cupones->isEmpty())
-        <div class="card p-10 text-center text-ink-500">
+        <div class="card p-10 text-center text-content-muted">
             Todavía no hay cupones creados.
         </div>
     @else
         <section class="card overflow-x-auto">
             <table class="w-full text-left text-sm">
-                <thead class="bg-ink-50/70 text-xs uppercase tracking-wide text-ink-500">
+                <thead class="bg-surface-alt/70 text-xs uppercase tracking-wide text-content-muted">
                     <tr>
                         <th class="px-5 py-3 font-semibold">Código</th>
                         <th class="px-5 py-3 font-semibold">Descuento</th>
@@ -51,30 +51,30 @@
                         <th class="px-5 py-3 font-semibold text-right"></th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-ink-100">
+                <tbody class="divide-y divide-line">
                     @foreach ($cupones as $cupo)
-                        <tr class="hover:bg-ink-50/60 {{ $cupo->is_active ? '' : 'text-ink-400' }}">
-                            <td class="px-5 py-3 font-medium text-ink-900">
+                        <tr class="hover:bg-surface-alt/60 {{ $cupo->is_active ? '' : 'text-content-subtle' }}">
+                            <td class="px-5 py-3 font-medium text-content">
                                 {{ $cupo->code }}
                             </td>
-                            <td class="px-5 py-3 font-display text-brand-700">
+                            <td class="px-5 py-3 font-display text-brand-700 dark:text-accent-300">
                                 -{{ number_format((float) $cupo->discount_percent, 0, ',', '.') }}%
                             </td>
-                            <td class="px-5 py-3 text-ink-600">
+                            <td class="px-5 py-3 text-content-muted">
                                 {{ $cupo->valid_from->format('d/m/Y') }}
                                 @if ($cupo->valid_until)
                                     al {{ $cupo->valid_until->format('d/m/Y') }}
                                 @else
-                                    <span class="text-xs text-ink-400 ml-2">sin vencimiento</span>
+                                    <span class="text-xs text-content-subtle ml-2">sin vencimiento</span>
                                 @endif
                             </td>
-                            <td class="px-5 py-3 text-ink-600">
+                            <td class="px-5 py-3 text-content-muted">
                                 {{ $cupo->usages()->count() }}
                                 @if ($cupo->max_uses_global)
                                     de {{ $cupo->max_uses_global }}
                                 @endif
                             </td>
-                            <td class="px-5 py-3 text-ink-600">
+                            <td class="px-5 py-3 text-content-muted">
                                 {{ $cupo->city?->name ?? 'Todas' }}
                             </td>
                             <td class="px-5 py-3 text-right">
@@ -88,7 +88,7 @@
                                     <form method="POST" action="{{ route('panel.cupones.destroy', $cupo) }}" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-outline btn-sm text-ink-500"
+                                        <button type="submit" class="btn-outline btn-sm text-content-muted"
                                                 onclick="return confirm('¿Desactivar este cupón? Los viajes ya creados no cambian.')">
                                             Desactivar
                                         </button>
@@ -101,7 +101,7 @@
             </table>
 
             @if ($cupones->hasPages())
-                <div class="border-t border-ink-100 px-5 py-4">
+                <div class="border-t border-line px-5 py-4">
                     {{ $cupones->links() }}
                 </div>
             @endif

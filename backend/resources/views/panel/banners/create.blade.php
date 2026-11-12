@@ -20,32 +20,32 @@
                 {{-- Título y Subtítulo --}}
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-ink-600 mb-1">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-content-muted mb-1">
                             Título principal *
                         </label>
                         <input type="text" name="title" x-model="title" required
                                placeholder="Ej: Descuento en tu primer viaje"
                                class="form-input w-full @error('title') border-rose-500 @enderror">
                         @error('title')
-                            <p class="mt-1 text-xs text-rose-500">{{ $message }}</p>
+                            <p class="mt-1 text-xs text-rose-500 dark:text-rose-300">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-ink-600 mb-1">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-content-muted mb-1">
                             Subtítulo / Descripción corta
                         </label>
                         <textarea name="subtitle" x-model="subtitle" rows="2"
                                   placeholder="Ej: Usa el código GAZ50 al solicitar tu viaje en moto o carro."
                                   class="form-input w-full text-sm @error('subtitle') border-rose-500 @enderror"></textarea>
                         @error('subtitle')
-                            <p class="mt-1 text-xs text-rose-500">{{ $message }}</p>
+                            <p class="mt-1 text-xs text-rose-500 dark:text-rose-300">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-ink-600 mb-1">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-content-muted mb-1">
                                 Etiqueta / Tag (Opcional)
                             </label>
                             <input type="text" name="tag" x-model="tag"
@@ -54,7 +54,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-ink-600 mb-1">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-content-muted mb-1">
                                 Texto del botón / acción
                             </label>
                             <input type="text" name="action_text" x-model="actionText"
@@ -65,11 +65,11 @@
                 </div>
 
                 {{-- Enlace o acción --}}
-                <div class="border-t border-ink-100 pt-5">
-                    <h3 class="text-sm font-semibold text-ink-900 mb-3">Enlace o Destino</h3>
+                <div class="border-t border-line pt-5">
+                    <h3 class="text-sm font-semibold text-content mb-3">Enlace o Destino</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-medium text-ink-600 mb-1">
+                            <label class="block text-xs font-medium text-content-muted mb-1">
                                 URL de destino (web o interna)
                             </label>
                             <input type="text" name="action_url" value="{{ old('action_url') }}"
@@ -78,7 +78,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-medium text-ink-600 mb-1">
+                            <label class="block text-xs font-medium text-content-muted mb-1">
                                 Audiencia objetivo *
                             </label>
                             <select name="target_role" required class="form-input w-full text-sm">
@@ -91,19 +91,19 @@
                 </div>
 
                 {{-- Imagen publicitaria --}}
-                <div class="border-t border-ink-100 pt-5">
-                    <h3 class="text-sm font-semibold text-ink-900 mb-3">Gráfico o Imagen del Banner</h3>
+                <div class="border-t border-line pt-5">
+                    <h3 class="text-sm font-semibold text-content mb-3">Gráfico o Imagen del Banner</h3>
                     <div class="space-y-3">
                         <div>
-                            <label class="block text-xs font-medium text-ink-600 mb-1">
+                            <label class="block text-xs font-medium text-content-muted mb-1">
                                 Subir archivo de imagen (PNG, JPG o WebP - fondo transparente recomendado)
                             </label>
                             <input type="file" name="image" accept="image/*" class="form-input w-full text-xs">
-                            <p class="text-[11px] text-ink-400 mt-1">Tamaño máximo 4MB. Aparecerá en la esquina de la tarjeta.</p>
+                            <p class="text-[11px] text-content-subtle mt-1">Tamaño máximo 4MB. Aparecerá en la esquina de la tarjeta.</p>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-medium text-ink-600 mb-1">
+                            <label class="block text-xs font-medium text-content-muted mb-1">
                                 O URL de imagen externa
                             </label>
                             <input type="url" name="image_url" value="{{ old('image_url') }}"
@@ -114,29 +114,29 @@
                 </div>
 
                 {{-- Estilos visuales y colores --}}
-                <div class="border-t border-ink-100 pt-5">
-                    <h3 class="text-sm font-semibold text-ink-900 mb-3">Colores y Personalización</h3>
+                <div class="border-t border-line pt-5">
+                    <h3 class="text-sm font-semibold text-content mb-3">Colores y Personalización</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-xs font-medium text-ink-600 mb-1">Color fondo inicio</label>
+                            <label class="block text-xs font-medium text-content-muted mb-1">Color fondo inicio</label>
                             <div class="flex items-center gap-2">
-                                <input type="color" x-model="bgColor" class="h-9 w-9 rounded-lg cursor-pointer border border-ink-200">
+                                <input type="color" x-model="bgColor" class="h-9 w-9 rounded-lg cursor-pointer border border-line">
                                 <input type="text" name="background_color" x-model="bgColor" class="form-input flex-1 text-xs font-mono uppercase">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-medium text-ink-600 mb-1">Color fondo fin (gradiente)</label>
+                            <label class="block text-xs font-medium text-content-muted mb-1">Color fondo fin (gradiente)</label>
                             <div class="flex items-center gap-2">
-                                <input type="color" x-model="bgColorEnd" class="h-9 w-9 rounded-lg cursor-pointer border border-ink-200">
+                                <input type="color" x-model="bgColorEnd" class="h-9 w-9 rounded-lg cursor-pointer border border-line">
                                 <input type="text" name="background_color_end" x-model="bgColorEnd" class="form-input flex-1 text-xs font-mono uppercase">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-medium text-ink-600 mb-1">Color de texto</label>
+                            <label class="block text-xs font-medium text-content-muted mb-1">Color de texto</label>
                             <div class="flex items-center gap-2">
-                                <input type="color" x-model="textColor" class="h-9 w-9 rounded-lg cursor-pointer border border-ink-200">
+                                <input type="color" x-model="textColor" class="h-9 w-9 rounded-lg cursor-pointer border border-line">
                                 <input type="text" name="text_color" x-model="textColor" class="form-input flex-1 text-xs font-mono uppercase">
                             </div>
                         </div>
@@ -144,7 +144,7 @@
 
                     {{-- Paletas rápidas sugeridas --}}
                     <div class="mt-3 flex items-center gap-2">
-                        <span class="text-[11px] text-ink-400">Paletas GAZ:</span>
+                        <span class="text-[11px] text-content-subtle">Paletas GAZ:</span>
                         <button type="button" @click="bgColor = '#310F38'; bgColorEnd = '#9A0065'; textColor = '#FFFFFF'"
                                 class="px-2 py-0.5 rounded text-[10px] bg-[#310F38] text-white font-medium">
                             Morado & Magenta
@@ -161,10 +161,10 @@
                 </div>
 
                 {{-- Segmentación y estado --}}
-                <div class="border-t border-ink-100 pt-5">
+                <div class="border-t border-line pt-5">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-medium text-ink-600 mb-1">Ciudad (opcional)</label>
+                            <label class="block text-xs font-medium text-content-muted mb-1">Ciudad (opcional)</label>
                             <select name="city_id" class="form-input w-full text-sm">
                                 <option value="">Todas las ciudades</option>
                                 @foreach ($ciudades as $ciudad)
@@ -174,20 +174,20 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-medium text-ink-600 mb-1">Prioridad (orden de aparición)</label>
+                            <label class="block text-xs font-medium text-content-muted mb-1">Prioridad (orden de aparición)</label>
                             <input type="number" name="priority" value="0" min="0" max="999" class="form-input w-full text-sm">
                         </div>
                     </div>
 
                     <div class="mt-4 flex items-center gap-3">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="is_active" value="1" checked class="rounded border-ink-300 text-brand-800 focus:ring-brand-500">
-                            <span class="text-xs font-medium text-ink-800">Publicar de inmediato (activo)</span>
+                            <input type="checkbox" name="is_active" value="1" checked class="rounded border-line-strong text-brand-800 dark:text-content focus:ring-brand-500">
+                            <span class="text-xs font-medium text-content">Publicar de inmediato (activo)</span>
                         </label>
                     </div>
                 </div>
 
-                <div class="border-t border-ink-100 pt-5 flex items-center justify-end gap-3">
+                <div class="border-t border-line pt-5 flex items-center justify-end gap-3">
                     <a href="{{ route('panel.banners.index') }}" class="btn-outline">
                         Cancelar
                     </a>
@@ -202,10 +202,10 @@
         <div class="space-y-4">
             <div class="sticky top-6 card p-5">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-display font-semibold text-xs uppercase tracking-wider text-ink-400">
+                    <h3 class="font-display font-semibold text-xs uppercase tracking-wider text-content-subtle">
                         Vista previa en móvil
                     </h3>
-                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-accent-400/20 text-accent-700 font-semibold">
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-accent-400/20 text-accent-700 dark:text-accent-300 font-semibold">
                         En vivo
                     </span>
                 </div>
@@ -238,7 +238,7 @@
                     </div>
                 </div>
 
-                <p class="text-[11px] text-ink-400 text-center mt-3">
+                <p class="text-[11px] text-content-subtle text-center mt-3">
                     Esta tarjeta flotante se renderizará automáticamente en el carrusel de la app del pasajero.
                 </p>
             </div>

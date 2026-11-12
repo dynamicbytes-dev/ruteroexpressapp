@@ -11,7 +11,7 @@
 
     <form method="GET" action="{{ route('panel.auditores.rendimiento') }}" class="card p-4">
         <div class="flex flex-wrap items-center gap-2">
-            <span class="mr-2 text-sm font-medium text-ink-700">Período:</span>
+            <span class="mr-2 text-sm font-medium text-content-muted">Período:</span>
 
             @foreach ([7 => 'Últimos 7 días', 30 => 'Últimos 30 días', 90 => 'Últimos 90 días'] as $valor => $etiqueta)
                 <a href="{{ route('panel.auditores.rendimiento', ['dias' => $valor]) }}"
@@ -20,7 +20,7 @@
                 </a>
             @endforeach
 
-            <span class="ml-auto text-xs text-ink-500">
+            <span class="ml-auto text-xs text-content-muted">
                 {{ $desde->translatedFormat('d M Y') }} — {{ $hasta->translatedFormat('d M Y') }}
             </span>
         </div>
@@ -34,13 +34,13 @@
             ['label' => 'Operaciones financieras', 'valor' => number_format($resumen['finanzas'], 0, ',', '.'), 'detalle' => 'Recargas y retiros revisados', 'icono' => 'wallet'],
         ] as $tarjeta)
             <div class="card flex items-start gap-4 p-5">
-                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-accent-300">
                     <x-icon :name="$tarjeta['icono']" class="h-5 w-5" />
                 </span>
                 <div class="min-w-0">
-                    <p class="text-xs font-medium text-ink-500">{{ $tarjeta['label'] }}</p>
-                    <p class="mt-1 font-display text-2xl font-semibold text-brand-900">{{ $tarjeta['valor'] }}</p>
-                    <p class="mt-0.5 text-xs text-ink-500">{{ $tarjeta['detalle'] }}</p>
+                    <p class="text-xs font-medium text-content-muted">{{ $tarjeta['label'] }}</p>
+                    <p class="mt-1 font-display text-2xl font-semibold text-brand-900 dark:text-content">{{ $tarjeta['valor'] }}</p>
+                    <p class="mt-0.5 text-xs text-content-muted">{{ $tarjeta['detalle'] }}</p>
                 </div>
             </div>
         @endforeach
@@ -49,30 +49,30 @@
     <section class="mt-6 card">
         @if ($filas->isEmpty())
             <div class="px-5 py-14 text-center">
-                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-ink-100 text-ink-400">
+                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-line text-content-subtle">
                     <x-icon name="chart" class="h-6 w-6" />
                 </span>
-                <p class="mt-3 font-display text-base font-semibold text-brand-900">Todavía no hay auditores secundarios</p>
-                <p class="mt-1 text-sm text-ink-500">
+                <p class="mt-3 font-display text-base font-semibold text-brand-900 dark:text-content">Todavía no hay auditores secundarios</p>
+                <p class="mt-1 text-sm text-content-muted">
                     Crea una cuenta de auditor para empezar a medir su trabajo.
                 </p>
             </div>
         @else
-            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 px-5 py-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-line px-5 py-4">
                 <div>
                     <h2 class="panel-title">Ranking de gestión</h2>
-                    <p class="text-xs text-ink-500">
+                    <p class="text-xs text-content-muted">
                         Ordenado por cantidad total de gestiones. No incluye al auditor principal.
                     </p>
                 </div>
-                <span class="text-xs text-ink-500">
+                <span class="text-xs text-content-muted">
                     {{ number_format($filas->sum('gestiones'), 0, ',', '.') }} gestiones en total
                 </span>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[980px] text-left text-sm">
-                    <thead class="bg-ink-50/70 text-xs uppercase tracking-wide text-ink-500">
+                    <thead class="bg-surface-alt/70 text-xs uppercase tracking-wide text-content-muted">
                         <tr>
                             <th class="px-5 py-3 font-semibold">Auditor</th>
                             <th class="px-5 py-3 font-semibold">Gestiones</th>
@@ -82,36 +82,36 @@
                             <th class="px-5 py-3 font-semibold">Última actividad</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-ink-100">
+                    <tbody class="divide-y divide-line">
                         @foreach ($filas as $fila)
                             @php($auditor = $fila['auditor'])
-                            <tr class="align-top hover:bg-ink-50/60">
+                            <tr class="align-top hover:bg-surface-alt/60">
                                 <td class="px-5 py-4">
-                                    <div class="font-medium text-ink-900">{{ $auditor->name }}</div>
-                                    <div class="text-xs text-ink-500">V-{{ $auditor->national_id }}</div>
-                                    <div class="mt-1 text-xs text-ink-500">{{ $auditor->email }}</div>
+                                    <div class="font-medium text-content">{{ $auditor->name }}</div>
+                                    <div class="text-xs text-content-muted">V-{{ $auditor->national_id }}</div>
+                                    <div class="mt-1 text-xs text-content-muted">{{ $auditor->email }}</div>
                                 </td>
                                 <td class="px-5 py-4">
-                                    <div class="font-display text-lg font-semibold text-brand-900">
+                                    <div class="font-display text-lg font-semibold text-brand-900 dark:text-content">
                                         {{ number_format($fila['gestiones'], 0, ',', '.') }}
                                     </div>
-                                    <div class="text-xs text-ink-500">
+                                    <div class="text-xs text-content-muted">
                                         {{ number_format($fila['promedio_diario'], 1, ',', '.') }} por día
                                     </div>
                                 </td>
                                 <td class="px-5 py-4">
-                                    <div class="font-medium text-ink-800">
+                                    <div class="font-medium text-content">
                                         {{ number_format($fila['decisiones'], 0, ',', '.') }}
                                     </div>
-                                    <div class="mt-1 text-xs text-ink-500">
+                                    <div class="mt-1 text-xs text-content-muted">
                                         {{ $fila['aprobaciones'] }} aprob. · {{ $fila['rechazos'] }} rech.
                                     </div>
                                     @if ($fila['suspensiones'] > 0 || $fila['reactivaciones'] > 0)
-                                        <div class="text-xs text-ink-500">
+                                        <div class="text-xs text-content-muted">
                                             {{ $fila['suspensiones'] }} susp. · {{ $fila['reactivaciones'] }} react.
                                         </div>
                                     @endif
-                                    <div class="mt-1 text-xs font-medium text-brand-700">
+                                    <div class="mt-1 text-xs font-medium text-brand-700 dark:text-accent-300">
                                         @if ($fila['tasa_aprobacion'] === null)
                                             Sin decisiones evaluables
                                         @else
@@ -120,35 +120,35 @@
                                     </div>
                                 </td>
                                 <td class="px-5 py-4">
-                                    <div class="font-medium text-ink-800">
+                                    <div class="font-medium text-content">
                                         {{ $fila['soporte_mensajes'] }} respuesta(s)
                                     </div>
-                                    <div class="text-xs text-ink-500">
+                                    <div class="text-xs text-content-muted">
                                         {{ $fila['soporte_cierres'] }} conversación(es) cerrada(s)
                                     </div>
                                 </td>
                                 <td class="px-5 py-4">
-                                    <div class="font-medium text-ink-800">
+                                    <div class="font-medium text-content">
                                         {{ $fila['recargas'] }} recarga(s)
                                     </div>
-                                    <div class="text-xs text-ink-500">
+                                    <div class="text-xs text-content-muted">
                                         {{ $fila['recargas_aprobadas'] }} aprobada(s)
                                     </div>
-                                    <div class="mt-1 font-medium text-ink-800">
+                                    <div class="mt-1 font-medium text-content">
                                         {{ $fila['retiros'] }} retiro(s)
                                     </div>
-                                    <div class="text-xs text-ink-500">
+                                    <div class="text-xs text-content-muted">
                                         {{ $fila['retiros_pagados'] }} pagado(s)
                                     </div>
                                 </td>
-                                <td class="px-5 py-4 text-ink-600">
+                                <td class="px-5 py-4 text-content-muted">
                                     @if ($fila['ultima_actividad'] === null)
                                         <span class="badge-pending">Sin actividad</span>
                                     @else
-                                        <div class="text-ink-700">
+                                        <div class="text-content-muted">
                                             {{ $fila['ultima_actividad']->translatedFormat('d M Y') }}
                                         </div>
-                                        <div class="text-xs text-ink-500">
+                                        <div class="text-xs text-content-muted">
                                             {{ $fila['ultima_actividad']->format('H:i') }}
                                         </div>
                                     @endif
@@ -161,7 +161,7 @@
         @endif
     </section>
 
-    <p class="mt-4 text-xs text-ink-500">
+    <p class="mt-4 text-xs text-content-muted">
         Las métricas se calculan con las acciones registradas en el período. Una misma gestión puede incluir
         varias operaciones (por ejemplo, la aprobación de cada documento de una cuenta).
     </p>

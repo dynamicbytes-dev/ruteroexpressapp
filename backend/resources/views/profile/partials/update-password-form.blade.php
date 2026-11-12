@@ -1,7 +1,7 @@
 <section>
     <header>
         <h2 class="panel-title">Contraseña</h2>
-        <p class="mt-1 text-sm text-ink-500">
+        <p class="mt-1 text-sm text-content-muted">
             Cámbiala si crees que alguien más la conoce. Es la misma contraseña con la que
             entras al panel.
         </p>
@@ -39,7 +39,7 @@
             @if (session('status') === 'password-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition
                    x-init="setTimeout(() => show = false, 2500)"
-                   class="text-sm font-medium text-accent-700">
+                   class="text-sm font-medium text-accent-700 dark:text-accent-300">
                     Contraseña actualizada.
                 </p>
             @endif

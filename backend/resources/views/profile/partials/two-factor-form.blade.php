@@ -2,7 +2,7 @@
     <div class="flex flex-wrap items-start justify-between gap-4">
         <div class="max-w-xl">
             <h2 class="panel-title">Verificación en dos pasos</h2>
-            <p class="mt-1 text-sm text-ink-500">
+            <p class="mt-1 text-sm text-content-muted">
                 Un código adicional de tu aplicación de autenticación protege el panel aunque
                 alguien conozca tu contraseña.
             </p>
@@ -21,7 +21,7 @@
         </a>
 
         @unless (auth()->user()->hasEnabledTwoFactor())
-            <p class="text-xs text-ink-500">
+            <p class="text-xs text-content-muted">
                 Sin doble factor, la contraseña es la única barrera de entrada.
             </p>
         @endunless

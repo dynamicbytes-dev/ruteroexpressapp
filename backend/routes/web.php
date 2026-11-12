@@ -112,8 +112,9 @@ Route::prefix('panel')->group(function () {
         Route::post('/pasajeros/{user}/habilitar', [PassengerController::class, 'habilitar'])->name('panel.pasajeros.habilitar');
         Route::get('/pasajeros/{user}/pdf', [PassengerController::class, 'exportPdf'])->name('panel.pasajeros.pdf');
 
-        // Alias retrocompatibles de usuarios que ahora redirigen a pasajeros
-        Route::redirect('/usuarios', '/panel/pasajeros')->name('panel.usuarios.index');
+        // Cola de verificación de usuarios: documentos y cuentas por revisar.
+        // El directorio de pasajeros vive en `/panel/pasajeros`.
+        Route::get('/usuarios', [UserController::class, 'index'])->name('panel.usuarios.index');
         Route::get('/usuarios/{user}', [UserController::class, 'show'])->name('panel.usuarios.show');
         Route::patch('/usuarios/{user}', [UserController::class, 'update'])->name('panel.usuarios.update');
 

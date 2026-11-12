@@ -13,23 +13,23 @@
 
             <div class="card p-5">
                 <div class="flex items-start justify-between gap-3">
-                    <p class="text-sm font-medium text-ink-600">{{ $queue['label'] }}</p>
+                    <p class="text-sm font-medium text-content-muted">{{ $queue['label'] }}</p>
 
                     @if ($pendiente)
                         <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-amber-500" title="Hay trabajo pendiente"></span>
                     @endif
                 </div>
 
-                <p class="mt-3 font-display text-4xl font-semibold {{ $pendiente ? 'text-brand-900' : 'text-ink-300' }}">
+                <p class="mt-3 font-display text-4xl font-semibold {{ $pendiente ? 'text-brand-900 dark:text-content' : 'text-content-subtle' }}">
                     {{ $queue['count'] }}
                 </p>
 
-                <p class="mt-1 text-xs text-ink-500">{{ $queue['help'] }}</p>
+                <p class="mt-1 text-xs text-content-muted">{{ $queue['help'] }}</p>
 
                 @if ($queue['url'])
                     <a href="{{ $queue['url'] }}" class="btn-outline mt-4 w-full">Revisar</a>
                 @else
-                    <span class="mt-4 block rounded-xl bg-ink-50 px-3 py-2 text-center text-xs font-medium text-ink-400">
+                    <span class="mt-4 block rounded-xl bg-surface-alt px-3 py-2 text-center text-xs font-medium text-content-subtle">
                         Próximamente
                     </span>
                 @endif
@@ -48,12 +48,12 @@
             ['label' => 'Documentos rechazados', 'valor' => $summary['rechazados'], 'icono' => 'document'],
         ] as $stat)
             <div class="card flex items-center gap-4 p-5">
-                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-accent-300">
                     <x-icon :name="$stat['icono']" class="h-5 w-5" />
                 </span>
                 <div>
-                    <p class="font-display text-2xl font-semibold text-brand-900">{{ $stat['valor'] }}</p>
-                    <p class="text-xs text-ink-500">{{ $stat['label'] }}</p>
+                    <p class="font-display text-2xl font-semibold text-brand-900 dark:text-content">{{ $stat['valor'] }}</p>
+                    <p class="text-xs text-content-muted">{{ $stat['label'] }}</p>
                 </div>
             </div>
         @endforeach
@@ -64,10 +64,10 @@
          ------------------------------------------------------------------ --}}
     @if ($documentosPorVencer->isNotEmpty() || $documentosVencidos->isNotEmpty())
         <section class="card mt-6">
-            <header class="flex flex-wrap items-center justify-between gap-3 border-b border-ink-100 px-5 py-4">
+            <header class="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-4">
                 <div>
                     <h2 class="panel-title">Documentos de conductores</h2>
-                    <p class="text-xs text-ink-500">Vencimientos de los próximos 30 días y documentos ya vencidos</p>
+                    <p class="text-xs text-content-muted">Vencimientos de los próximos 30 días y documentos ya vencidos</p>
                 </div>
                 <div class="flex gap-2 text-xs">
                     <span class="badge-pending">{{ $documentosPorVencer->count() }} por vencer</span>
@@ -77,7 +77,7 @@
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
-                    <thead class="bg-ink-50/70 text-xs uppercase tracking-wide text-ink-500">
+                    <thead class="bg-surface-alt/70 text-xs uppercase tracking-wide text-content-muted">
                         <tr>
                             <th class="px-5 py-3 font-semibold">Conductor</th>
                             <th class="px-5 py-3 font-semibold">Documento</th>
@@ -86,15 +86,15 @@
                             <th class="px-5 py-3 font-semibold"></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-ink-100">
+                    <tbody class="divide-y divide-line">
                         @foreach ($documentosVencidos as $documento)
-                            <tr class="hover:bg-ink-50/60">
+                            <tr class="hover:bg-surface-alt/60">
                                 <td class="px-5 py-3">
-                                    <div class="font-medium text-ink-900">{{ $documento->user->name }}</div>
-                                    <div class="text-xs text-ink-500">V-{{ $documento->user->national_id }}</div>
+                                    <div class="font-medium text-content">{{ $documento->user->name }}</div>
+                                    <div class="text-xs text-content-muted">V-{{ $documento->user->national_id }}</div>
                                 </td>
-                                <td class="px-5 py-3 text-ink-600">{{ $documento->type->label() }}</td>
-                                <td class="px-5 py-3 text-ink-600">{{ $documento->expires_at->translatedFormat('d M Y') }}</td>
+                                <td class="px-5 py-3 text-content-muted">{{ $documento->type->label() }}</td>
+                                <td class="px-5 py-3 text-content-muted">{{ $documento->expires_at->translatedFormat('d M Y') }}</td>
                                 <td class="px-5 py-3"><span class="badge-rejected">Vencido</span></td>
                                 <td class="px-5 py-3 text-right">
                                     <a href="{{ route('panel.usuarios.show', $documento->user) }}" class="btn-outline">Revisar</a>
@@ -103,13 +103,13 @@
                         @endforeach
 
                         @foreach ($documentosPorVencer as $documento)
-                            <tr class="hover:bg-ink-50/60">
+                            <tr class="hover:bg-surface-alt/60">
                                 <td class="px-5 py-3">
-                                    <div class="font-medium text-ink-900">{{ $documento->user->name }}</div>
-                                    <div class="text-xs text-ink-500">V-{{ $documento->user->national_id }}</div>
+                                    <div class="font-medium text-content">{{ $documento->user->name }}</div>
+                                    <div class="text-xs text-content-muted">V-{{ $documento->user->national_id }}</div>
                                 </td>
-                                <td class="px-5 py-3 text-ink-600">{{ $documento->type->label() }}</td>
-                                <td class="px-5 py-3 text-ink-600">{{ $documento->expires_at->translatedFormat('d M Y') }}</td>
+                                <td class="px-5 py-3 text-content-muted">{{ $documento->type->label() }}</td>
+                                <td class="px-5 py-3 text-content-muted">{{ $documento->expires_at->translatedFormat('d M Y') }}</td>
                                 <td class="px-5 py-3">
                                     <span class="badge-pending">
                                         {{ $documento->daysUntilExpiration() }} día(s)
@@ -130,21 +130,21 @@
          Últimos registros
          ------------------------------------------------------------------ --}}
     <section class="card mt-6">
-        <header class="flex items-center justify-between gap-4 border-b border-ink-100 px-5 py-4">
+        <header class="flex items-center justify-between gap-4 border-b border-line px-5 py-4">
             <div>
                 <h2 class="panel-title">Últimos registros</h2>
-                <p class="text-xs text-ink-500">Pasajeros y conductores que enviaron sus documentos</p>
+                <p class="text-xs text-content-muted">Pasajeros y conductores que enviaron sus documentos</p>
             </div>
         </header>
 
         @if ($recent->isEmpty())
-            <p class="px-5 py-10 text-center text-sm text-ink-500">
+            <p class="px-5 py-10 text-center text-sm text-content-muted">
                 Todavía no hay registros por revisar.
             </p>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
-                    <thead class="bg-ink-50/70 text-xs uppercase tracking-wide text-ink-500">
+                    <thead class="bg-surface-alt/70 text-xs uppercase tracking-wide text-content-muted">
                         <tr>
                             <th class="px-5 py-3 font-semibold">Persona</th>
                             <th class="px-5 py-3 font-semibold">Rol</th>
@@ -153,7 +153,7 @@
                             <th class="px-5 py-3 font-semibold">Estado</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-ink-100">
+                    <tbody class="divide-y divide-line">
                         @foreach ($recent as $usuario)
                             @php
                                 $requeridos = $usuario->role->requiredDocuments();
@@ -166,19 +166,19 @@
                                     'blocked' => 'badge-neutral',
                                 ];
                             @endphp
-                            <tr class="hover:bg-ink-50/60">
+                            <tr class="hover:bg-surface-alt/60">
                                 <td class="px-5 py-3">
-                                    <div class="font-medium text-ink-900">{{ $usuario->name }}</div>
-                                    <div class="text-xs text-ink-500">V-{{ $usuario->national_id }} · {{ $usuario->email }}</div>
+                                    <div class="font-medium text-content">{{ $usuario->name }}</div>
+                                    <div class="text-xs text-content-muted">V-{{ $usuario->national_id }} · {{ $usuario->email }}</div>
                                 </td>
-                                <td class="px-5 py-3 text-ink-600">{{ $usuario->role->label() }}</td>
+                                <td class="px-5 py-3 text-content-muted">{{ $usuario->role->label() }}</td>
                                 <td class="px-5 py-3">
-                                    <span class="text-ink-700">{{ $subidos }} de {{ count($requeridos) }}</span>
+                                    <span class="text-content-muted">{{ $subidos }} de {{ count($requeridos) }}</span>
                                     @if ($subidos < count($requeridos))
                                         <span class="badge-neutral ml-2">Incompleto</span>
                                     @endif
                                 </td>
-                                <td class="px-5 py-3 text-ink-500">
+                                <td class="px-5 py-3 text-content-muted">
                                     {{ $usuario->submitted_at?->translatedFormat('d M, H:i') ?? '—' }}
                                 </td>
                                 <td class="px-5 py-3">

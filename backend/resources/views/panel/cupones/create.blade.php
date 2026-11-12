@@ -15,7 +15,7 @@
                 @error('code')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
-                <p class="text-xs text-ink-400 mt-1">Mayúsculas, sin espacios. Ej: DESCUENTO50</p>
+                <p class="text-xs text-content-subtle mt-1">Mayúsculas, sin espacios. Ej: DESCUENTO50</p>
             </div>
 
             <div class="sm:col-span-2">
@@ -26,7 +26,7 @@
                 @error('discount_percent')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
-                <p class="text-xs text-ink-400 mt-1">0 = sin descuento, 100 = viaje gratis</p>
+                <p class="text-xs text-content-subtle mt-1">0 = sin descuento, 100 = viaje gratis</p>
             </div>
 
             <div>
@@ -47,7 +47,7 @@
                 @error('max_discount')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
-                <p class="text-xs text-ink-400 mt-1">Tope al monto del descuento</p>
+                <p class="text-xs text-content-subtle mt-1">Tope al monto del descuento</p>
             </div>
 
             <div class="sm:col-span-2">
@@ -68,7 +68,7 @@
                 @error('valid_until')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
-                <p class="text-xs text-ink-400 mt-1">Dejar vacío para que no expire.</p>
+                <p class="text-xs text-content-subtle mt-1">Dejar vacío para que no expire.</p>
             </div>
 
             <div>
@@ -104,7 +104,7 @@
                 @error('city_id')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
-                <p class="text-xs text-ink-400 mt-1">Si se elige una ciudad, solo aplica a viajes de esa zona.</p>
+                <p class="text-xs text-content-subtle mt-1">Si se elige una ciudad, solo aplica a viajes de esa zona.</p>
             </div>
 
             <div class="sm:col-span-2">

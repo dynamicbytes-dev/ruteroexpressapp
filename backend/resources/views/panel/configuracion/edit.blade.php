@@ -29,14 +29,14 @@
 
         @foreach ($grupos as $clave => $grupo)
             <section class="card">
-                <header class="border-b border-ink-100 px-5 py-4">
+                <header class="border-b border-line px-5 py-4">
                     <div class="flex flex-wrap items-center gap-2">
                         <h2 class="panel-title">{{ $grupo['label'] }}</h2>
                         @if ($clave === 'tarifas' && $ciudad)
                             <span class="badge-approved">{{ $ciudad->displayName() }}</span>
                         @endif
                     </div>
-                    <p class="text-xs text-ink-500">{{ $grupo['help'] }}</p>
+                    <p class="text-xs text-content-muted">{{ $grupo['help'] }}</p>
                 </header>
 
                 <div class="grid gap-5 p-5 sm:grid-cols-2 xl:grid-cols-3">
@@ -76,8 +76,8 @@
             </section>
         @endforeach
 
-        <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-ink-100 bg-white p-4 shadow-card">
-            <p class="text-sm text-ink-500">
+        <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card">
+            <p class="text-sm text-content-muted">
                 Los viajes ya cerrados conservan las tarifas con las que se cobraron.
             </p>
 

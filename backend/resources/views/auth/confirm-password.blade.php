@@ -1,7 +1,7 @@
 <x-guest-layout :title="'Confirmar contraseña'">
     <div class="mb-6">
-        <h1 class="font-display text-2xl font-semibold text-brand-900">Confirma tu contraseña</h1>
-        <p class="mt-1 text-sm text-ink-500">
+        <h1 class="font-display text-2xl font-semibold text-brand-900 dark:text-content">Confirma tu contraseña</h1>
+        <p class="mt-1 text-sm text-content-muted">
             Esta es un área protegida del panel. Escribe tu contraseña para continuar.
         </p>
     </div>

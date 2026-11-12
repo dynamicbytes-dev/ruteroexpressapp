@@ -27,30 +27,30 @@
                             {{ strtoupper(substr($pasajero->first_name ?: 'P', 0, 1)) }}
                         </div>
                         <div>
-                            <h2 class="font-display text-xl font-bold text-brand-900">{{ $pasajero->name }}</h2>
-                            <p class="text-sm text-ink-500">
+                            <h2 class="font-display text-xl font-bold text-brand-900 dark:text-content">{{ $pasajero->name }}</h2>
+                            <p class="text-sm text-content-muted">
                                 Pasajero registrado desde el {{ $pasajero->created_at?->translatedFormat('d \d\e F \d\e Y') }}
                             </p>
                             <div class="mt-2 flex flex-wrap gap-2">
                                 @if ($pasajero->isApproved())
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 border border-emerald-200">
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-950 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-700">
                                         <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
                                         Cuenta Aprobada
                                     </span>
                                 @elseif ($pasajero->isSuspended())
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2.5 py-0.5 text-xs font-medium text-rose-700 border border-rose-200">
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-rose-50 dark:bg-rose-950 px-2.5 py-0.5 text-xs font-medium text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-700">
                                         <span class="h-1.5 w-1.5 rounded-full bg-rose-500"></span>
                                         Cuenta Inhabilitada
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 border border-amber-200">
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 dark:bg-amber-950 px-2.5 py-0.5 text-xs font-medium text-amber-700 dark:text-amber-300 border border-amber-200">
                                         <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
                                         {{ $pasajero->status->label() }}
                                     </span>
                                 @endif
 
                                 @if ($pasajero->email_verified_at)
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700 border border-brand-200">
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-brand-50 dark:bg-brand-900/30 px-2.5 py-0.5 text-xs font-medium text-brand-700 dark:text-accent-300 border border-brand-200 dark:border-brand-700">
                                         Correo verificado
                                     </span>
                                 @endif
@@ -72,7 +72,7 @@
                         @else
                             <button type="button"
                                     onclick="document.getElementById('modal-inhabilitar').classList.remove('hidden')"
-                                    class="btn-outline text-rose-600 hover:bg-rose-50 hover:border-rose-300">
+                                    class="btn-outline text-rose-600 dark:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950 hover:border-rose-300 dark:hover:border-rose-700">
                                 <x-icon name="shield" class="h-4 w-4" />
                                 Inhabilitar pasajero
                             </button>
@@ -81,26 +81,26 @@
                 </div>
 
                 {{-- Rejilla de datos personales --}}
-                <div class="mt-6 grid gap-4 border-t border-ink-100 pt-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="mt-6 grid gap-4 border-t border-line pt-6 sm:grid-cols-2 lg:grid-cols-3">
                     <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-ink-400">Cédula</div>
-                        <div class="mt-1 font-mono text-sm font-semibold text-ink-900">{{ $pasajero->national_id }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-content-subtle">Cédula</div>
+                        <div class="mt-1 font-mono text-sm font-semibold text-content">{{ $pasajero->national_id }}</div>
                     </div>
                     <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-ink-400">Correo</div>
-                        <div class="mt-1 text-sm font-medium text-ink-900 truncate" title="{{ $pasajero->email }}">{{ $pasajero->email }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-content-subtle">Correo</div>
+                        <div class="mt-1 text-sm font-medium text-content truncate" title="{{ $pasajero->email }}">{{ $pasajero->email }}</div>
                     </div>
                     <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-ink-400">Teléfono</div>
-                        <div class="mt-1 font-mono text-sm font-semibold text-ink-900">{{ $pasajero->phone ?? 'Sin registrar' }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-content-subtle">Teléfono</div>
+                        <div class="mt-1 font-mono text-sm font-semibold text-content">{{ $pasajero->phone ?? 'Sin registrar' }}</div>
                     </div>
                     <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-ink-400">Ciudad de origen</div>
-                        <div class="mt-1 text-sm font-medium text-ink-900">{{ $pasajero->city?->displayName() ?? 'Sin asignar' }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-content-subtle">Ciudad de origen</div>
+                        <div class="mt-1 text-sm font-medium text-content">{{ $pasajero->city?->displayName() ?? 'Sin asignar' }}</div>
                     </div>
                     <div class="sm:col-span-2">
-                        <div class="text-xs font-semibold uppercase tracking-wider text-ink-400">Dirección habitual</div>
-                        <div class="mt-1 text-sm text-ink-900">{{ $pasajero->address ?? 'No registrada' }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-content-subtle">Dirección habitual</div>
+                        <div class="mt-1 text-sm text-content">{{ $pasajero->address ?? 'No registrada' }}</div>
                     </div>
                 </div>
             </section>
@@ -138,40 +138,40 @@
         {{-- Métricas de uso --}}
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div class="card p-4">
-                <div class="text-xs font-semibold uppercase tracking-wider text-ink-400">Viajes completados</div>
-                <div class="mt-2 font-display text-2xl font-bold text-brand-900">{{ $resumen['completados'] }}</div>
+                <div class="text-xs font-semibold uppercase tracking-wider text-content-subtle">Viajes completados</div>
+                <div class="mt-2 font-display text-2xl font-bold text-brand-900 dark:text-content">{{ $resumen['completados'] }}</div>
             </div>
             <div class="card p-4">
-                <div class="text-xs font-semibold uppercase tracking-wider text-ink-400">Gasto total en viajes</div>
-                <div class="mt-2 font-display text-2xl font-bold text-emerald-700">${{ number_format($resumen['gasto_total'], 2, ',', '.') }}</div>
+                <div class="text-xs font-semibold uppercase tracking-wider text-content-subtle">Gasto total en viajes</div>
+                <div class="mt-2 font-display text-2xl font-bold text-emerald-700 dark:text-emerald-300">${{ number_format($resumen['gasto_total'], 2, ',', '.') }}</div>
             </div>
             <div class="card p-4">
-                <div class="text-xs font-semibold uppercase tracking-wider text-ink-400">Viajes cancelados</div>
-                <div class="mt-2 font-display text-2xl font-bold text-ink-600">{{ $resumen['cancelados'] }}</div>
+                <div class="text-xs font-semibold uppercase tracking-wider text-content-subtle">Viajes cancelados</div>
+                <div class="mt-2 font-display text-2xl font-bold text-content-muted">{{ $resumen['cancelados'] }}</div>
             </div>
             <div class="card p-4">
-                <div class="text-xs font-semibold uppercase tracking-wider text-ink-400">Conductores favoritos</div>
-                <div class="mt-2 font-display text-2xl font-bold text-brand-800">{{ $resumen['favoritos'] }}</div>
+                <div class="text-xs font-semibold uppercase tracking-wider text-content-subtle">Conductores favoritos</div>
+                <div class="mt-2 font-display text-2xl font-bold text-brand-800 dark:text-content">{{ $resumen['favoritos'] }}</div>
             </div>
         </div>
 
         {{-- Historial de viajes recientes --}}
         <section class="card overflow-hidden">
-            <header class="border-b border-ink-100 px-6 py-4 flex items-center justify-between">
+            <header class="border-b border-line px-6 py-4 flex items-center justify-between">
                 <div>
                     <h3 class="panel-title">Viajes recientes del pasajero</h3>
-                    <p class="text-xs text-ink-500">Últimos viajes solicitados por esta cuenta</p>
+                    <p class="text-xs text-content-muted">Últimos viajes solicitados por esta cuenta</p>
                 </div>
             </header>
 
             @if ($viajes->isEmpty())
-                <div class="p-8 text-center text-sm text-ink-500">
+                <div class="p-8 text-center text-sm text-content-muted">
                     Este pasajero todavía no ha realizado viajes.
                 </div>
             @else
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
-                        <thead class="bg-ink-50/70 text-xs uppercase tracking-wide text-ink-500">
+                        <thead class="bg-surface-alt/70 text-xs uppercase tracking-wide text-content-muted">
                             <tr>
                                 <th class="px-5 py-3 font-semibold">Viaje</th>
                                 <th class="px-5 py-3 font-semibold">Fecha</th>
@@ -182,35 +182,35 @@
                                 <th class="px-5 py-3 font-semibold">Estado</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-ink-100">
+                        <tbody class="divide-y divide-line">
                             @foreach ($viajes as $viaje)
-                                <tr class="hover:bg-ink-50/60">
-                                    <td class="px-5 py-3 font-mono font-medium text-ink-900">
-                                        <a href="{{ route('panel.viajes.show', $viaje) }}" class="text-brand-800 hover:underline">
+                                <tr class="hover:bg-surface-alt/60">
+                                    <td class="px-5 py-3 font-mono font-medium text-content">
+                                        <a href="{{ route('panel.viajes.show', $viaje) }}" class="text-brand-800 dark:text-content hover:underline">
                                             #{{ $viaje->id }}
                                         </a>
                                     </td>
-                                    <td class="px-5 py-3 text-ink-600">{{ $viaje->created_at?->format('d/m/Y H:i') }}</td>
-                                    <td class="px-5 py-3 font-medium text-ink-900">
+                                    <td class="px-5 py-3 text-content-muted">{{ $viaje->created_at?->format('d/m/Y H:i') }}</td>
+                                    <td class="px-5 py-3 font-medium text-content">
                                         @if ($viaje->driver)
                                             <a href="{{ route('panel.conductores.show', $viaje->driver) }}" class="hover:underline">
                                                 {{ $viaje->driver->name }}
                                             </a>
                                         @else
-                                            <span class="text-ink-400">Sin asignar</span>
+                                            <span class="text-content-subtle">Sin asignar</span>
                                         @endif
                                     </td>
-                                    <td class="px-5 py-3 text-ink-600">
+                                    <td class="px-5 py-3 text-content-muted">
                                         <div class="truncate max-w-xs" title="{{ $viaje->origin_address }} &rarr; {{ $viaje->destination_address }}">
                                             {{ $viaje->origin_address }} &rarr; {{ $viaje->destination_address }}
                                         </div>
                                     </td>
                                     <td class="px-5 py-3">
-                                        <span class="inline-flex rounded-md bg-purple-50 px-2 py-0.5 text-xs font-medium text-purple-700">
+                                        <span class="inline-flex rounded-md bg-purple-50 dark:bg-purple-950 px-2 py-0.5 text-xs font-medium text-purple-700 dark:text-purple-300">
                                             {{ $viaje->payment_method?->label() ?? 'Efectivo' }}
                                         </span>
                                     </td>
-                                    <td class="px-5 py-3 font-display font-semibold text-brand-900">
+                                    <td class="px-5 py-3 font-display font-semibold text-brand-900 dark:text-content">
                                         ${{ number_format((float) $viaje->total, 2, ',', '.') }}
                                     </td>
                                     <td class="px-5 py-3">
@@ -232,15 +232,15 @@
                 <h3 class="panel-title mb-4">Conductores favoritos guardados</h3>
                 <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($pasajero->favoriteDrivers as $favorito)
-                        <div class="flex items-center gap-3 rounded-xl border border-ink-100 p-3 bg-ink-50/30">
-                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-800 font-bold">
+                        <div class="flex items-center gap-3 rounded-xl border border-line p-3 bg-surface-alt/30">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-800 dark:text-content font-bold">
                                 {{ strtoupper(substr($favorito->first_name ?: 'C', 0, 1)) }}
                             </div>
                             <div class="min-w-0 flex-1">
-                                <a href="{{ route('panel.conductores.show', $favorito) }}" class="font-semibold text-brand-900 hover:underline truncate block">
+                                <a href="{{ route('panel.conductores.show', $favorito) }}" class="font-semibold text-brand-900 dark:text-content hover:underline truncate block">
                                     {{ $favorito->name }}
                                 </a>
-                                <div class="text-xs text-ink-500">
+                                <div class="text-xs text-content-muted">
                                     {{ $favorito->driverProfile?->vehicle_plate ?? 'Placa N/D' }} · {{ $favorito->driverProfile?->city?->name ?? 'Sin zona' }}
                                 </div>
                             </div>
@@ -253,9 +253,9 @@
 
     {{-- Modal para inhabilitar --}}
     <div id="modal-inhabilitar" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
-        <div class="card max-w-md w-full p-6 bg-white shadow-2xl">
-            <h3 class="font-display text-lg font-bold text-rose-900">Inhabilitar pasajero</h3>
-            <p class="mt-1 text-sm text-ink-500">
+        <div class="card max-w-md w-full p-6 bg-surface shadow-2xl">
+            <h3 class="font-display text-lg font-bold text-rose-900 dark:text-rose-300">Inhabilitar pasajero</h3>
+            <p class="mt-1 text-sm text-content-muted">
                 La cuenta quedará suspendida. El pasajero leerá este motivo al intentar ingresar a la aplicación.
             </p>
 

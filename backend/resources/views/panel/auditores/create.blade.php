@@ -10,9 +10,9 @@
         @csrf
 
         <section class="card">
-            <header class="border-b border-ink-100 px-5 py-4">
+            <header class="border-b border-line px-5 py-4">
                 <h2 class="panel-title">Datos del auditor</h2>
-                <p class="text-xs text-ink-500">Podrá entrar al panel con este correo y contraseña.</p>
+                <p class="text-xs text-content-muted">Podrá entrar al panel con este correo y contraseña.</p>
             </header>
 
             <div class="grid gap-5 p-5 sm:grid-cols-2">
@@ -70,8 +70,8 @@
             </div>
         </section>
 
-        <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-ink-100 bg-white p-4 shadow-card">
-            <p class="text-sm text-ink-500">
+        <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card">
+            <p class="text-sm text-content-muted">
                 Comparte la contraseña por un canal seguro. El auditor puede cambiarla y activar el doble factor al entrar.
             </p>
             <button type="submit" class="btn-primary">

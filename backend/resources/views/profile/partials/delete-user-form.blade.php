@@ -1,7 +1,7 @@
 <section class="space-y-6">
     <header>
         <h2 class="panel-title">Eliminar mi cuenta</h2>
-        <p class="mt-1 text-sm text-ink-500">
+        <p class="mt-1 text-sm text-content-muted">
             Al eliminar tu cuenta se borran tus datos de acceso. Las decisiones de verificación
             que tomaste quedan registradas en el historial de GAZ.
         </p>
@@ -17,11 +17,11 @@
             @csrf
             @method('delete')
 
-            <h2 class="font-display text-lg font-semibold text-brand-900">
+            <h2 class="font-display text-lg font-semibold text-brand-900 dark:text-content">
                 ¿Seguro que quieres eliminar tu cuenta?
             </h2>
 
-            <p class="mt-2 text-sm text-ink-500">
+            <p class="mt-2 text-sm text-content-muted">
                 Esta acción no se puede deshacer. Escribe tu contraseña para confirmar.
             </p>
 

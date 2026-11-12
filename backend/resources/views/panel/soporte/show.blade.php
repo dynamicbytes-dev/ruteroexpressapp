@@ -17,16 +17,16 @@
              Hilo de la conversación
              ------------------------------------------------------------------ --}}
         <section class="card flex min-h-[34rem] flex-col overflow-hidden">
-            <header class="flex flex-wrap items-center justify-between gap-3 border-b border-ink-100 px-5 py-4">
+            <header class="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-4">
                 <div class="flex items-center gap-3">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-100 font-display text-sm font-bold text-brand-800">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-900/40 font-display text-sm font-bold text-brand-800 dark:text-content">
                         {{ strtoupper(substr($conversacion->user?->first_name ?? 'U', 0, 1)) }}
                     </span>
                     <div>
-                        <p class="font-display text-base font-semibold text-brand-900">
+                        <p class="font-display text-base font-semibold text-brand-900 dark:text-content">
                             {{ $conversacion->user?->name ?? 'Usuario eliminado' }}
                         </p>
-                        <p class="text-xs text-ink-500">
+                        <p class="text-xs text-content-muted">
                             {{ $conversacion->user?->role?->label() ?? '—' }}
                             @if ($conversacion->user?->city)
                                 · {{ $conversacion->user->city->name }}
@@ -41,11 +41,11 @@
             </header>
 
             <div id="soporte-hilo"
-                 class="flex-1 space-y-3 overflow-y-auto bg-ink-50/50 px-5 py-5">
+                 class="flex-1 space-y-3 overflow-y-auto bg-surface-alt/50 px-5 py-5">
                 @forelse ($conversacion->messages as $mensaje)
                     <div class="flex {{ $mensaje->esDeUsuario() ? 'justify-start' : 'justify-end' }}">
-                        <div class="max-w-[78%] rounded-2xl px-4 py-3 {{ $mensaje->esDeUsuario() ? 'bg-white text-ink-800 ring-1 ring-ink-100' : 'bg-brand-800 text-white' }}">
-                            <p class="text-[11px] font-semibold {{ $mensaje->esDeUsuario() ? 'text-ink-400' : 'text-brand-100/70' }}">
+                        <div class="max-w-[78%] rounded-2xl px-4 py-3 {{ $mensaje->esDeUsuario() ? 'bg-surface text-content ring-1 ring-line' : 'bg-brand-800 text-white' }}">
+                            <p class="text-[11px] font-semibold {{ $mensaje->esDeUsuario() ? 'text-content-subtle' : 'text-brand-100/70' }}">
                                 {{ $mensaje->esDeUsuario() ? ($mensaje->sender?->name ?? 'Usuario') : ($mensaje->sender?->name ?? 'Soporte') }}
                                 · {{ $mensaje->created_at?->translatedFormat('d M, H:i') }}
                             </p>
@@ -54,11 +54,11 @@
                     </div>
                 @empty
                     <div class="py-16 text-center">
-                        <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-ink-400 ring-1 ring-ink-100">
+                        <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface text-content-subtle ring-1 ring-line">
                             <x-icon name="chat" class="h-6 w-6" />
                         </span>
-                        <p class="mt-3 font-display text-base font-semibold text-brand-900">Todavía no hay mensajes</p>
-                        <p class="mt-1 text-sm text-ink-500">El usuario inició la conversación, pero aún no escribió nada.</p>
+                        <p class="mt-3 font-display text-base font-semibold text-brand-900 dark:text-content">Todavía no hay mensajes</p>
+                        <p class="mt-1 text-sm text-content-muted">El usuario inició la conversación, pero aún no escribió nada.</p>
                     </div>
                 @endforelse
             </div>
@@ -66,12 +66,12 @@
             {{-- Aviso que se muestra si otra persona finaliza el chat mientras
                  el auditor lo tiene abierto. --}}
             <div id="soporte-finalizada"
-                 class="{{ $conversacion->estaAbierta() ? 'hidden' : '' }} border-t border-amber-200 bg-amber-50 px-5 py-4">
+                 class="{{ $conversacion->estaAbierta() ? 'hidden' : '' }} border-t border-amber-200 bg-amber-50 dark:bg-amber-950 px-5 py-4">
                 <div class="flex items-start gap-3">
-                    <x-icon name="check" class="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
+                    <x-icon name="check" class="mt-0.5 h-5 w-5 shrink-0 text-amber-700 dark:text-amber-300" />
                     <div>
-                        <p class="text-sm font-semibold text-amber-900">Conversación finalizada</p>
-                        <p class="text-xs text-amber-800">
+                        <p class="text-sm font-semibold text-amber-900 dark:text-amber-300">Conversación finalizada</p>
+                        <p class="text-xs text-amber-800 dark:text-amber-300">
                             El chat se cerró en la app del usuario y esta conversación quedó guardada en el historial.
                             @if ($conversacion->closed_at)
                                 {{ $conversacion->closed_at->translatedFormat('d M Y, H:i') }}
@@ -85,7 +85,7 @@
             </div>
 
             @if ($conversacion->estaAbierta())
-                <div id="soporte-composer" class="border-t border-ink-100 bg-white px-5 py-4">
+                <div id="soporte-composer" class="border-t border-line bg-surface px-5 py-4">
                     <form method="POST" action="{{ route('panel.soporte.responder', $conversacion) }}" class="space-y-3">
                         @csrf
 
@@ -95,12 +95,12 @@
                                       class="form-input resize-none @error('message') border-red-400 @enderror"
                                       placeholder="Escribe una respuesta clara y breve...">{{ old('message') }}</textarea>
                             @error('message')
-                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
+                                <p class="mt-1 text-xs font-medium text-red-600 dark:text-red-300">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="flex flex-wrap items-center justify-between gap-3">
-                            <p class="text-xs text-ink-500">
+                            <p class="text-xs text-content-muted">
                                 El usuario verá la respuesta al abrir el chat de soporte en la app.
                             </p>
                             <button type="submit" class="btn-primary gap-2">
@@ -121,27 +121,27 @@
                 <h2 class="panel-title">Persona</h2>
                 <dl class="mt-3 space-y-2 text-sm">
                     <div>
-                        <dt class="text-xs uppercase tracking-wide text-ink-400">Nombre</dt>
-                        <dd class="font-medium text-ink-900">{{ $conversacion->user?->name ?? '—' }}</dd>
+                        <dt class="text-xs uppercase tracking-wide text-content-subtle">Nombre</dt>
+                        <dd class="font-medium text-content">{{ $conversacion->user?->name ?? '—' }}</dd>
                     </div>
                     <div>
-                        <dt class="text-xs uppercase tracking-wide text-ink-400">Cédula</dt>
-                        <dd class="text-ink-700">{{ $conversacion->user?->national_id ? 'V-'.$conversacion->user->national_id : '—' }}</dd>
+                        <dt class="text-xs uppercase tracking-wide text-content-subtle">Cédula</dt>
+                        <dd class="text-content-muted">{{ $conversacion->user?->national_id ? 'V-'.$conversacion->user->national_id : '—' }}</dd>
                     </div>
                     <div>
-                        <dt class="text-xs uppercase tracking-wide text-ink-400">Correo</dt>
-                        <dd class="break-all text-ink-700">{{ $conversacion->user?->email ?? '—' }}</dd>
+                        <dt class="text-xs uppercase tracking-wide text-content-subtle">Correo</dt>
+                        <dd class="break-all text-content-muted">{{ $conversacion->user?->email ?? '—' }}</dd>
                     </div>
                     <div>
-                        <dt class="text-xs uppercase tracking-wide text-ink-400">Teléfono</dt>
-                        <dd class="text-ink-700">{{ $conversacion->user?->phone ?? '—' }}</dd>
+                        <dt class="text-xs uppercase tracking-wide text-content-subtle">Teléfono</dt>
+                        <dd class="text-content-muted">{{ $conversacion->user?->phone ?? '—' }}</dd>
                     </div>
                     <div>
-                        <dt class="text-xs uppercase tracking-wide text-ink-400">Ciudad</dt>
-                        <dd class="text-ink-700">{{ $conversacion->user?->city?->name ?? '—' }}</dd>
+                        <dt class="text-xs uppercase tracking-wide text-content-subtle">Ciudad</dt>
+                        <dd class="text-content-muted">{{ $conversacion->user?->city?->name ?? '—' }}</dd>
                     </div>
                     <div>
-                        <dt class="text-xs uppercase tracking-wide text-ink-400">Cuenta</dt>
+                        <dt class="text-xs uppercase tracking-wide text-content-subtle">Cuenta</dt>
                         <dd class="mt-1">
                             <span class="badge-neutral">{{ $conversacion->user?->role?->label() ?? '—' }}</span>
                             @if ($conversacion->user)
@@ -161,9 +161,9 @@
             </section>
 
             @if ($conversacion->estaAbierta())
-                <section id="soporte-cerrar" class="card border-amber-200 bg-amber-50/60 p-5">
-                    <h2 class="font-display text-base font-semibold text-amber-900">Finalizar conversación</h2>
-                    <p class="mt-1 text-sm text-amber-800">
+                <section id="soporte-cerrar" class="card border-amber-200 bg-amber-50/60 dark:bg-amber-950 p-5">
+                    <h2 class="font-display text-base font-semibold text-amber-900 dark:text-amber-300">Finalizar conversación</h2>
+                    <p class="mt-1 text-sm text-amber-800 dark:text-amber-300">
                         El chat desaparecerá de la app del usuario y podrás consultarlo en el historial del panel.
                     </p>
 
@@ -171,7 +171,7 @@
                           class="mt-4"
                           onsubmit="return confirm('¿Finalizar esta conversación? El usuario ya no verá el chat.');">
                         @csrf
-                        <button type="submit" class="btn-outline w-full border-amber-300 text-amber-900 hover:bg-amber-100">
+                        <button type="submit" class="btn-outline w-full border-amber-300 text-amber-900 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950">
                             Dar por terminada
                         </button>
                     </form>
@@ -179,7 +179,7 @@
             @else
                 <section class="card p-5">
                     <h2 class="panel-title">Historial</h2>
-                    <p class="mt-2 text-sm text-ink-600">
+                    <p class="mt-2 text-sm text-content-muted">
                         Conversación cerrada. Se conserva con todos sus mensajes para consulta del equipo.
                     </p>
                     <a href="{{ route('panel.soporte.index', ['tab' => 'historial']) }}" class="btn-outline mt-4 w-full">
@@ -210,7 +210,7 @@
 
                     if (mensajes.length === 0) {
                         const vacio = document.createElement('div');
-                        vacio.className = 'py-16 text-center text-sm text-ink-500';
+                        vacio.className = 'py-16 text-center text-sm text-content-muted';
                         vacio.textContent = 'Todavía no hay mensajes.';
                         hilo.appendChild(vacio);
                         return;
@@ -223,14 +223,14 @@
                         const burbuja = document.createElement('div');
                         burbuja.className = 'max-w-[78%] rounded-2xl px-4 py-3 ' + (
                             mensaje.from_user
-                                ? 'bg-white text-ink-800 ring-1 ring-ink-100'
+                                ? 'bg-surface text-content ring-1 ring-line'
                                 : 'bg-brand-800 text-white'
                         );
                         burbuja.style.maxWidth = '78%';
 
                         const meta = document.createElement('p');
                         meta.className = 'text-[11px] font-semibold ' + (
-                            mensaje.from_user ? 'text-ink-400' : 'text-brand-100/70'
+                            mensaje.from_user ? 'text-content-subtle' : 'text-brand-100/70'
                         );
                         meta.textContent = (mensaje.author || 'Soporte') + ' · ' + (mensaje.created_at_label || '');
 
