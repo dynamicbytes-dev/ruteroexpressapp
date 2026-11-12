@@ -121,16 +121,16 @@ class _EsperaScreenState extends State<EsperaScreen>
                         ? 'En espera de verificación'
                         : usuario.estadoEtiqueta,
                     textAlign: TextAlign.center,
-                    style: MotorutaTheme.titulo(tamano: 22),
+                    style: MotorutaTheme.tituloDe(context, tamano: 22),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     sesion.siguientePaso?.mensaje ??
                         'Estamos revisando tus documentos. Te avisaremos apenas estén aprobados.',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14.5,
-                      color: MotorutaColors.ink600,
+                      color: context.gaz.text2,
                       height: 1.45,
                     ),
                   ),
@@ -151,17 +151,17 @@ class _EsperaScreenState extends State<EsperaScreen>
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Text('Tus documentos',
-                      style: MotorutaTheme.titulo(tamano: 18)),
+                      style: MotorutaTheme.tituloDe(context, tamano: 18)),
                   const SizedBox(height: 14),
                   Row(
                     children: <Widget>[
                       Flexible(
                         child: Text(
                           '${resumen.aprobados} de ${resumen.requeridos} aprobados',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: MotorutaColors.ink800,
+                            color: context.gaz.text,
                           ),
                         ),
                       ),
@@ -170,9 +170,9 @@ class _EsperaScreenState extends State<EsperaScreen>
                         child: Text(
                           '${resumen.pendientes} en revisión',
                           textAlign: TextAlign.right,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 13.5,
-                            color: MotorutaColors.ink500,
+                            color: context.gaz.text2,
                           ),
                         ),
                       ),
@@ -186,7 +186,7 @@ class _EsperaScreenState extends State<EsperaScreen>
                           ? 0
                           : resumen.aprobados / resumen.requeridos,
                       minHeight: 8,
-                      backgroundColor: MotorutaColors.ink100,
+                      backgroundColor: context.gaz.border,
                       color: MotorutaColors.verde,
                     ),
                   ),
@@ -230,11 +230,11 @@ class _EsperaScreenState extends State<EsperaScreen>
               alPresionar: () => _refrescar(),
             ),
             const SizedBox(height: 14),
-            const Center(
+            Center(
               child: Text(
                 'La app revisa sola cada minuto. También puedes deslizar hacia abajo.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12.5, color: MotorutaColors.ink500),
+                style: TextStyle(fontSize: 12.5, color: context.gaz.text2),
               ),
             ),
           ],
@@ -268,9 +268,9 @@ class _RenglonDocumento extends StatelessWidget {
           Expanded(
             child: Text(
               documento.etiqueta,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14.5,
-                color: MotorutaColors.ink800,
+                color: context.gaz.text,
                 fontWeight: FontWeight.w500,
               ),
             ),

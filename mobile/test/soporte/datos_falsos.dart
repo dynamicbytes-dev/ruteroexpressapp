@@ -1,7 +1,7 @@
 /// Datos con la misma forma que devuelve el backend, para las pruebas.
 library;
 
-import 'package:motoruta/core/storage/token_storage.dart';
+import 'package:gaz_core/core/storage/token_storage.dart';
 
 /// Token en memoria: reemplaza al llavero del sistema en las pruebas.
 class TokenMemoria implements TokenStorage {

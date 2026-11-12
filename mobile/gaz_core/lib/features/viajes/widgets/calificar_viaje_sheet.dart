@@ -95,9 +95,9 @@ class _CalificarViajeSheetState extends State<_CalificarViajeSheet> {
 
     return Container(
       padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + alturaTeclado),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: context.gaz.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
         top: false,
@@ -111,7 +111,7 @@ class _CalificarViajeSheetState extends State<_CalificarViajeSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: MotorutaColors.ink200,
+                    color: context.gaz.borderStrong,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -119,17 +119,17 @@ class _CalificarViajeSheetState extends State<_CalificarViajeSheet> {
               const SizedBox(height: 18),
               Text(
                 '¿Cómo estuvo tu viaje?',
-                style: MotorutaTheme.titulo(tamano: 21),
+                style: MotorutaTheme.tituloDe(context, tamano: 21),
               ),
               const SizedBox(height: 4),
               Text(
                 conductor == null
                     ? 'Tu calificación ayuda a mejorar el servicio.'
                     : 'Califica a ${conductor.nombre}. Tu opinión ayuda a mejorar el servicio.',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13.5,
                   height: 1.4,
-                  color: MotorutaColors.ink600,
+                  color: context.gaz.text2,
                 ),
               ),
               const SizedBox(height: 16),
@@ -154,9 +154,8 @@ class _CalificarViajeSheetState extends State<_CalificarViajeSheet> {
                     iconSize: 40,
                     icon: Icon(
                       activa ? Icons.star_rounded : Icons.star_outline_rounded,
-                      color: activa
-                          ? MotorutaColors.amarillo
-                          : MotorutaColors.ink300,
+                      color:
+                          activa ? MotorutaColors.amarillo : context.gaz.text3,
                     ),
                   );
                 }),

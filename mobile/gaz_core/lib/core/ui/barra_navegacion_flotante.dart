@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../theme/motoruta_colors.dart';
+import '../theme/gaz_colors.dart';
+import '../theme/gaz_tokens.dart';
 
 /// Elemento individual para la [BarraNavegacionFlotante].
 class ElementoNavegacion {
@@ -11,6 +12,7 @@ class ElementoNavegacion {
     required this.etiqueta,
     this.iconoActivo,
     this.badge,
+    this.esAccion = false,
   });
 
   /// Icono en estado inactivo.
@@ -19,18 +21,23 @@ class ElementoNavegacion {
   /// Icono opcional para cuando la pestaña está seleccionada.
   final IconData? iconoActivo;
 
-  /// Texto inferior con tipografía Poppins.
+  /// Texto inferior con tipografía Inter.
   final String etiqueta;
 
   /// Conteo opcional o indicador de notificación.
   final int? badge;
+
+  /// Si es `true`, el elemento se dibuja como la acción central elevada.
+  ///
+  /// En el pasajero es «Pedir»; en el conductor es «En línea / Conectar».
+  final bool esAccion;
 }
 
-/// Barra de navegación inferior flotante con estilo cápsula moderna y translúcida.
+/// Barra de navegación inferior flotante con estilo cápsula moderna y
+/// translúcida.
 ///
-/// Diseñada con esquinas muy redondeadas (32px), desenfoque de fondo tipo
-/// glassmorphism, resalte de la pestaña activa en los colores de la marca
-/// (acento cian/magenta) con un contenedor circular suave, y tipografía Poppins.
+/// La acción central se eleva sobre la cápsula y usa el color de marca. Las
+/// pestañas laterales muestran un resaltado suave en el color de acento.
 class BarraNavegacionFlotante extends StatelessWidget {
   const BarraNavegacionFlotante({
     super.key,
@@ -41,7 +48,7 @@ class BarraNavegacionFlotante extends StatelessWidget {
     this.bordeColor,
     this.colorActivo,
     this.colorInactivo,
-    this.margen = const EdgeInsets.fromLTRB(16, 0, 16, 12),
+    this.margen = const EdgeInsets.fromLTRB(14, 0, 14, 12),
   });
 
   /// Índice de la pestaña actualmente seleccionada.
@@ -53,13 +60,13 @@ class BarraNavegacionFlotante extends StatelessWidget {
   /// Lista de pestañas a renderizar de forma equitativa.
   final List<ElementoNavegacion> elementos;
 
-  /// Color de fondo translúcido (por defecto violeta oscuro de marca).
+  /// Color de fondo translúcido.
   final Color? fondoColor;
 
   /// Color del borde sutil luminoso.
   final Color? bordeColor;
 
-  /// Color del icono y texto de la pestaña activa (cian de marca).
+  /// Color del icono y texto de la pestaña activa.
   final Color? colorActivo;
 
   /// Color del icono y texto inactivos.
@@ -75,60 +82,98 @@ class BarraNavegacionFlotante extends StatelessWidget {
           EdgeInsets.only(bottom: bottomInset > 0 ? bottomInset : 4),
         );
 
-    final fondo = fondoColor ?? MotorutaColors.brand950.withOpacity(0.88);
-    final borde = bordeColor ?? Colors.white.withOpacity(0.12);
-    final activo = colorActivo ?? MotorutaColors.cian;
-    final inactivo = colorInactivo ?? Colors.white.withOpacity(0.55);
+    final g = context.gaz;
+    final oscuro = Theme.of(context).brightness == Brightness.dark;
+    final activo = colorActivo ?? (oscuro ? g.accent : g.brand);
+    final inactivo = colorInactivo ?? g.text3;
+    final fondo = fondoColor ?? g.surface.withOpacity(oscuro ? 0.84 : 0.9);
+    final borde = bordeColor ?? g.border.withOpacity(0.72);
+    final fondoActivo =
+        oscuro ? g.accent.withOpacity(0.12) : g.brand.withOpacity(0.10);
+    final ctaFondo = oscuro ? g.accent : g.brand;
+    final ctaTexto = oscuro ? g.onAccent : g.onBrand;
+    const altura = GazMedidas.barraInferior + 14;
 
     return Padding(
       padding: paddingFinal,
-      child: Container(
-        height: 72,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(36),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black.withOpacity(0.28),
-              blurRadius: 22,
-              offset: const Offset(0, 10),
-              spreadRadius: 2,
-            ),
-            BoxShadow(
-              color: MotorutaColors.brand800.withOpacity(0.22),
-              blurRadius: 16,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(36),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-            child: Container(
-              decoration: BoxDecoration(
-                color: fondo,
-                borderRadius: BorderRadius.circular(36),
-                border: Border.all(color: borde, width: 1.2),
+      child: SizedBox(
+        height: altura,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.bottomCenter,
+          children: <Widget>[
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: GazMedidas.barraInferior,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(GazRadios.xl),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black.withOpacity(oscuro ? 0.35 : 0.10),
+                      blurRadius: 24,
+                      offset: const Offset(0, 10),
+                      spreadRadius: -4,
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(GazRadios.xl),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: fondo,
+                        borderRadius: BorderRadius.circular(GazRadios.xl),
+                        border: Border.all(color: borde),
+                      ),
+                    ),
+                  ),
+                ),
               ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: GazMedidas.barraInferior,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List<Widget>.generate(elementos.length, (index) {
                   final item = elementos[index];
                   final estaActivo = index == indiceActual;
+                  final contenido = item.esAccion
+                      ? _BotonAccionCentral(
+                          elemento: item,
+                          estaActivo: estaActivo,
+                          colorActivo: activo,
+                          colorInactivo: inactivo,
+                          colorFondo: ctaFondo,
+                          colorTexto: ctaTexto,
+                          alTocar: () => alCambiarPestana(index),
+                        )
+                      : _BotonItemNavegacion(
+                          elemento: item,
+                          estaActivo: estaActivo,
+                          colorActivo: activo,
+                          colorInactivo: inactivo,
+                          fondoActivo: fondoActivo,
+                          alTocar: () => alCambiarPestana(index),
+                        );
 
                   return Expanded(
-                    child: _BotonItemNavegacion(
-                      elemento: item,
-                      estaActivo: estaActivo,
-                      colorActivo: activo,
-                      colorInactivo: inactivo,
-                      alTocar: () => alCambiarPestana(index),
-                    ),
+                    child: item.esAccion
+                        ? Transform.translate(
+                            offset: const Offset(0, -14),
+                            child: contenido,
+                          )
+                        : contenido,
                   );
                 }),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -141,6 +186,7 @@ class _BotonItemNavegacion extends StatelessWidget {
     required this.estaActivo,
     required this.colorActivo,
     required this.colorInactivo,
+    required this.fondoActivo,
     required this.alTocar,
   });
 
@@ -148,6 +194,7 @@ class _BotonItemNavegacion extends StatelessWidget {
   final bool estaActivo;
   final Color colorActivo;
   final Color colorInactivo;
+  final Color fondoActivo;
   final VoidCallback alTocar;
 
   @override
@@ -164,97 +211,145 @@ class _BotonItemNavegacion extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: alTocar,
         child: SizedBox(
-          height: 72,
+          height: GazMedidas.barraInferior,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               AnimatedContainer(
-                duration: const Duration(milliseconds: 240),
-                curve: Curves.easeOutCubic,
-                width: 42,
-                height: 38,
-                decoration: estaActivo
-                    ? BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          colors: <Color>[
-                            colorActivo.withOpacity(0.24),
-                            MotorutaColors.brand600.withOpacity(0.36),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        border: Border.all(
-                          color: colorActivo.withOpacity(0.65),
-                          width: 1.4,
-                        ),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: colorActivo.withOpacity(0.25),
-                            blurRadius: 10,
-                            spreadRadius: 1,
-                          ),
-                        ],
-                      )
-                    : const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.transparent,
-                      ),
+                duration: GazMovimiento.rapido,
+                curve: GazMovimiento.curva,
+                width: 38,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: estaActivo ? fondoActivo : Colors.transparent,
+                  borderRadius: BorderRadius.circular(GazRadios.xs),
+                ),
                 child: Stack(
                   alignment: Alignment.center,
                   clipBehavior: Clip.none,
                   children: <Widget>[
                     Icon(
                       icono,
-                      size: estaActivo ? 22 : 21,
+                      size: 21,
                       color: estaActivo ? colorActivo : colorInactivo,
                     ),
                     if (elemento.badge != null && elemento.badge! > 0)
                       Positioned(
-                        top: 2,
-                        right: 2,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 4,
-                            vertical: 1.5,
-                          ),
-                          decoration: BoxDecoration(
-                            color: MotorutaColors.rojo,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: MotorutaColors.brand950,
-                              width: 1,
-                            ),
-                          ),
-                          constraints: const BoxConstraints(
-                            minWidth: 15,
-                            minHeight: 15,
-                          ),
-                          child: Text(
-                            elemento.badge! > 9 ? '9+' : '${elemento.badge}',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 9,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                              height: 1,
-                            ),
-                          ),
-                        ),
+                        top: -2,
+                        right: 1,
+                        child: _Badge(cantidad: elemento.badge!),
                       ),
                   ],
                 ),
               ),
+              const SizedBox(height: GazEspaciado.x1),
+              AnimatedDefaultTextStyle(
+                duration: GazMovimiento.base,
+                style: TextStyle(
+                  fontFamily: GazTipografia.cuerpo,
+                  fontSize: 10,
+                  fontWeight: estaActivo ? FontWeight.w600 : FontWeight.w500,
+                  color: estaActivo ? colorActivo : colorInactivo,
+                  letterSpacing: 0.1,
+                  height: 1.1,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                child: Text(elemento.etiqueta),
+              ),
+              const SizedBox(height: 3),
+              AnimatedContainer(
+                duration: GazMovimiento.base,
+                width: estaActivo ? 3 : 0,
+                height: estaActivo ? 3 : 0,
+                decoration: BoxDecoration(
+                  color: colorActivo,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BotonAccionCentral extends StatelessWidget {
+  const _BotonAccionCentral({
+    required this.elemento,
+    required this.estaActivo,
+    required this.colorActivo,
+    required this.colorInactivo,
+    required this.colorFondo,
+    required this.colorTexto,
+    required this.alTocar,
+  });
+
+  final ElementoNavegacion elemento;
+  final bool estaActivo;
+  final Color colorActivo;
+  final Color colorInactivo;
+  final Color colorFondo;
+  final Color colorTexto;
+  final VoidCallback alTocar;
+
+  @override
+  Widget build(BuildContext context) {
+    final oscuro = Theme.of(context).brightness == Brightness.dark;
+
+    return Semantics(
+      label: elemento.etiqueta,
+      selected: estaActivo,
+      button: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: alTocar,
+        child: SizedBox(
+          height: GazMedidas.barraInferior,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              AnimatedContainer(
+                duration: GazMovimiento.base,
+                curve: GazMovimiento.curva,
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                  color: colorFondo,
+                  borderRadius: BorderRadius.circular(GazRadios.panelLg),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(oscuro ? 0.08 : 0.16),
+                  ),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: colorFondo.withOpacity(oscuro ? 0.38 : 0.32),
+                      blurRadius: 24,
+                      offset: const Offset(0, 10),
+                      spreadRadius: -6,
+                    ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(oscuro ? 0.4 : 0.14),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  elemento.icono,
+                  size: GazMedidas.icono,
+                  color: colorTexto,
+                ),
+              ),
               const SizedBox(height: 2),
               AnimatedDefaultTextStyle(
-                duration: const Duration(milliseconds: 200),
+                duration: GazMovimiento.base,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 10.5,
-                  fontWeight: estaActivo ? FontWeight.w600 : FontWeight.w400,
+                  fontFamily: GazTipografia.cuerpo,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
                   color: estaActivo ? colorActivo : colorInactivo,
-                  letterSpacing: -0.1,
+                  letterSpacing: 0.1,
                   height: 1.1,
                 ),
                 maxLines: 1,
@@ -263,6 +358,38 @@ class _BotonItemNavegacion extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Badge extends StatelessWidget {
+  const _Badge({required this.cantidad});
+
+  final int cantidad;
+
+  @override
+  Widget build(BuildContext context) {
+    final g = context.gaz;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),
+      decoration: BoxDecoration(
+        color: g.danger,
+        borderRadius: BorderRadius.circular(GazRadios.xs),
+        border: Border.all(color: g.surface, width: 1),
+      ),
+      constraints: const BoxConstraints(minWidth: 15, minHeight: 15),
+      child: Text(
+        cantidad > 9 ? '9+' : '$cantidad',
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontFamily: GazTipografia.cuerpo,
+          fontSize: 9,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+          height: 1,
         ),
       ),
     );

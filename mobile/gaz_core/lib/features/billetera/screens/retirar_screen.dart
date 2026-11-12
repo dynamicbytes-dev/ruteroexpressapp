@@ -187,14 +187,14 @@ class _RetirarScreenState extends State<RetirarScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Text('Cuenta destino',
-                      style: MotorutaTheme.titulo(tamano: 19)),
+                      style: MotorutaTheme.tituloDe(context, tamano: 19)),
                   const SizedBox(height: 6),
-                  const Text(
+                  Text(
                     'El equipo transfiere a esta cuenta y sube el comprobante. Mientras se procesa, el monto queda retenido en tu billetera.',
                     style: TextStyle(
                       fontSize: 14,
                       height: 1.45,
-                      color: MotorutaColors.ink600,
+                      color: context.gaz.text2,
                     ),
                   ),
                   const SizedBox(height: 18),
@@ -261,7 +261,8 @@ class _RetirarScreenState extends State<RetirarScreen> {
               ),
             ),
             const SizedBox(height: 26),
-            Text('Tus retiros', style: MotorutaTheme.titulo(tamano: 19)),
+            Text('Tus retiros',
+                style: MotorutaTheme.tituloDe(context, tamano: 19)),
             const SizedBox(height: 12),
             if (_cargandoHistorial)
               const Center(
@@ -325,7 +326,8 @@ class _ResumenDisponible extends StatelessWidget {
               Expanded(
                 child: Text(
                   montoUsd(disponible),
-                  style: MotorutaTheme.titulo(
+                  style: MotorutaTheme.tituloDe(
+                    context,
                     tamano: 34,
                     color: Colors.white,
                   ),
@@ -379,14 +381,14 @@ class _TarjetaRetiro extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       montoUsd(retiro.montoUsd),
-                      style: MotorutaTheme.titulo(tamano: 18),
+                      style: MotorutaTheme.tituloDe(context, tamano: 18),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       '${retiro.banco} · ${retiro.numeroCuenta}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
-                        color: MotorutaColors.ink500,
+                        color: context.gaz.text2,
                       ),
                     ),
                   ],
@@ -407,9 +409,9 @@ class _TarjetaRetiro extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             fechaConHora(retiro.creadoEn),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: MotorutaColors.ink400,
+              color: context.gaz.text3,
             ),
           ),
         ],

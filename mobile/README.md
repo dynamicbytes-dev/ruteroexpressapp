@@ -45,8 +45,11 @@ vivir en otro puerto sin tocar CORS.
 
 ## Pruebas
 
+La suite vive en el paquete compartido:
+
 ```bash
-flutter test          # 137 pruebas + 1 omitida: modelos, errores, sesión, avisos, billetera, viajes, soporte, perfil y pantallas
+cd gaz_core
+flutter test          # modelos, errores, sesión, avisos, billetera, viajes, soporte, perfil, pantallas y tema
 flutter analyze
 ```
 
@@ -54,35 +57,56 @@ Hay una prueba **opcional contra el backend real** (registro, subida de un JPEG 
 rechazo de una fecha vencida). Se salta sola salvo que se pida:
 
 ```bash
+cd mobile
 flutter test --dart-define=API_REAL=true test/integracion
 ```
 
 ## Cómo está organizada
 
+`gaz_core` es la única fuente de verdad. `gaz_passenger`, `gaz_driver` y la suite
+unificada solo arrancan la app con el rol correspondiente.
+
 ```
-lib/
-├── main.dart                 arranque: cliente HTTP, almacén del token, sesión
-├── app.dart                  tema, idioma y la compuerta que elige la pantalla
-├── core/
-│   ├── api/                  cliente Dio, errores traducidos, URL del backend
-│   ├── storage/              token en el llavero del sistema
-│   ├── theme/                colores de marca y theme de Material 3
-│   └── ui/                   logo, botones, campos, avisos, etiquetas
-├── data/
-│   ├── models/               Usuario, documentos, billetera y viajes
-│   ├── cuenta_repository.dart
-│   ├── billetera_repository.dart
-│   ├── soporte_repository.dart
-│   └── viajes_repository.dart
-└── features/
-    ├── auth/                 bienvenida, rol, registro, acceso, recuperar clave
-    ├── billetera/            saldo, recarga, retiro e historial de movimientos
-    ├── documentos/           lista de verificación con subida y progreso
-    ├── inicio/               espera de verificación, inicio y cuenta suspendida
-    ├── soporte/              chat de soporte y acceso desde las pantallas
-    ├── viajes/               pedir, seguir, alertas y viaje del conductor
-    └── sesion/               controlador de sesión, billetera, viajes y salir
+mobile/
+├── gaz_core/                    paquete compartido (pubspec propio)
+│   ├── lib/
+│   │   ├── core/
+│   │   │   ├── api/             cliente Dio, errores traducidos, URL del backend
+│   │   │   ├── app/             GazApp, compuerta de sesión y rol
+│   │   │   ├── storage/         token en el llavero del sistema
+│   │   │   ├── theme/           tokens, colores semánticos, tema claro/oscuro
+│   │   │   └── ui/              logo, botones, campos, avisos, etiquetas
+│   │   ├── data/                modelos, API de cuenta, billetera, viajes y soporte
+│   │   └── features/            auth, billetera, documentos, inicio, soporte, viajes, sesión
+│   └── test/                    pruebas unitarias y de widgets
+├── gaz_passenger/lib/main.dart  arranque de la app de pasajeros
+├── gaz_driver/lib/main.dart     arranque de la app de conductores
+├── lib/main.dart                arranque de la suite unificada (rol seleccionable)
+└── test/integracion/            prueba opcional contra el backend real
 ```
+
+### Navegación 2027
+
+La barra inferior flotante usa una acción central elevada y conserva las cuatro
+destinaciones principales:
+
+| App | Barra inferior |
+|---|---|
+| Pasajero | Inicio · Viajes · **[Pedir]** · Billetera · Perfil |
+| Conductor | Inicio · Viajes · **[En línea / Conectar]** · Ganancias · Perfil |
+
+En el conductor, la acción central alterna la disponibilidad con la misma lógica
+de ubicación y sondeo del panel de conexión. La pestaña «Viajes» abre el historial
+y «Ganancias» concentra saldo, retiro y movimientos.
+
+### Tema 2027
+
+- **Sora** para títulos y números; **Inter** para texto de cuerpo. Poppins fue retirado.
+- `ThemeController` persiste el modo claro/oscuro/sistema en `shared_preferences`
+  con la clave `gaz2027-tema`, la misma que usa el panel web.
+- Los colores semánticos (`surface`, `surfaceAlt`, `border`, `text`, `text2`) viven en
+  `core/theme/gaz_colors.dart` y se leen con `context.gaz`.
+- El botón de tema está en la barra de inicio de pasajero y conductor.
 
 La app no decide el estado de la cuenta: **obedece `next_step.key`** que devuelve
 `GET /api/perfil`.

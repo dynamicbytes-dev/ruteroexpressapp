@@ -205,25 +205,25 @@ class _Encabezado extends StatelessWidget {
         children: <Widget>[
           Text(
             corrigiendo ? 'Falta corregir' : 'Completa tu registro',
-            style: MotorutaTheme.titulo(tamano: 21),
+            style: MotorutaTheme.tituloDe(context, tamano: 21),
           ),
           const SizedBox(height: 8),
           Text(
             corrigiendo
                 ? 'El auditor rechazó un documento. Lee el motivo, corrige y vuelve a subirlo.'
                 : 'Sube cada documento desde tu teléfono. En cuanto estén todos, tu cuenta entra a la revisión del equipo.',
-            style: const TextStyle(
-                fontSize: 14.5, color: MotorutaColors.ink600, height: 1.45),
+            style: TextStyle(
+                fontSize: 14.5, color: context.gaz.text2, height: 1.45),
           ),
           const SizedBox(height: 18),
           Row(
             children: <Widget>[
               Text(
                 '${resumen.subidos} de ${resumen.requeridos} enviados',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: MotorutaColors.ink800,
+                  color: context.gaz.text,
                 ),
               ),
               const Spacer(),
@@ -243,7 +243,7 @@ class _Encabezado extends StatelessWidget {
             child: LinearProgressIndicator(
               value: resumen.avance,
               minHeight: 8,
-              backgroundColor: MotorutaColors.ink100,
+              backgroundColor: context.gaz.border,
               color: MotorutaColors.brand700,
             ),
           ),
@@ -251,8 +251,7 @@ class _Encabezado extends StatelessWidget {
             const SizedBox(height: 14),
             Text(
               'Falta subir: ${resumen.etiquetasFaltantes.join(', ')}.',
-              style:
-                  const TextStyle(fontSize: 13.5, color: MotorutaColors.ink600),
+              style: TextStyle(fontSize: 13.5, color: context.gaz.text2),
             ),
           ],
         ],
@@ -321,7 +320,7 @@ class _TarjetaDocumento extends StatelessWidget {
               Expanded(
                 child: Text(
                   documento.etiqueta,
-                  style: MotorutaTheme.titulo(tamano: 17),
+                  style: MotorutaTheme.tituloDe(context, tamano: 17),
                 ),
               ),
               const SizedBox(width: 10),
@@ -331,9 +330,9 @@ class _TarjetaDocumento extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             documento.pista,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13.5,
-              color: MotorutaColors.ink500,
+              color: context.gaz.text2,
               height: 1.4,
             ),
           ),
@@ -357,8 +356,7 @@ class _TarjetaDocumento extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               'Vence el ${_fecha(documento.venceEn!)}',
-              style:
-                  const TextStyle(fontSize: 12.5, color: MotorutaColors.ink500),
+              style: TextStyle(fontSize: 12.5, color: context.gaz.text2),
             ),
           ],
           if (documento.aprobado && documento.subido) ...<Widget>[
@@ -367,8 +365,7 @@ class _TarjetaDocumento extends StatelessWidget {
               documento.subidoEn == null
                   ? 'Aprobado por el equipo.'
                   : 'Subido el ${_fecha(documento.subidoEn!)}.',
-              style:
-                  const TextStyle(fontSize: 12.5, color: MotorutaColors.ink500),
+              style: TextStyle(fontSize: 12.5, color: context.gaz.text2),
             ),
           ],
           if (subiendo) ...<Widget>[
@@ -378,7 +375,7 @@ class _TarjetaDocumento extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: progreso == 0 ? null : progreso,
                 minHeight: 7,
-                backgroundColor: MotorutaColors.ink100,
+                backgroundColor: context.gaz.border,
                 color: MotorutaColors.accent600,
               ),
             ),
@@ -404,11 +401,11 @@ class _TarjetaDocumento extends StatelessWidget {
             ),
           ] else if (documento.enRevision) ...<Widget>[
             const SizedBox(height: 12),
-            const Text(
+            Text(
               'Ya está en manos del equipo. Te avisamos apenas lo revisen.',
               style: TextStyle(
                 fontSize: 13,
-                color: MotorutaColors.ink500,
+                color: context.gaz.text2,
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -510,19 +507,20 @@ class _HojaDocumentoState extends State<_HojaDocumento> {
                   width: 44,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: MotorutaColors.ink200,
+                    color: context.gaz.borderStrong,
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),
               ),
               const SizedBox(height: 20),
-              Text(documento.etiqueta, style: MotorutaTheme.titulo(tamano: 20)),
+              Text(documento.etiqueta,
+                  style: MotorutaTheme.tituloDe(context, tamano: 20)),
               const SizedBox(height: 6),
               Text(
                 documento.pista,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13.5,
-                  color: MotorutaColors.ink600,
+                  color: context.gaz.text2,
                   height: 1.4,
                 ),
               ),
@@ -597,7 +595,7 @@ class _OpcionOrigen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: habilitado ? MotorutaColors.brand50 : MotorutaColors.ink50,
+      color: habilitado ? MotorutaColors.brand50 : context.gaz.surfaceAlt,
       borderRadius: BorderRadius.circular(MotorutaTheme.radio),
       child: InkWell(
         borderRadius: BorderRadius.circular(MotorutaTheme.radio),
@@ -609,9 +607,7 @@ class _OpcionOrigen extends StatelessWidget {
               Icon(
                 icono,
                 size: 22,
-                color: habilitado
-                    ? MotorutaColors.brand800
-                    : MotorutaColors.ink300,
+                color: habilitado ? MotorutaColors.brand800 : context.gaz.text3,
               ),
               const SizedBox(width: 14),
               Text(
@@ -619,9 +615,8 @@ class _OpcionOrigen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: habilitado
-                      ? MotorutaColors.brand900
-                      : MotorutaColors.ink400,
+                  color:
+                      habilitado ? MotorutaColors.brand900 : context.gaz.text3,
                 ),
               ),
             ],

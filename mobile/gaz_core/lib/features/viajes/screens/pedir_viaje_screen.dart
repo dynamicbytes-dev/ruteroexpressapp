@@ -415,7 +415,7 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: MotorutaColors.ink100, width: 1),
+              border: Border.all(color: context.gaz.border, width: 1),
               boxShadow: MotorutaTheme.sombraTarjeta,
             ),
             clipBehavior: Clip.antiAlias,
@@ -431,12 +431,12 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                const Text(
+                Text(
                   '¿En qué quieres viajar?',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: MotorutaColors.ink800,
+                    color: context.gaz.text,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -445,9 +445,9 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                   style: SegmentedButton.styleFrom(
                     selectedBackgroundColor: MotorutaColors.brand800,
                     selectedForegroundColor: Colors.white,
-                    foregroundColor: MotorutaColors.ink700,
-                    side: const BorderSide(
-                      color: MotorutaColors.ink100,
+                    foregroundColor: context.gaz.text2,
+                    side: BorderSide(
+                      color: context.gaz.border,
                       width: 1.2,
                     ),
                     shape: RoundedRectangleBorder(
@@ -482,9 +482,9 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                   _esCarro
                       ? 'El carro cuesta \$1.00 más que la moto.'
                       : 'La opción más rápida y económica para moverte.',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12.5,
-                    color: MotorutaColors.ink500,
+                    color: context.gaz.text2,
                   ),
                 ),
               ],
@@ -544,7 +544,8 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                 if (_origen != null) ...<Widget>[
                   const SizedBox(height: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color: MotorutaColors.verdeFondo,
                       borderRadius: BorderRadius.circular(12),
@@ -633,7 +634,8 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                 if (_destino != null) ...<Widget>[
                   const SizedBox(height: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color: MotorutaColors.accent50,
                       borderRadius: BorderRadius.circular(12),
@@ -695,10 +697,9 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
                 ],
                 if (!_geocodingDisponible) ...<Widget>[
                   const SizedBox(height: 8),
-                  const Text(
+                  Text(
                     'La búsqueda de direcciones no está disponible en este momento. Puedes fijar puntos tocando el mapa.',
-                    style:
-                        TextStyle(fontSize: 12, color: MotorutaColors.ink500),
+                    style: TextStyle(fontSize: 12, color: context.gaz.text2),
                   ),
                 ],
                 if (kDebugMode) ...<Widget>[
@@ -758,21 +759,21 @@ class _PedirViajeScreenState extends State<PedirViajeScreen> {
           ],
           if (listo) ...<Widget>[
             const SizedBox(height: 14),
-            const Tarjeta(
+            Tarjeta(
               child: Row(
                 children: <Widget>[
-                  Icon(
+                  const Icon(
                     Icons.route_rounded,
                     color: MotorutaColors.brand800,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       'Recogida y destino listos. Calcula el precio para confirmar.',
                       style: TextStyle(
                         fontSize: 13.5,
                         height: 1.35,
-                        color: MotorutaColors.ink600,
+                        color: context.gaz.text2,
                       ),
                     ),
                   ),
@@ -857,9 +858,9 @@ class _HojaCotizacionState extends State<_HojaCotizacion> {
     final cotizacion = widget.cotizacion;
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+      decoration: BoxDecoration(
+        color: context.gaz.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
       ),
       padding: EdgeInsets.fromLTRB(
         22,
@@ -879,13 +880,14 @@ class _HojaCotizacionState extends State<_HojaCotizacion> {
                   width: 42,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: MotorutaColors.ink200,
+                    color: context.gaz.borderStrong,
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),
               ),
               const SizedBox(height: 16),
-              Text('Tu viaje', style: MotorutaTheme.titulo(tamano: 22)),
+              Text('Tu viaje',
+                  style: MotorutaTheme.tituloDe(context, tamano: 22)),
               const SizedBox(height: 14),
               LineaRuta(origen: widget.origen, destino: widget.destino),
               const SizedBox(height: 12),
@@ -901,19 +903,19 @@ class _HojaCotizacionState extends State<_HojaCotizacion> {
                   const SizedBox(width: 8),
                   Text(
                     cotizacion.tipoVehiculoEtiqueta,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: MotorutaColors.ink700,
+                      color: context.gaz.text2,
                     ),
                   ),
                   if (cotizacion.recargoVehiculo > 0) ...<Widget>[
                     const SizedBox(width: 6),
                     Text(
                       '+${montoUsd(cotizacion.recargoVehiculo)} por carro',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: MotorutaColors.ink500,
+                        color: context.gaz.text2,
                       ),
                     ),
                   ],
@@ -939,12 +941,11 @@ class _HojaCotizacionState extends State<_HojaCotizacion> {
               ),
               const SizedBox(height: 16),
               if (cotizacion.minimoAplicado)
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
                     'Se aplicó la tarifa mínima.',
-                    style:
-                        TextStyle(fontSize: 12, color: MotorutaColors.ink500),
+                    style: TextStyle(fontSize: 12, color: context.gaz.text2),
                   ),
                 ),
               if (cotizacion.recargoNocturno > 0)
@@ -952,9 +953,9 @@ class _HojaCotizacionState extends State<_HojaCotizacion> {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
                     'Incluye recargo nocturno de ${numeroViaje(cotizacion.recargoNocturno, decimales: 0)}%.',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
-                      color: MotorutaColors.ink500,
+                      color: context.gaz.text2,
                     ),
                   ),
                 ),
@@ -963,19 +964,18 @@ class _HojaCotizacionState extends State<_HojaCotizacion> {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
                     'Tarifa dinámica ×${numeroViaje(cotizacion.multiplicador)}.',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
-                      color: MotorutaColors.ink500,
+                      color: context.gaz.text2,
                     ),
                   ),
                 ),
               if (cotizacion.esEstimada)
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
                     'La distancia es una estimación mientras no haya un servicio de rutas disponible.',
-                    style:
-                        TextStyle(fontSize: 12, color: MotorutaColors.ink500),
+                    style: TextStyle(fontSize: 12, color: context.gaz.text2),
                   ),
                 ),
               if (cotizacion.totalLocal != null)
@@ -983,21 +983,21 @@ class _HojaCotizacionState extends State<_HojaCotizacion> {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
                     '≈ ${montoBs(cotizacion.totalLocal!)} a la tasa del día.',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
-                      color: MotorutaColors.ink500,
+                      color: context.gaz.text2,
                     ),
                   ),
                 ),
               const SizedBox(height: 4),
               const Divider(),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 '¿Cómo pagas?',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: MotorutaColors.ink700,
+                  color: context.gaz.text2,
                 ),
               ),
               RadioListTile<String>(
@@ -1066,17 +1066,17 @@ class _Dato extends StatelessWidget {
         children: <Widget>[
           Text(
             etiqueta,
-            style: const TextStyle(fontSize: 12, color: MotorutaColors.ink500),
+            style: TextStyle(fontSize: 12, color: context.gaz.text2),
           ),
           const SizedBox(height: 3),
           Text(
             valor,
             style: destacado
-                ? MotorutaTheme.titulo(tamano: 22)
-                : const TextStyle(
+                ? MotorutaTheme.tituloDe(context, tamano: 22)
+                : TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: MotorutaColors.ink900,
+                    color: context.gaz.text,
                   ),
           ),
         ],

@@ -257,7 +257,8 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
                       Expanded(
                         child: Text(
                           _viaje.resumenEstado,
-                          style: MotorutaTheme.titulo(
+                          style: MotorutaTheme.tituloDe(
+                            context,
                             tamano: 20,
                             color: _viaje.completado || _viaje.cancelado
                                 ? MotorutaColors.brand900
@@ -290,7 +291,7 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
                       fontSize: 13.5,
                       height: 1.4,
                       color: _viaje.completado || _viaje.cancelado
-                          ? MotorutaColors.ink600
+                          ? context.gaz.text2
                           : Colors.white70,
                     ),
                   ),
@@ -349,23 +350,23 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
                         children: <Widget>[
                           Text(
                             conductor.nombre,
-                            style: MotorutaTheme.titulo(tamano: 17),
+                            style: MotorutaTheme.tituloDe(context, tamano: 17),
                           ),
                           if (conductor.vehiculo != null)
                             Text(
                               conductor.vehiculo!,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 13,
-                                color: MotorutaColors.ink600,
+                                color: context.gaz.text2,
                               ),
                             ),
                           if (conductor.calificacion != null)
                             Text(
                               '★ ${conductor.calificacion!.toStringAsFixed(1)}'
                               '${conductor.viajesCompletados != null ? ' · ${conductor.viajesCompletados} viajes' : ''}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
-                                color: MotorutaColors.ink500,
+                                color: context.gaz.text2,
                               ),
                             ),
                         ],
@@ -400,9 +401,9 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
                                   strokeWidth: 2,
                                 ),
                               )
-                            : const Icon(
+                            : Icon(
                                 Icons.favorite_border_rounded,
-                                color: MotorutaColors.ink400,
+                                color: context.gaz.text3,
                               ),
                       ),
                   ],
@@ -414,16 +415,17 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Ruta', style: MotorutaTheme.titulo(tamano: 17)),
+                  Text('Ruta',
+                      style: MotorutaTheme.tituloDe(context, tamano: 17)),
                   const SizedBox(height: 12),
                   LineaRuta(origen: _viaje.origen, destino: _viaje.destino),
                   const SizedBox(height: 10),
                   Text(
                     '${distanciaViaje(_viaje.distanciaKm)} · '
                     '${_viaje.duracionMinutos} min aproximados',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
-                      color: MotorutaColors.ink500,
+                      color: context.gaz.text2,
                     ),
                   ),
                 ],
@@ -434,7 +436,8 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Pago', style: MotorutaTheme.titulo(tamano: 17)),
+                  Text('Pago',
+                      style: MotorutaTheme.tituloDe(context, tamano: 17)),
                   const SizedBox(height: 10),
                   DatoFila(
                     etiqueta: 'Método',
@@ -451,17 +454,17 @@ class _ViajePasajeroScreenState extends State<ViajePasajeroScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      const Text(
+                      Text(
                         'Total',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: MotorutaColors.ink700,
+                          color: context.gaz.text2,
                         ),
                       ),
                       Text(
                         montoUsd(_viaje.tarifa.total),
-                        style: MotorutaTheme.titulo(tamano: 26),
+                        style: MotorutaTheme.tituloDe(context, tamano: 26),
                       ),
                     ],
                   ),
@@ -523,7 +526,8 @@ class _TarjetaCalificacion extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('Tu calificación', style: MotorutaTheme.titulo(tamano: 17)),
+          Text('Tu calificación',
+              style: MotorutaTheme.tituloDe(context, tamano: 17)),
           const SizedBox(height: 10),
           if (enviada != null) ...<Widget>[
             Text(
@@ -538,20 +542,20 @@ class _TarjetaCalificacion extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 enviada.comentario!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13.5,
                   height: 1.4,
-                  color: MotorutaColors.ink700,
+                  color: context.gaz.text2,
                 ),
               ),
             ],
           ] else if (puedeCalificar) ...<Widget>[
-            const Text(
+            Text(
               'Cuéntanos cómo condujo tu conductor. Solo toma un momento.',
               style: TextStyle(
                 fontSize: 13.5,
                 height: 1.4,
-                color: MotorutaColors.ink600,
+                color: context.gaz.text2,
               ),
             ),
             const SizedBox(height: 12),
@@ -561,9 +565,9 @@ class _TarjetaCalificacion extends StatelessWidget {
               alPresionar: alCalificar,
             ),
           ] else
-            const Text(
+            Text(
               'Todavía no hay una calificación para este viaje.',
-              style: TextStyle(fontSize: 13.5, color: MotorutaColors.ink500),
+              style: TextStyle(fontSize: 13.5, color: context.gaz.text2),
             ),
         ],
       ),

@@ -16,6 +16,10 @@ dependencies:
 
   cupertino_icons: ^1.0.6
 
+  # Núcleo compartido: API, modelos, sesión, diseño y tema.
+  gaz_core:
+    path: gaz_core
+
   # Red: cliente HTTP con subida de archivos y progreso.
   dio: ^5.11.1
   # Se usa para declarar el tipo MIME al subir documentos. Se queda en la línea
@@ -54,18 +58,6 @@ flutter:
     - assets/brand/
 
   fonts:
-    - family: Poppins
-      fonts:
-        - asset: assets/fonts/poppins-400.ttf
-          weight: 400
-        - asset: assets/fonts/poppins-500.ttf
-          weight: 500
-        - asset: assets/fonts/poppins-600.ttf
-          weight: 600
-        - asset: assets/fonts/poppins-700.ttf
-          weight: 700
-
-    # Sora e Inter se mantienen por compatibilidad
     - family: Sora
       fonts:
         - asset: assets/fonts/sora-400.ttf

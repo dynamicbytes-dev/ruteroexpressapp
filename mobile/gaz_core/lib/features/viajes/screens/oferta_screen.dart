@@ -205,7 +205,8 @@ class _OfertaScreenState extends State<OfertaScreen> {
                       ),
                       Text(
                         '$_restantes',
-                        style: MotorutaTheme.titulo(
+                        style: MotorutaTheme.tituloDe(
+                          context,
                           tamano: 25,
                           color: Colors.white,
                         ),
@@ -220,7 +221,8 @@ class _OfertaScreenState extends State<OfertaScreen> {
                     children: <Widget>[
                       Text(
                         'Viaje cerca de ti',
-                        style: MotorutaTheme.titulo(
+                        style: MotorutaTheme.tituloDe(
+                          context,
                           tamano: 22,
                           color: Colors.white,
                         ),
@@ -253,7 +255,7 @@ class _OfertaScreenState extends State<OfertaScreen> {
                       Expanded(
                         child: Text(
                           viaje.pasajero,
-                          style: MotorutaTheme.titulo(tamano: 19),
+                          style: MotorutaTheme.tituloDe(context, tamano: 19),
                         ),
                       ),
                       EtiquetaEstado(
@@ -293,25 +295,25 @@ class _OfertaScreenState extends State<OfertaScreen> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: MotorutaColors.ink50,
+                      color: context.gaz.surfaceAlt,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Row(
                       children: <Widget>[
-                        const Icon(
+                        Icon(
                           Icons.info_outline_rounded,
                           size: 18,
-                          color: MotorutaColors.ink500,
+                          color: context.gaz.text2,
                         ),
                         const SizedBox(width: 9),
                         Expanded(
                           child: Text(
                             'El pasajero paga ${montoUsd(viaje.total)}. '
                             'La comisión de GAZ es ${montoUsd(viaje.comision)}.',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
                               height: 1.35,
-                              color: MotorutaColors.ink600,
+                              color: context.gaz.text2,
                             ),
                           ),
                         ),
@@ -369,17 +371,17 @@ class _Dato extends StatelessWidget {
       children: <Widget>[
         Text(
           etiqueta,
-          style: const TextStyle(fontSize: 12, color: MotorutaColors.ink500),
+          style: TextStyle(fontSize: 12, color: context.gaz.text2),
         ),
         const SizedBox(height: 3),
         Text(
           valor,
           style: destacado
-              ? MotorutaTheme.titulo(tamano: 23)
-              : const TextStyle(
+              ? MotorutaTheme.tituloDe(context, tamano: 23)
+              : TextStyle(
                   fontSize: 14.5,
                   fontWeight: FontWeight.w600,
-                  color: MotorutaColors.ink900,
+                  color: context.gaz.text,
                 ),
         ),
       ],

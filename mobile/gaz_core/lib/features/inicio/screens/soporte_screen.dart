@@ -53,16 +53,16 @@ class SoporteScreen extends StatelessWidget {
                       ? 'Tu cuenta no está operativa'
                       : usuario.estadoEtiqueta,
                   textAlign: TextAlign.center,
-                  style: MotorutaTheme.titulo(tamano: 22),
+                  style: MotorutaTheme.tituloDe(context, tamano: 22),
                 ),
                 const SizedBox(height: 10),
                 Text(
                   usuario.motivoEstado ??
                       'Tu cuenta no puede operar en este momento. Escríbenos para revisar tu caso.',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14.5,
-                    color: MotorutaColors.ink600,
+                    color: context.gaz.text2,
                     height: 1.45,
                   ),
                 ),

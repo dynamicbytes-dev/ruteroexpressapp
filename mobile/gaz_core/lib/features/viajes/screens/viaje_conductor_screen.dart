@@ -244,7 +244,8 @@ class _ViajeConductorScreenState extends State<ViajeConductorScreen> {
                       Expanded(
                         child: Text(
                           _viaje.instruccionConductor,
-                          style: MotorutaTheme.titulo(
+                          style: MotorutaTheme.tituloDe(
+                            context,
                             tamano: 20,
                             color: _viaje.completado || _viaje.cancelado
                                 ? MotorutaColors.brand900
@@ -266,7 +267,7 @@ class _ViajeConductorScreenState extends State<ViajeConductorScreen> {
                       fontSize: 13.5,
                       height: 1.4,
                       color: _viaje.completado || _viaje.cancelado
-                          ? MotorutaColors.ink600
+                          ? context.gaz.text2
                           : Colors.white70,
                     ),
                   ),
@@ -310,15 +311,15 @@ class _ViajeConductorScreenState extends State<ViajeConductorScreen> {
                         children: <Widget>[
                           Text(
                             pasajero.nombre,
-                            style: MotorutaTheme.titulo(tamano: 17),
+                            style: MotorutaTheme.tituloDe(context, tamano: 17),
                           ),
                           Text(
                             pasajero.telefono.isEmpty
                                 ? 'Teléfono no disponible'
                                 : pasajero.telefono,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13,
-                              color: MotorutaColors.ink600,
+                              color: context.gaz.text2,
                             ),
                           ),
                         ],
@@ -339,16 +340,17 @@ class _ViajeConductorScreenState extends State<ViajeConductorScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Ruta', style: MotorutaTheme.titulo(tamano: 17)),
+                  Text('Ruta',
+                      style: MotorutaTheme.tituloDe(context, tamano: 17)),
                   const SizedBox(height: 12),
                   LineaRuta(origen: _viaje.origen, destino: _viaje.destino),
                   const SizedBox(height: 10),
                   Text(
                     '${distanciaViaje(_viaje.distanciaKm)} · '
                     '${_viaje.duracionMinutos} min aproximados',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
-                      color: MotorutaColors.ink500,
+                      color: context.gaz.text2,
                     ),
                   ),
                 ],
@@ -359,7 +361,8 @@ class _ViajeConductorScreenState extends State<ViajeConductorScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('Cobro', style: MotorutaTheme.titulo(tamano: 17)),
+                  Text('Cobro',
+                      style: MotorutaTheme.tituloDe(context, tamano: 17)),
                   const SizedBox(height: 10),
                   DatoFila(
                     etiqueta: 'Método',
@@ -379,17 +382,17 @@ class _ViajeConductorScreenState extends State<ViajeConductorScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      const Text(
+                      Text(
                         'Tu ganancia',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: MotorutaColors.ink700,
+                          color: context.gaz.text2,
                         ),
                       ),
                       Text(
                         montoUsd(_viaje.tarifa.gananciaConductor),
-                        style: MotorutaTheme.titulo(tamano: 26),
+                        style: MotorutaTheme.tituloDe(context, tamano: 26),
                       ),
                     ],
                   ),

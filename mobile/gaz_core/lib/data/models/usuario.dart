@@ -406,5 +406,3 @@ List<String> _listaTexto(Object? valor) {
   if (valor is! List) return const <String>[];
   return valor.map((cada) => '$cada').toList();
 }
-
-

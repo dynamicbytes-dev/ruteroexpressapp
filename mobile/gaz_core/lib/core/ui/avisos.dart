@@ -29,6 +29,32 @@ enum Tono {
         Tono.neutro => MotorutaColors.ink700,
       };
 
+  Color fondoEn(Brightness brightness) {
+    final gaz = GazColors.para(brightness);
+    return switch (this) {
+      Tono.info => brightness == Brightness.dark
+          ? MotorutaColors.accent900
+          : MotorutaColors.accent50,
+      Tono.exito => gaz.successBg,
+      Tono.aviso => gaz.warningBg,
+      Tono.error => gaz.dangerBg,
+      Tono.neutro => gaz.surfaceAlt,
+    };
+  }
+
+  Color colorEn(Brightness brightness) {
+    final gaz = GazColors.para(brightness);
+    return switch (this) {
+      Tono.info => brightness == Brightness.dark
+          ? MotorutaColors.accent300
+          : MotorutaColors.accent800,
+      Tono.exito => gaz.success,
+      Tono.aviso => gaz.warning,
+      Tono.error => gaz.danger,
+      Tono.neutro => gaz.text2,
+    };
+  }
+
   IconData get icono => switch (this) {
         Tono.info => Icons.info_outline_rounded,
         Tono.exito => Icons.check_circle_outline_rounded,
@@ -55,17 +81,21 @@ class Aviso extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final fondo = tono.fondoEn(brightness);
+    final color = tono.colorEn(brightness);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: tono.fondo,
+        color: fondo,
         borderRadius: BorderRadius.circular(MotorutaTheme.radio),
-        border: Border.all(color: tono.color.withOpacity(0.22)),
+        border: Border.all(color: color.withOpacity(0.22)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Icon(icono ?? tono.icono, size: 22, color: tono.color),
+          Icon(icono ?? tono.icono, size: 22, color: color),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -77,17 +107,17 @@ class Aviso extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: tono.color,
+                      color: color,
                     ),
                   ),
                   const SizedBox(height: 2),
                 ],
                 Text(
                   texto,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14.5,
                     height: 1.4,
-                    color: MotorutaColors.ink800,
+                    color: context.gaz.text,
                   ),
                 ),
               ],
@@ -114,17 +144,21 @@ class EtiquetaEstado extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final fondo = tono.fondoEn(brightness);
+    final color = tono.colorEn(brightness);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: tono.fondo,
+        color: fondo,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if (icono != null) ...<Widget>[
-            Icon(icono, size: 14, color: tono.color),
+            Icon(icono, size: 14, color: color),
             const SizedBox(width: 5),
           ],
           Text(
@@ -132,7 +166,7 @@ class EtiquetaEstado extends StatelessWidget {
             style: TextStyle(
               fontSize: 12.5,
               fontWeight: FontWeight.w600,
-              color: tono.color,
+              color: color,
             ),
           ),
         ],
@@ -141,13 +175,13 @@ class EtiquetaEstado extends StatelessWidget {
   }
 }
 
-/// Tarjeta blanca con la sombra suave del panel y soporte para micro-interacciones.
+/// Tarjeta con la sombra suave del panel y soporte para micro-interacciones.
 class Tarjeta extends StatelessWidget {
   const Tarjeta({
     super.key,
     required this.child,
     this.padding = const EdgeInsets.all(20),
-    this.color = Colors.white,
+    this.color,
     this.borde = true,
     this.onTap,
     this.radio,
@@ -157,7 +191,9 @@ class Tarjeta extends StatelessWidget {
 
   final Widget child;
   final EdgeInsetsGeometry padding;
-  final Color color;
+
+  /// Si es `null`, usa la superficie del tema (claro u oscuro).
+  final Color? color;
   final bool borde;
   final VoidCallback? onTap;
   final double? radio;
@@ -167,21 +203,25 @@ class Tarjeta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double radioFinal = radio ?? MotorutaTheme.radioGrande;
+    final fondo = color ?? context.gaz.surface;
+    final esMarca = gradiente != null ||
+        fondo == MotorutaColors.brand800 ||
+        fondo == MotorutaColors.brand900 ||
+        fondo == MotorutaColors.brand950;
     final decoracion = BoxDecoration(
-      color: gradiente == null ? color : null,
+      color: gradiente == null ? fondo : null,
       gradient: gradiente,
       borderRadius: BorderRadius.circular(radioFinal),
       border: borde
           ? Border.all(
-              color: (color == MotorutaColors.brand900 ||
-                      color == MotorutaColors.brand950 ||
-                      color == MotorutaColors.brand800)
-                  ? Colors.white.withOpacity(0.12)
-                  : MotorutaColors.ink100.withOpacity(0.85),
+              color:
+                  esMarca ? Colors.white.withOpacity(0.12) : context.gaz.border,
               width: 1,
             )
           : null,
-      boxShadow: conSombra ? MotorutaTheme.sombraTarjeta : null,
+      boxShadow: conSombra
+          ? MotorutaTheme.sombraTarjetaPara(Theme.of(context).brightness)
+          : null,
     );
 
     if (onTap == null) {
@@ -231,9 +271,9 @@ class DatoFila extends StatelessWidget {
             width: 120,
             child: Text(
               etiqueta,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
-                color: MotorutaColors.ink500,
+                color: context.gaz.text2,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -241,9 +281,9 @@ class DatoFila extends StatelessWidget {
           Expanded(
             child: Text(
               valor,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14.5,
-                color: MotorutaColors.ink900,
+                color: context.gaz.text,
                 fontWeight: FontWeight.w500,
               ),
             ),

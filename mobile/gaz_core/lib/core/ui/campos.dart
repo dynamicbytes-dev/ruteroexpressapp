@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-import '../theme/motoruta_colors.dart';
+import '../theme/app_theme.dart';
 
 /// Campo de texto con el estilo de la app.
 ///
@@ -96,13 +96,16 @@ class _CampoTextoState extends State<CampoTexto> {
   Widget build(BuildContext context) {
     // Un campo de varias líneas con acción "nueva línea" tiene que declarar
     // teclado multilínea: si no, Flutter lanza una aserción.
-    final teclado = widget.maxLineas > 1 && widget.tipoTeclado == TextInputType.text
-        ? TextInputType.multiline
-        : widget.tipoTeclado;
+    final teclado =
+        widget.maxLineas > 1 && widget.tipoTeclado == TextInputType.text
+            ? TextInputType.multiline
+            : widget.tipoTeclado;
 
+    final esquema = Theme.of(context).colorScheme;
+    final gaz = context.gaz;
     final colorIcono = widget.error != null
-        ? MotorutaColors.rojo
-        : (_tieneFoco ? MotorutaColors.brand800 : MotorutaColors.ink400);
+        ? esquema.error
+        : (_tieneFoco ? esquema.primary : gaz.text3);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,9 +129,9 @@ class _CampoTextoState extends State<CampoTexto> {
           onSubmitted: widget.alEnviar,
           onChanged: widget.alCambiar,
           onTap: () => HapticFeedback.selectionClick(),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
-            color: MotorutaColors.ink900,
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w500,
           ),
           decoration: InputDecoration(
@@ -228,8 +231,9 @@ class CampoFecha extends StatelessWidget {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color:
-                valor == null ? MotorutaColors.ink400 : MotorutaColors.ink900,
+            color: valor == null
+                ? context.gaz.text3
+                : Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),

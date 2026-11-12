@@ -291,7 +291,7 @@ class _Bienvenida extends StatelessWidget {
         Text(
           finalizada ? 'Inicia otra conversación' : 'Estamos para ayudarte',
           textAlign: TextAlign.center,
-          style: MotorutaTheme.titulo(tamano: 22),
+          style: MotorutaTheme.tituloDe(context, tamano: 22),
         ),
         const SizedBox(height: 8),
         Text(
@@ -299,10 +299,10 @@ class _Bienvenida extends StatelessWidget {
               ? 'Escribe tu nueva consulta y el equipo de GAZ te responderá por aquí.'
               : 'Cuéntanos qué necesitas. Un miembro del equipo de GAZ te responderá en este mismo chat.',
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14.5,
             height: 1.45,
-            color: MotorutaColors.ink600,
+            color: context.gaz.text2,
           ),
         ),
         const SizedBox(height: 22),
@@ -338,14 +338,14 @@ class _Burbuja extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.fromLTRB(14, 10, 14, 11),
         decoration: BoxDecoration(
-          color: deSoporte ? Colors.white : MotorutaColors.brand800,
+          color: deSoporte ? context.gaz.surface : MotorutaColors.brand800,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(16),
             topRight: const Radius.circular(16),
             bottomLeft: Radius.circular(deSoporte ? 4 : 16),
             bottomRight: Radius.circular(deSoporte ? 16 : 4),
           ),
-          border: deSoporte ? Border.all(color: MotorutaColors.ink100) : null,
+          border: deSoporte ? Border.all(color: context.gaz.border) : null,
           boxShadow: deSoporte ? MotorutaTheme.sombraTarjeta : null,
         ),
         child: Column(
@@ -370,7 +370,7 @@ class _Burbuja extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.5,
                 height: 1.4,
-                color: deSoporte ? MotorutaColors.ink900 : Colors.white,
+                color: deSoporte ? context.gaz.text : Colors.white,
               ),
             ),
             if (mensaje.creadoEn != null) ...<Widget>[
@@ -380,7 +380,7 @@ class _Burbuja extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 10.5,
                   color: deSoporte
-                      ? MotorutaColors.ink400
+                      ? context.gaz.text3
                       : Colors.white.withOpacity(0.62),
                 ),
               ),
@@ -407,9 +407,9 @@ class _Compositor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: MotorutaColors.ink100)),
+      decoration: BoxDecoration(
+        color: context.gaz.surface,
+        border: Border(top: BorderSide(color: context.gaz.border)),
       ),
       padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
       child: SafeArea(
@@ -425,22 +425,21 @@ class _Compositor extends StatelessWidget {
                 maxLength: 2000,
                 keyboardType: TextInputType.multiline,
                 textCapitalization: TextCapitalization.sentences,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15.5,
-                  color: MotorutaColors.ink900,
+                  color: context.gaz.text,
                 ),
                 decoration: InputDecoration(
                   hintText: 'Escribe tu mensaje...',
                   counterText: '',
                   filled: true,
-                  fillColor: MotorutaColors.ink50,
+                  fillColor: context.gaz.surfaceAlt,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 14,
                     vertical: 12,
                   ),
-                  border: MotorutaTheme.borde(color: MotorutaColors.ink100),
-                  enabledBorder:
-                      MotorutaTheme.borde(color: MotorutaColors.ink100),
+                  border: MotorutaTheme.borde(color: context.gaz.border),
+                  enabledBorder: MotorutaTheme.borde(color: context.gaz.border),
                   focusedBorder: MotorutaTheme.borde(
                     color: MotorutaColors.brand700,
                     grosor: 1.4,
@@ -455,7 +454,7 @@ class _Compositor extends StatelessWidget {
               style: IconButton.styleFrom(
                 backgroundColor: MotorutaColors.brand800,
                 foregroundColor: Colors.white,
-                disabledBackgroundColor: MotorutaColors.ink200,
+                disabledBackgroundColor: context.gaz.borderStrong,
                 minimumSize: const Size(48, 48),
               ),
               icon: enviando

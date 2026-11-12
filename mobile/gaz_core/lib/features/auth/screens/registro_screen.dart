@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -363,7 +361,8 @@ class _RegistroScreenState extends State<RegistroScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text('Tus datos', style: MotorutaTheme.titulo(tamano: 18)),
+              Text('Tus datos',
+                  style: MotorutaTheme.tituloDe(context, tamano: 18)),
               const SizedBox(height: 16),
               Center(
                 child: Stack(
@@ -371,14 +370,14 @@ class _RegistroScreenState extends State<RegistroScreen> {
                   children: <Widget>[
                     CircleAvatar(
                       radius: 46,
-                      backgroundColor: MotorutaColors.ink100,
+                      backgroundColor: context.gaz.border,
                       backgroundImage:
                           _fotoBytes != null ? MemoryImage(_fotoBytes!) : null,
                       child: _fotoBytes == null
-                          ? const Icon(
+                          ? Icon(
                               Icons.person_rounded,
                               size: 48,
-                              color: MotorutaColors.ink400,
+                              color: context.gaz.text3,
                             )
                           : null,
                     ),
@@ -412,9 +411,9 @@ class _RegistroScreenState extends State<RegistroScreen> {
                   _fotoNombre != null
                       ? 'Foto seleccionada'
                       : 'Foto de perfil / Selfie (opcional)',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: MotorutaColors.ink500,
+                    color: context.gaz.text2,
                   ),
                 ),
               ),
@@ -565,12 +564,12 @@ class _RegistroScreenState extends State<RegistroScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text('Tu vehículo', style: MotorutaTheme.titulo(tamano: 18)),
+                Text('Tu vehículo',
+                    style: MotorutaTheme.tituloDe(context, tamano: 18)),
                 const SizedBox(height: 6),
-                const Text(
+                Text(
                   'Elige con qué vehículo vas a hacer los viajes.',
-                  style:
-                      TextStyle(fontSize: 13.5, color: MotorutaColors.ink600),
+                  style: TextStyle(fontSize: 13.5, color: context.gaz.text2),
                 ),
                 const SizedBox(height: 14),
                 SegmentedButton<String>(
@@ -578,9 +577,9 @@ class _RegistroScreenState extends State<RegistroScreen> {
                   style: SegmentedButton.styleFrom(
                     selectedBackgroundColor: MotorutaColors.brand800,
                     selectedForegroundColor: Colors.white,
-                    foregroundColor: MotorutaColors.ink700,
-                    side: const BorderSide(
-                      color: MotorutaColors.ink100,
+                    foregroundColor: context.gaz.text2,
+                    side: BorderSide(
+                      color: context.gaz.border,
                       width: 1.2,
                     ),
                     shape: RoundedRectangleBorder(
@@ -668,7 +667,8 @@ class _RegistroScreenState extends State<RegistroScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text('Tu clave', style: MotorutaTheme.titulo(tamano: 18)),
+              Text('Tu clave',
+                  style: MotorutaTheme.tituloDe(context, tamano: 18)),
               const SizedBox(height: 16),
               CampoTexto(
                 controlador: _contrasena,
@@ -721,15 +721,15 @@ class _RegistroScreenState extends State<RegistroScreen> {
                     },
                   ),
                   const SizedBox(width: 4),
-                  const Expanded(
+                  Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 12),
+                      padding: const EdgeInsets.only(top: 12),
                       child: Text(
                         'Acepto los términos y condiciones y la política de privacidad.',
                         style: TextStyle(
                           fontSize: 14,
                           height: 1.4,
-                          color: MotorutaColors.ink700,
+                          color: context.gaz.text2,
                         ),
                       ),
                     ),

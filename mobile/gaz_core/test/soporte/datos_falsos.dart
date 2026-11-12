@@ -1,7 +1,7 @@
 /// Datos con la misma forma que devuelve el backend, para las pruebas.
 library;
 
-import 'package:gaz_core/gaz_core.dart';
+import 'package:gaz_core/core/storage/token_storage.dart';
 
 /// Token en memoria: reemplaza al llavero del sistema en las pruebas.
 class TokenMemoria implements TokenStorage {
@@ -110,7 +110,6 @@ Map<String, dynamic> usuarioJson({
       },
   };
 }
-
 
 /// Envoltura de `GET /api/perfil`.
 Map<String, dynamic> perfilJson({

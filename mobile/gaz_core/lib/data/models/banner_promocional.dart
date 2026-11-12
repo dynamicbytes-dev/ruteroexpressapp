@@ -52,8 +52,10 @@ class BannerPromocional {
         Colors.white,
       ),
       enlace: _texto(json['action_url'] ?? json['enlace']),
-      textoBoton: _texto(json['action_text'] ?? json['texto_boton']) ?? 'Ver más',
-      rolObjetivo: _texto(json['target_role'] ?? json['rol_objetivo']) ?? 'passenger',
+      textoBoton:
+          _texto(json['action_text'] ?? json['texto_boton']) ?? 'Ver más',
+      rolObjetivo:
+          _texto(json['target_role'] ?? json['rol_objetivo']) ?? 'passenger',
     );
   }
 }

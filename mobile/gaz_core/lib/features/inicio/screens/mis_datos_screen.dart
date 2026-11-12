@@ -116,6 +116,8 @@ class _MisDatosScreenState extends State<MisDatosScreen> {
       if (elegido == null || !mounted) return;
 
       final bytes = await elegido.readAsBytes();
+      if (!mounted) return;
+
       if (bytes.length > 6 * 1024 * 1024) {
         mostrarMensaje(
           context,
@@ -130,7 +132,8 @@ class _MisDatosScreenState extends State<MisDatosScreen> {
         _error = null;
       });
 
-      final usuarioActual = context.read<SesionController>().usuario;
+      final sesion = context.read<SesionController>();
+      final usuarioActual = sesion.usuario;
       final campos = <String, String>{
         'first_name': _nombres.text.trim().isNotEmpty
             ? _nombres.text.trim()
@@ -149,16 +152,17 @@ class _MisDatosScreenState extends State<MisDatosScreen> {
       };
 
       final nombre = elegido.name.isNotEmpty ? elegido.name : 'avatar.jpg';
-      final resultado = await context.read<SesionController>().subirAvatar(
-            ArchivoSubida.desdeBytes(
-              nombre: nombre.contains('.') ? nombre : '$nombre.jpg',
-              bytes: bytes,
-            ),
-            campos: campos,
-          );
+      final resultado = await sesion.subirAvatar(
+        ArchivoSubida.desdeBytes(
+          nombre: nombre.contains('.') ? nombre : '$nombre.jpg',
+          bytes: bytes,
+        ),
+        campos: campos,
+      );
 
       if (!mounted) return;
-      mostrarMensaje(context, resultado.mensaje ?? 'Foto de perfil actualizada.');
+      mostrarMensaje(
+          context, resultado.mensaje ?? 'Foto de perfil actualizada.');
     } on ApiException catch (e) {
       if (!mounted) return;
       mostrarMensaje(context, e.errorDe('avatar') ?? e.mensaje, error: true);

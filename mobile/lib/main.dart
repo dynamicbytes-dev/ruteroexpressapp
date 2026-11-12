@@ -1,24 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:gaz_core/gaz_core.dart';
 
-import 'app.dart';
-import 'core/api/api_client.dart';
-import 'core/push/push_service.dart';
-import 'core/realtime/tiempo_real_service.dart';
-import 'core/storage/token_storage.dart';
-import 'data/billetera_repository.dart';
-import 'data/cuenta_repository.dart';
-import 'data/dispositivos_repository.dart';
-import 'data/notificaciones_repository.dart';
-import 'data/soporte_repository.dart';
-import 'data/viajes_repository.dart';
-import 'features/sesion/sesion_controller.dart';
-
-/// Arranque de GAZ.
+/// Arranque de GAZ en modo legado.
 ///
-/// La dirección del backend sale de `ApiConfig` (o de
-/// `--dart-define=API_BASE_URL=...`); el token vive en el llavero del sistema.
+/// Todo el código de la app vive en `gaz_core`; este archivo solo conecta los
+/// servicios de plataforma (Firebase, almacenamiento seguro, tiempo real) y
+/// arranca el árbol compartido. Al no fijar `rol`, la persona puede elegir
+/// pasajero o conductor desde la bienvenida; las apps `gaz_passenger` y
+/// `gaz_driver` son las versiones especializadas.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -52,7 +43,15 @@ Future<void> main() async {
     push: push,
   );
 
-  runApp(MotorutaApp(sesion: sesion));
+  final tema = await ThemeController.cargar();
+
+  runApp(
+    GazApp(
+      sesion: sesion,
+      titulo: 'GAZ',
+      tema: tema,
+    ),
+  );
 }
 
 /// Handler de segundo plano exigido por `firebase_messaging`.

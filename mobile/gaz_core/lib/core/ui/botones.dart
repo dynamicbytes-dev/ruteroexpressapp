@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../theme/app_theme.dart';
 import '../theme/motoruta_colors.dart';
 
 /// Envoltura con micro-interacción de escala elástica y respuesta háptica.
@@ -81,7 +82,8 @@ class BotonPrincipal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorTexto = claro ? MotorutaColors.brand900 : Colors.white;
+    final esquema = Theme.of(context).colorScheme;
+    final colorTexto = claro ? MotorutaColors.brand900 : esquema.onPrimary;
     final habilitado = !cargando && alPresionar != null;
 
     final boton = FilledButton(
@@ -89,12 +91,12 @@ class BotonPrincipal extends StatelessWidget {
       style: FilledButton.styleFrom(
         minimumSize: const Size.fromHeight(54),
         padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 15),
-        backgroundColor: claro ? MotorutaColors.cian : MotorutaColors.brand800,
+        backgroundColor: claro ? MotorutaColors.cian : esquema.primary,
         foregroundColor: colorTexto,
         disabledBackgroundColor:
-            claro ? MotorutaColors.brand600 : MotorutaColors.ink200,
+            claro ? MotorutaColors.brand600 : context.gaz.borderStrong,
         disabledForegroundColor:
-            claro ? MotorutaColors.brand300 : MotorutaColors.ink400,
+            claro ? MotorutaColors.brand300 : context.gaz.text3,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -115,7 +117,7 @@ class BotonPrincipal extends StatelessWidget {
                 width: 22,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.4,
-                  color: claro ? MotorutaColors.brand900 : Colors.white,
+                  color: colorTexto,
                 ),
               )
             : Row(
@@ -158,7 +160,7 @@ class BotonSecundario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = claro ? Colors.white : MotorutaColors.brand800;
+    final color = claro ? Colors.white : Theme.of(context).colorScheme.primary;
     final habilitado = alPresionar != null;
 
     final boton = OutlinedButton(
@@ -168,7 +170,8 @@ class BotonSecundario extends StatelessWidget {
         foregroundColor: color,
         padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 15),
         side: BorderSide(
-          color: claro ? Colors.white.withOpacity(0.35) : MotorutaColors.ink200,
+          color:
+              claro ? Colors.white.withOpacity(0.35) : context.gaz.borderStrong,
           width: 1.2,
         ),
         shape: RoundedRectangleBorder(

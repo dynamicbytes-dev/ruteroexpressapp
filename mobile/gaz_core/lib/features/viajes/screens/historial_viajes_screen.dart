@@ -189,7 +189,7 @@ class _HistorialViajesScreenState extends State<HistorialViajesScreen> {
                           ? 'No hay viajes en este período'
                           : 'Todavía no hay viajes',
                       textAlign: TextAlign.center,
-                      style: MotorutaTheme.titulo(tamano: 18),
+                      style: MotorutaTheme.tituloDe(context, tamano: 18),
                     ),
                     const SizedBox(height: 6),
                     Text(
@@ -199,10 +199,10 @@ class _HistorialViajesScreenState extends State<HistorialViajesScreen> {
                               ? 'Cuando completes tu primer viaje aparecerá aquí.'
                               : 'Cuando pidas tu primer viaje aparecerá aquí.',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13.5,
                         height: 1.4,
-                        color: MotorutaColors.ink600,
+                        color: context.gaz.text2,
                       ),
                     ),
                   ],
@@ -258,14 +258,14 @@ class _FiltroPeriodo extends StatelessWidget {
           side: BorderSide(
             color: seleccionado == periodo
                 ? MotorutaColors.brand300
-                : MotorutaColors.ink200,
+                : context.gaz.borderStrong,
           ),
           labelStyle: TextStyle(
             fontSize: 13.5,
             fontWeight: FontWeight.w600,
             color: seleccionado == periodo
                 ? MotorutaColors.brand800
-                : MotorutaColors.ink600,
+                : context.gaz.text2,
           ),
           onSelected: (_) => alCambiar(periodo),
         );
@@ -294,9 +294,9 @@ class _TarjetaHistorial extends StatelessWidget {
                   horaViaje(
                     viaje.completadoEn ?? viaje.canceladoEn ?? viaje.pedidoEn,
                   ),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12.5,
-                    color: MotorutaColors.ink500,
+                    color: context.gaz.text2,
                   ),
                 ),
               ),
@@ -314,29 +314,29 @@ class _TarjetaHistorial extends StatelessWidget {
             children: <Widget>[
               Text(
                 distanciaViaje(viaje.distanciaKm),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12.5,
-                  color: MotorutaColors.ink500,
+                  color: context.gaz.text2,
                 ),
               ),
               const SizedBox(width: 10),
               Text(
                 '· ${viaje.duracionMinutos} min',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12.5,
-                  color: MotorutaColors.ink500,
+                  color: context.gaz.text2,
                 ),
               ),
               const Spacer(),
               Text(
                 montoUsd(viaje.tarifa.total),
-                style: MotorutaTheme.titulo(tamano: 17),
+                style: MotorutaTheme.tituloDe(context, tamano: 17),
               ),
               const SizedBox(width: 4),
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
                 size: 20,
-                color: MotorutaColors.ink400,
+                color: context.gaz.text3,
               ),
             ],
           ),
@@ -345,33 +345,33 @@ class _TarjetaHistorial extends StatelessWidget {
             viaje.metodoPagoEtiqueta.isEmpty
                 ? (viaje.enEfectivo ? 'Efectivo' : 'Billetera')
                 : viaje.metodoPagoEtiqueta,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: MotorutaColors.ink500,
+              color: context.gaz.text2,
             ),
           ),
-            if (viaje.completado && viaje.calificacion != null) ...<Widget>[
-              const SizedBox(height: 8),
-              Text(
-                '${viaje.calificacion!.textoEstrellas} Tu calificación',
-                style: const TextStyle(
-                  fontSize: 12.5,
-                  color: MotorutaColors.amarillo,
-                ),
+          if (viaje.completado && viaje.calificacion != null) ...<Widget>[
+            const SizedBox(height: 8),
+            Text(
+              '${viaje.calificacion!.textoEstrellas} Tu calificación',
+              style: const TextStyle(
+                fontSize: 12.5,
+                color: MotorutaColors.amarillo,
               ),
-            ] else if (viaje.completado && viaje.puedoCalificar) ...<Widget>[
-              const SizedBox(height: 8),
-              const Text(
-                'Sin calificar · toca para calificar el viaje',
-                style: TextStyle(
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.w600,
-                  color: MotorutaColors.brand700,
-                ),
+            ),
+          ] else if (viaje.completado && viaje.puedoCalificar) ...<Widget>[
+            const SizedBox(height: 8),
+            const Text(
+              'Sin calificar · toca para calificar el viaje',
+              style: TextStyle(
+                fontSize: 12.5,
+                fontWeight: FontWeight.w600,
+                color: MotorutaColors.brand700,
               ),
-            ],
+            ),
           ],
-        ),
-      );
-    }
+        ],
+      ),
+    );
   }
+}

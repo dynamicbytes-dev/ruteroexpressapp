@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 ///
 /// Se puede cambiar sin tocar código:
 ///
-/// 
+///
 abstract class ApiConfig {
   /// Puerto donde corre `php artisan serve`.
   static const int puerto = 8000;

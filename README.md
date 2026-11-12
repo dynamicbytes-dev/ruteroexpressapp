@@ -60,11 +60,12 @@ ruteroexpress/
 │   └── routes/                    # Rutas de API, Web, Consola y Canales WebSocket
 │
 ├── mobile/                        # Ecosistema móvil desarrollado en Flutter
-│   ├── gaz_core/                  # Paquete compartido: modelos, repositorios, API client y temas
+│   ├── gaz_core/                  # Paquete compartido: UI, modelos, repositorios, API client y temas
+│   │   └── test/                  # Suite de pruebas unitarias y de widgets
 │   ├── gaz_passenger/             # App independiente para Pasajeros (GAZ)
 │   ├── gaz_driver/                # App independiente para Conductores (GAZ Driver)
-│   ├── lib/                       # Aplicación unificada original (conmutación por rol)
-│   └── test/                      # Suite de pruebas unitarias y de widgets
+│   ├── lib/                       # Arranque delgado de la suite unificada (rol seleccionable)
+│   └── test/integracion/          # Prueba opcional contra el backend real
 │
 ├── docker/                        # Scripts de inicialización de la base de datos
 ├── docker-compose.yml             # Contenedor PostgreSQL 17 + PostGIS
@@ -92,6 +93,7 @@ ruteroexpress/
 - **Gestión de Estado:** Provider (arquitectura reactiva desacoplada).
 - **Cliente HTTP:** Dio (con interceptores, reintentos y reporte de progreso de carga en tiempo real).
 - **Almacenamiento Seguro:** `flutter_secure_storage` (Keystore en Android / Keychain en iOS).
+- **Preferencias:** `shared_preferences` para el tema claro/oscuro/sistema (`gaz2027-tema`).
 - **Mapas:** `flutter_map` + `latlong2` (OpenStreetMap público y tiles de Geoapify; sin dependencias nativas pesadas).
 - **Geolocalización:** `geolocator` con seguimiento en primer plano y latidos de posición periódicos.
 - **Tiempo Real:** `web_socket_channel` conectado al protocolo Reverb con reconexión exponencial.
@@ -108,10 +110,12 @@ ruteroexpress/
 - **Calificaciones:** Sistema de 1 a 5 estrellas con comentarios al culminar el trayecto.
 - **Billetera Digital:** Consulta de saldo disponible y retenido en USD, cálculo referencial en Bolívares (Bs) según tasa oficial del BCV, recargas mediante transferencia bancaria nacional con subida de comprobante, e historial de transacciones.
 - **Publicidad:** Carrusel interactivo de banners promocionales gestionados desde el panel central.
-- **Navegación Moderna:** Barra de navegación flotante integrada y soporte para viajes agendados.
+- **Navegación Moderna:** barra flotante con acción central: Inicio · Viajes · **[Pedir]** · Billetera · Perfil, además de viajes agendados.
+- **Tema 2027:** modo claro/oscuro/sistema persistente, tipografía Sora + Inter y toggle en Inicio.
 - **Soporte:** Chat directo con los auditores en tiempo real.
 
 ### Aplicación de Conductores
+- **Navegación 2027:** Inicio · Viajes · **[En línea / Conectar]** · Ganancias · Perfil, con conexión directa desde la acción central.
 - **Verificación Documental:** Carga guiada de fotos de cédula, licencia de conducir, carnet de circulación, RCV y foto del vehículo, con fechas de vencimiento y alertas tempranas (a los 30, 15 y 5 días antes de expirar).
 - **Gestión de Disponibilidad:** Conexión/desconexión con validación de saldo positivo o dentro del límite negativo permitido, y transmisión periódica de coordenadas (latido cada 60 s).
 - **Recepción de Viajes:** Alertas de ofertas con cuenta regresiva sonora y visual; visualización de distancia y ganancia neta.
@@ -120,6 +124,7 @@ ruteroexpress/
 - **Mis Calificaciones:** Consulta de promedio de reputación y reseñas recibidas por parte de los usuarios.
 
 ### Panel Web Administrativo y Auditoría
+- **Navegación 2027:** sidebar agrupado, header de 64 px, búsqueda global `⌘K` y tema claro/oscuro persistente.
 - **Dashboard Operativo:** Indicadores clave en tiempo real: viajes en curso, usuarios activos, recargas por verificar, retiros solicitados y documentos por vencer.
 - **Cola de Verificación:** Aprobación/rechazo de documentos con motivo explícito, inspección de archivos servidos mediante URLs firmadas de corta duración (5 min) y suspensión preventiva de cuentas.
 - **Gestión de Billetera:** Aprobación de recargas con validación de referencias bancarias antifraude, procesamiento de solicitudes de retiro con comprobante de pago bancario y ajustes manuales de saldo auditados.

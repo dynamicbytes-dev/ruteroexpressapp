@@ -28,10 +28,10 @@ class PanelConductor extends StatefulWidget {
   const PanelConductor({super.key});
 
   @override
-  State<PanelConductor> createState() => _PanelConductorState();
+  State<PanelConductor> createState() => PanelConductorState();
 }
 
-class _PanelConductorState extends State<PanelConductor>
+class PanelConductorState extends State<PanelConductor>
     with WidgetsBindingObserver {
   Timer? _reloj;
   StreamSubscription<Position>? _ubicacion;
@@ -231,6 +231,26 @@ class _PanelConductorState extends State<PanelConductor>
     _reloj = null;
   }
 
+  /// Conecta o desconecta al conductor desde la acción central de la barra.
+  ///
+  /// Es público para que la navegación pueda reutilizar exactamente la misma
+  /// lógica de GPS, ubicación y sondeo que el interruptor de la tarjeta.
+  Future<void> alternarConexion() async {
+    if (!mounted || _cambiando) return;
+
+    var estado = context.read<SesionController>().estadoConductor;
+
+    if (estado == null) {
+      await _cargarInicial();
+      if (!mounted) return;
+      estado = context.read<SesionController>().estadoConductor;
+    }
+
+    if (estado == null) return;
+
+    await _alternar(!estado.enLinea);
+  }
+
   Future<void> _alternar(bool conectar) async {
     if (_cambiando) return;
 
@@ -331,7 +351,8 @@ class _PanelConductorState extends State<PanelConductor>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text('Modo conductor', style: MotorutaTheme.titulo(tamano: 18)),
+            Text('Modo conductor',
+                style: MotorutaTheme.tituloDe(context, tamano: 18)),
             const SizedBox(height: 12),
             if (sesion.cargandoEstadoConductor)
               const Center(
@@ -344,9 +365,9 @@ class _PanelConductorState extends State<PanelConductor>
               Text(
                 sesion.errorViajes ??
                     'No pudimos leer tu estado de conexión. Inténtalo de nuevo.',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13.5,
-                  color: MotorutaColors.ink600,
+                  color: context.gaz.text2,
                 ),
               ),
               const SizedBox(height: 10),
@@ -392,7 +413,8 @@ class _PanelConductorState extends State<PanelConductor>
                           estado.enLinea
                               ? 'Estás en línea'
                               : 'Estás desconectado',
-                          style: MotorutaTheme.titulo(
+                          style: MotorutaTheme.tituloDe(
+                            context,
                             tamano: 20,
                             color: Colors.white,
                           ),
@@ -529,7 +551,7 @@ class _PanelConductorState extends State<PanelConductor>
                     Expanded(
                       child: Text(
                         'Viaje en curso',
-                        style: MotorutaTheme.titulo(tamano: 17),
+                        style: MotorutaTheme.tituloDe(context, tamano: 17),
                       ),
                     ),
                     etiquetaEstadoViaje(viaje),
@@ -540,9 +562,9 @@ class _PanelConductorState extends State<PanelConductor>
                   '${viaje.origen.direccion} → ${viaje.destino.direccion}',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: MotorutaColors.ink600,
+                    color: context.gaz.text2,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -607,7 +629,8 @@ class _Estadistica extends StatelessWidget {
         children: <Widget>[
           Text(
             valor,
-            style: MotorutaTheme.titulo(tamano: 19, color: Colors.white),
+            style: MotorutaTheme.tituloDe(context,
+                tamano: 19, color: Colors.white),
           ),
           const SizedBox(height: 2),
           Text(

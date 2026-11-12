@@ -74,15 +74,15 @@ class _MovimientosScreenState extends State<MovimientosScreen> {
             else ...<Widget>[
               Text(
                 'Tu libro mayor',
-                style: MotorutaTheme.titulo(tamano: 20),
+                style: MotorutaTheme.tituloDe(context, tamano: 20),
               ),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 'Cada movimiento queda registrado y no se edita. Si hay una corrección, aparece como un ajuste.',
                 style: TextStyle(
                   fontSize: 13.5,
                   height: 1.4,
-                  color: MotorutaColors.ink500,
+                  color: context.gaz.text2,
                 ),
               ),
               const SizedBox(height: 16),
@@ -105,9 +105,8 @@ class _FilaMovimiento extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = movimiento.esCredito
-        ? MotorutaColors.verde
-        : MotorutaColors.rojo;
+    final color =
+        movimiento.esCredito ? MotorutaColors.verde : MotorutaColors.rojo;
 
     return Tarjeta(
       child: Row(
@@ -138,29 +137,29 @@ class _FilaMovimiento extends StatelessWidget {
                   movimiento.tipoEtiqueta.isEmpty
                       ? movimiento.tipo
                       : movimiento.tipoEtiqueta,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14.5,
                     fontWeight: FontWeight.w600,
-                    color: MotorutaColors.ink900,
+                    color: context.gaz.text,
                   ),
                 ),
                 if (movimiento.descripcion != null) ...<Widget>[
                   const SizedBox(height: 2),
                   Text(
                     movimiento.descripcion!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12.5,
                       height: 1.35,
-                      color: MotorutaColors.ink500,
+                      color: context.gaz.text2,
                     ),
                   ),
                 ],
                 const SizedBox(height: 4),
                 Text(
                   fechaConHora(movimiento.creadoEn),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: MotorutaColors.ink400,
+                    color: context.gaz.text3,
                   ),
                 ),
               ],
@@ -181,9 +180,9 @@ class _FilaMovimiento extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 'Saldo ${montoUsd(movimiento.saldoDespues)}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11.5,
-                  color: MotorutaColors.ink400,
+                  color: context.gaz.text3,
                 ),
               ),
             ],

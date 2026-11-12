@@ -64,8 +64,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(
-          find.text('Conecta, conduce y cobra tus viajes.'), findsOneWidget);
+      expect(find.text('Conecta, conduce y cobra tus viajes.'), findsOneWidget);
     });
 
     testWidgets(

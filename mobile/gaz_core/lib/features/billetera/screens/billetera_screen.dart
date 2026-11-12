@@ -96,9 +96,8 @@ class _BilleteraScreenState extends State<BilleteraScreen> {
     final paddingInferior = 110.0 + bottomInset;
 
     return Scaffold(
-      appBar: widget.mostrarAppBar
-          ? AppBar(title: const Text('Billetera'))
-          : null,
+      appBar:
+          widget.mostrarAppBar ? AppBar(title: const Text('Billetera')) : null,
       body: RefreshIndicator(
         onRefresh: _cargarTodo,
         child: ListView(
@@ -178,7 +177,7 @@ class _BilleteraScreenState extends State<BilleteraScreen> {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        const Expanded(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -187,14 +186,14 @@ class _BilleteraScreenState extends State<BilleteraScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14.5,
-                                  color: MotorutaColors.ink900,
+                                  color: context.gaz.text,
                                 ),
                               ),
                               Text(
                                 'Toca cualquier dato para copiarlo',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: MotorutaColors.ink500,
+                                  color: context.gaz.text2,
                                 ),
                               ),
                             ],
@@ -206,26 +205,30 @@ class _BilleteraScreenState extends State<BilleteraScreen> {
                     _ItemDatoBancario(
                       etiqueta: 'Banco',
                       valor: billetera.banco.banco,
-                      alCopiar: () => _copiarTexto('Banco', billetera.banco.banco),
+                      alCopiar: () =>
+                          _copiarTexto('Banco', billetera.banco.banco),
                     ),
                     const Divider(height: 14),
                     _ItemDatoBancario(
                       etiqueta: 'Cuenta / Teléfono',
                       valor: billetera.banco.cuenta,
-                      alCopiar: () => _copiarTexto('Número de cuenta/teléfono', billetera.banco.cuenta),
+                      alCopiar: () => _copiarTexto(
+                          'Número de cuenta/teléfono', billetera.banco.cuenta),
                     ),
                     const Divider(height: 14),
                     _ItemDatoBancario(
                       etiqueta: 'Titular',
                       valor: billetera.banco.titular,
-                      alCopiar: () => _copiarTexto('Titular', billetera.banco.titular),
+                      alCopiar: () =>
+                          _copiarTexto('Titular', billetera.banco.titular),
                     ),
                     if (billetera.banco.rif.isNotEmpty) ...<Widget>[
                       const Divider(height: 14),
                       _ItemDatoBancario(
                         etiqueta: 'Cédula / RIF',
                         valor: billetera.banco.rif,
-                        alCopiar: () => _copiarTexto('Cédula/RIF', billetera.banco.rif),
+                        alCopiar: () =>
+                            _copiarTexto('Cédula/RIF', billetera.banco.rif),
                       ),
                     ],
                   ],
@@ -237,13 +240,13 @@ class _BilleteraScreenState extends State<BilleteraScreen> {
             // Encabezado de transacciones recientes
             Row(
               children: <Widget>[
-                const Expanded(
+                Expanded(
                   child: Text(
                     'Transacciones recientes',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: MotorutaColors.ink900,
+                      color: context.gaz.text,
                     ),
                   ),
                 ),
@@ -268,31 +271,32 @@ class _BilleteraScreenState extends State<BilleteraScreen> {
               Aviso(tono: Tono.error, texto: _errorMovimientos!)
             else if (_movimientos.isEmpty)
               Tarjeta(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
                 child: Column(
                   children: <Widget>[
                     Icon(
                       Icons.receipt_long_outlined,
                       size: 44,
-                      color: MotorutaColors.ink300,
+                      color: context.gaz.text3,
                     ),
                     const SizedBox(height: 12),
-                    const Text(
+                    Text(
                       'Sin movimientos todavía',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: MotorutaColors.ink800,
+                        color: context.gaz.text,
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
+                    Text(
                       'Cuando recargues tu saldo o realices pagos de viajes, cada movimiento aparecerá detallado aquí.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13,
                         height: 1.35,
-                        color: MotorutaColors.ink500,
+                        color: context.gaz.text2,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -355,7 +359,8 @@ class _TarjetaSaldoBilletera extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: MotorutaColors.cian.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(20),
@@ -414,7 +419,8 @@ class _TarjetaSaldoBilletera extends StatelessWidget {
           ] else ...<Widget>[
             Text(
               montoUsd(billetera!.saldo),
-              style: MotorutaTheme.titulo(
+              style: MotorutaTheme.tituloDe(
+                context,
                 tamano: 36,
                 color: Colors.white,
               ),
@@ -506,10 +512,10 @@ class _BotonAccionRapida extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             titulo,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14.5,
               fontWeight: FontWeight.w700,
-              color: MotorutaColors.ink900,
+              color: context.gaz.text,
             ),
           ),
           const SizedBox(height: 2),
@@ -517,9 +523,9 @@ class _BotonAccionRapida extends StatelessWidget {
             subtitulo,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11.5,
-              color: MotorutaColors.ink500,
+              color: context.gaz.text2,
             ),
           ),
         ],
@@ -555,19 +561,19 @@ class _ItemDatoBancario extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     etiqueta,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 11.5,
                       fontWeight: FontWeight.w500,
-                      color: MotorutaColors.ink500,
+                      color: context.gaz.text2,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     valor,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13.5,
                       fontWeight: FontWeight.w600,
-                      color: MotorutaColors.ink900,
+                      color: context.gaz.text,
                     ),
                   ),
                 ],
@@ -593,9 +599,8 @@ class _TarjetaMovimiento extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = movimiento.esCredito
-        ? MotorutaColors.verde
-        : MotorutaColors.rojo;
+    final color =
+        movimiento.esCredito ? MotorutaColors.verde : MotorutaColors.rojo;
 
     return Tarjeta(
       padding: const EdgeInsets.all(14),
@@ -627,29 +632,29 @@ class _TarjetaMovimiento extends StatelessWidget {
                   movimiento.tipoEtiqueta.isEmpty
                       ? movimiento.tipo
                       : movimiento.tipoEtiqueta,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: MotorutaColors.ink900,
+                    color: context.gaz.text,
                   ),
                 ),
                 if (movimiento.descripcion != null) ...<Widget>[
                   const SizedBox(height: 2),
                   Text(
                     movimiento.descripcion!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       height: 1.35,
-                      color: MotorutaColors.ink500,
+                      color: context.gaz.text2,
                     ),
                   ),
                 ],
                 const SizedBox(height: 4),
                 Text(
                   fechaConHora(movimiento.creadoEn),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11.5,
-                    color: MotorutaColors.ink400,
+                    color: context.gaz.text3,
                   ),
                 ),
               ],
@@ -670,9 +675,9 @@ class _TarjetaMovimiento extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 'Saldo ${montoUsd(movimiento.saldoDespues)}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11,
-                  color: MotorutaColors.ink400,
+                  color: context.gaz.text3,
                 ),
               ),
             ],

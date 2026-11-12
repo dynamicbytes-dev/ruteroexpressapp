@@ -42,11 +42,14 @@ Future<void> main() async {
     rolEsperado: 'passenger',
   );
 
+  final tema = await ThemeController.cargar();
+
   runApp(
     GazApp(
       sesion: sesion,
       rol: 'passenger',
       titulo: 'GAZ',
+      tema: tema,
     ),
   );
 }

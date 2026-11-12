@@ -81,9 +81,9 @@ class _OpcionRol extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.gaz.surface,
         borderRadius: BorderRadius.circular(MotorutaTheme.radioGrande),
-        border: Border.all(color: MotorutaColors.ink100, width: 1.2),
+        border: Border.all(color: context.gaz.border, width: 1.2),
         boxShadow: MotorutaTheme.sombraTarjeta,
       ),
       child: Material(
@@ -113,14 +113,14 @@ class _OpcionRol extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(titulo,
-                          style: MotorutaTheme.titulo(
+                          style: MotorutaTheme.tituloDe(context,
                               tamano: 19, peso: FontWeight.w700)),
                       const SizedBox(height: 4),
                       Text(
                         descripcion,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
-                          color: MotorutaColors.ink600,
+                          color: context.gaz.text2,
                           height: 1.4,
                         ),
                       ),
@@ -136,8 +136,7 @@ class _OpcionRol extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Icon(Icons.chevron_right_rounded,
-                    color: MotorutaColors.ink400),
+                Icon(Icons.chevron_right_rounded, color: context.gaz.text3),
               ],
             ),
           ),

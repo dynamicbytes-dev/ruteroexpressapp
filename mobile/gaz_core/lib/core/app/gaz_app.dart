@@ -9,19 +9,20 @@ import '../../features/inicio/screens/inicio_screen.dart';
 import '../../features/inicio/screens/soporte_screen.dart';
 import '../../features/sesion/sesion_controller.dart';
 import '../theme/app_theme.dart';
-import '../theme/motoruta_colors.dart';
+import '../theme/theme_controller.dart';
 import '../ui/avisos.dart';
 import '../ui/botones.dart';
 import '../ui/marca.dart';
 
-/// Rol que atiende una app concreta: `passenger` o `driver`.
+/// Rol que atiende una app concreta: `passenger`, `driver` o `null` (modo
+/// legado, donde la persona elige cómo usar GAZ).
 ///
 /// Cada aplicación (GAZ y GAZ Driver) envuelve su árbol con este `InheritedWidget`
 /// para que las pantallas compartidas sepan que no deben ofrecer el otro rol.
 class GazRolScope extends InheritedWidget {
   const GazRolScope({super.key, required this.rol, required super.child});
 
-  final String rol;
+  final String? rol;
 
   bool get esConductor => rol == 'driver';
 
@@ -43,40 +44,73 @@ class GazRolScope extends InheritedWidget {
 /// Recibe la sesión ya construida (cada app decide qué repositorios y servicios
 /// conecta) y el rol que acepta. El resto del árbol es idéntico: tema, idioma y
 /// la compuerta que decide la pantalla según el backend.
-class GazApp extends StatelessWidget {
+class GazApp extends StatefulWidget {
   const GazApp({
     super.key,
     required this.sesion,
-    required this.rol,
+    this.rol,
     this.titulo = 'GAZ',
+    this.tema,
   });
 
   final SesionController sesion;
-  final String rol;
+  final String? rol;
   final String titulo;
+  final ThemeController? tema;
+
+  @override
+  State<GazApp> createState() => _GazAppState();
+}
+
+class _GazAppState extends State<GazApp> {
+  late final ThemeController _tema;
+  late final bool _temaPropio;
+
+  @override
+  void initState() {
+    super.initState();
+    _temaPropio = widget.tema == null;
+    _tema = widget.tema ?? ThemeController.memoria();
+  }
+
+  @override
+  void dispose() {
+    if (_temaPropio) _tema.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GazRolScope(
-      rol: rol,
-      child: ChangeNotifierProvider<SesionController>.value(
-        value: sesion,
-        child: MaterialApp(
-          title: titulo,
-          debugShowCheckedModeBanner: false,
-          theme: MotorutaTheme.claro,
-          locale: const Locale('es'),
-          supportedLocales: const <Locale>[
-            Locale('es', 'VE'),
-            Locale('es'),
-            Locale('en'),
-          ],
-          localizationsDelegates: const <LocalizationsDelegate<Object>>[
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          home: const CompuertaSesion(),
+      rol: widget.rol,
+      child: ChangeNotifierProvider<ThemeController>.value(
+        value: _tema,
+        child: ChangeNotifierProvider<SesionController>.value(
+          value: widget.sesion,
+          child: AnimatedBuilder(
+            animation: _tema,
+            builder: (context, _) {
+              return MaterialApp(
+                title: widget.titulo,
+                debugShowCheckedModeBanner: false,
+                theme: MotorutaTheme.claro,
+                darkTheme: MotorutaTheme.oscuro,
+                themeMode: _tema.modo,
+                locale: const Locale('es'),
+                supportedLocales: const <Locale>[
+                  Locale('es', 'VE'),
+                  Locale('es'),
+                  Locale('en'),
+                ],
+                localizationsDelegates: const <LocalizationsDelegate<Object>>[
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                home: const CompuertaSesion(),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -157,7 +191,6 @@ class PantallaRolIncorrecto extends StatelessWidget {
     final appCorrecta = esConductor ? 'GAZ Driver' : 'GAZ';
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -172,7 +205,7 @@ class PantallaRolIncorrecto extends StatelessWidget {
                   Text(
                     'Esta cuenta es de ${esConductor ? 'conductor' : 'pasajero'}',
                     textAlign: TextAlign.center,
-                    style: MotorutaTheme.titulo(tamano: 24),
+                    style: MotorutaTheme.tituloDe(context, tamano: 24),
                   ),
                   const SizedBox(height: 12),
                   Text(
@@ -180,9 +213,9 @@ class PantallaRolIncorrecto extends StatelessWidget {
                     'Aquí solo se usan cuentas de '
                     '${GazRolScope.of(context) == 'driver' ? 'conductor' : 'pasajero'}.',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
-                      color: MotorutaColors.ink600,
+                      color: context.gaz.text2,
                       height: 1.45,
                     ),
                   ),

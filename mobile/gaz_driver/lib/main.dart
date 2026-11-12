@@ -42,11 +42,14 @@ Future<void> main() async {
     rolEsperado: 'driver',
   );
 
+  final tema = await ThemeController.cargar();
+
   runApp(
     GazApp(
       sesion: sesion,
       rol: 'driver',
       titulo: 'GAZ Driver',
+      tema: tema,
     ),
   );
 }

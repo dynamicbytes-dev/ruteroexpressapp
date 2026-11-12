@@ -10,7 +10,7 @@ import '../../../data/models/banner_promocional.dart';
 /// Carrusel horizontal moderno de tarjetas publicitarias y promocionales.
 ///
 /// Diseñado bajo los estándares de aplicaciones de movilidad: bordes muy redondeados
-/// (20px-24px), sombras sutiles, tipografía Poppins y paleta de acentos de la marca.
+/// (20px-24px), sombras sutiles, tipografía Inter y paleta de acentos de la marca.
 class CarruselBanners extends StatefulWidget {
   const CarruselBanners({
     super.key,
@@ -120,7 +120,7 @@ class _CarruselBannersState extends State<CarruselBanners> {
                   decoration: BoxDecoration(
                     color: activo
                         ? MotorutaColors.brand800
-                        : MotorutaColors.ink200,
+                        : context.gaz.borderStrong,
                     borderRadius: BorderRadius.circular(10),
                   ),
                 );
@@ -202,7 +202,7 @@ class _TarjetaBanner extends StatelessWidget {
                   ),
                 ),
 
-              // Contenido textual con tipografía Poppins
+              // Contenido textual con tipografía Inter
               Padding(
                 padding: const EdgeInsets.fromLTRB(18, 14, 18, 14),
                 child: Column(
@@ -230,7 +230,7 @@ class _TarjetaBanner extends StatelessWidget {
                             child: Text(
                               banner.etiqueta!,
                               style: TextStyle(
-                                fontFamily: 'Poppins',
+                                fontFamily: 'Inter',
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 0.6,
@@ -247,7 +247,7 @@ class _TarjetaBanner extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontFamily: 'Poppins',
+                              fontFamily: 'Inter',
                               fontSize: 15.5,
                               fontWeight: FontWeight.w700,
                               height: 1.25,
@@ -265,7 +265,7 @@ class _TarjetaBanner extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontFamily: 'Poppins',
+                                fontFamily: 'Inter',
                                 fontSize: 11.5,
                                 fontWeight: FontWeight.w400,
                                 color: banner.colorTexto.withOpacity(0.85),
@@ -292,7 +292,7 @@ class _TarjetaBanner extends StatelessWidget {
                               Text(
                                 banner.textoBoton,
                                 style: TextStyle(
-                                  fontFamily: 'Poppins',
+                                  fontFamily: 'Inter',
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w600,
                                   color: banner.colorTexto,
@@ -329,9 +329,9 @@ class _HojaDetalleBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: context.gaz.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       padding: const EdgeInsets.fromLTRB(22, 12, 22, 32),
       child: SafeArea(
@@ -345,7 +345,7 @@ class _HojaDetalleBanner extends StatelessWidget {
                 width: 44,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: MotorutaColors.ink200,
+                  color: context.gaz.borderStrong,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -367,7 +367,7 @@ class _HojaDetalleBanner extends StatelessWidget {
                   child: Text(
                     banner.etiqueta!,
                     style: const TextStyle(
-                      fontFamily: 'Poppins',
+                      fontFamily: 'Inter',
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: MotorutaColors.brand800,
@@ -378,17 +378,17 @@ class _HojaDetalleBanner extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               banner.titulo,
-              style: MotorutaTheme.titulo(tamano: 20),
+              style: MotorutaTheme.tituloDe(context, tamano: 20),
             ),
             if (banner.subtitulo != null) ...<Widget>[
               const SizedBox(height: 8),
               Text(
                 banner.subtitulo!,
-                style: const TextStyle(
-                  fontFamily: 'Poppins',
+                style: TextStyle(
+                  fontFamily: 'Inter',
                   fontSize: 14,
                   height: 1.45,
-                  color: MotorutaColors.ink600,
+                  color: context.gaz.text2,
                 ),
               ),
             ],
@@ -415,7 +415,7 @@ class _HojaDetalleBanner extends StatelessWidget {
                     SnackBar(
                       content: Text(
                         'Abriendo: ${banner.enlace}',
-                        style: const TextStyle(fontFamily: 'Poppins'),
+                        style: const TextStyle(fontFamily: 'Inter'),
                       ),
                     ),
                   );

@@ -105,10 +105,12 @@ class _RecargarScreenState extends State<RecargarScreen> {
       errores['amount_bs'] = 'Escribe el monto que transferiste en bolívares.';
     }
     if (_banco.text.trim().isEmpty) {
-      errores['bank'] = 'Indica el banco desde el que hiciste la transferencia.';
+      errores['bank'] =
+          'Indica el banco desde el que hiciste la transferencia.';
     }
     if (_referencia.text.trim().length < 3) {
-      errores['reference'] = 'Escribe el número de referencia de la transferencia.';
+      errores['reference'] =
+          'Escribe el número de referencia de la transferencia.';
     }
     if (_fecha.isAfter(DateTime.now())) {
       errores['transferred_at'] = 'La fecha no puede estar en el futuro.';
@@ -164,7 +166,8 @@ class _RecargarScreenState extends State<RecargarScreen> {
 
       mostrarMensaje(
         context,
-        resultado.mensaje ?? 'Recibimos tu recarga. Queda pendiente de revisión.',
+        resultado.mensaje ??
+            'Recibimos tu recarga. Queda pendiente de revisión.',
       );
     } on ApiException catch (error) {
       if (!mounted) return;
@@ -222,10 +225,10 @@ class _RecargarScreenState extends State<RecargarScreen> {
                     Expanded(
                       child: Text(
                         'Saldo disponible: ${montoUsd(billetera.disponible)}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14.5,
                           fontWeight: FontWeight.w600,
-                          color: MotorutaColors.ink900,
+                          color: context.gaz.text,
                         ),
                       ),
                     ),
@@ -242,14 +245,14 @@ class _RecargarScreenState extends State<RecargarScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Text('Datos de tu transferencia',
-                      style: MotorutaTheme.titulo(tamano: 19)),
+                      style: MotorutaTheme.tituloDe(context, tamano: 19)),
                   const SizedBox(height: 6),
-                  const Text(
+                  Text(
                     'Haz la transferencia o pago móvil a la cuenta indicada y registra aquí los datos. El saldo se acredita cuando el equipo verifica el comprobante.',
                     style: TextStyle(
                       fontSize: 14,
                       height: 1.45,
-                      color: MotorutaColors.ink600,
+                      color: context.gaz.text2,
                     ),
                   ),
                   const SizedBox(height: 18),
@@ -286,7 +289,8 @@ class _RecargarScreenState extends State<RecargarScreen> {
                   CampoFecha(
                     etiqueta: 'Fecha de la transferencia',
                     valor: _fecha,
-                    primerDia: DateTime.now().subtract(const Duration(days: 365)),
+                    primerDia:
+                        DateTime.now().subtract(const Duration(days: 365)),
                     ultimoDia: DateTime.now(),
                     error: _errores['transferred_at'],
                     alElegir: (fecha) => setState(() => _fecha = fecha),
@@ -309,7 +313,7 @@ class _RecargarScreenState extends State<RecargarScreen> {
                       child: LinearProgressIndicator(
                         value: _progreso == 0 ? null : _progreso,
                         minHeight: 8,
-                        backgroundColor: MotorutaColors.ink100,
+                        backgroundColor: context.gaz.border,
                         color: MotorutaColors.brand700,
                       ),
                     ),
@@ -336,7 +340,8 @@ class _RecargarScreenState extends State<RecargarScreen> {
               ),
             ),
             const SizedBox(height: 26),
-            Text('Tus recargas', style: MotorutaTheme.titulo(tamano: 19)),
+            Text('Tus recargas',
+                style: MotorutaTheme.tituloDe(context, tamano: 19)),
             const SizedBox(height: 12),
             if (_cargandoHistorial)
               const Center(
@@ -381,7 +386,8 @@ class _TarjetaBanco extends StatelessWidget {
               const Icon(Icons.account_balance_rounded,
                   size: 20, color: MotorutaColors.brand800),
               const SizedBox(width: 8),
-              Text('Transfiere a', style: MotorutaTheme.titulo(tamano: 16)),
+              Text('Transfiere a',
+                  style: MotorutaTheme.tituloDe(context, tamano: 16)),
             ],
           ),
           const SizedBox(height: 12),
@@ -393,10 +399,10 @@ class _TarjetaBanco extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               banco.instrucciones,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 height: 1.4,
-                color: MotorutaColors.ink600,
+                color: context.gaz.text2,
               ),
             ),
           ],
@@ -426,9 +432,8 @@ class _SelectorComprobante extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         BotonSecundario(
-          texto: archivo == null
-              ? 'Adjuntar comprobante'
-              : 'Cambiar comprobante',
+          texto:
+              archivo == null ? 'Adjuntar comprobante' : 'Cambiar comprobante',
           icono: archivo == null
               ? Icons.add_photo_alternate_outlined
               : Icons.sync_rounded,
@@ -446,9 +451,9 @@ class _SelectorComprobante extends StatelessWidget {
                   archivo!.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: MotorutaColors.ink700,
+                    color: context.gaz.text2,
                   ),
                 ),
               ),
@@ -492,14 +497,14 @@ class _TarjetaRecarga extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       montoBs(recarga.montoBs),
-                      style: MotorutaTheme.titulo(tamano: 18),
+                      style: MotorutaTheme.tituloDe(context, tamano: 18),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       '${recarga.banco} · Ref. ${recarga.referencia}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
-                        color: MotorutaColors.ink500,
+                        color: context.gaz.text2,
                       ),
                     ),
                   ],
@@ -532,9 +537,9 @@ class _TarjetaRecarga extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             fechaConHora(recarga.creadaEn),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: MotorutaColors.ink400,
+              color: context.gaz.text3,
             ),
           ),
         ],

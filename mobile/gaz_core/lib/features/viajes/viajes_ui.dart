@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../core/theme/app_theme.dart';
 import '../../core/theme/motoruta_colors.dart';
 import '../../core/ui/avisos.dart';
 import '../../data/models/viaje.dart';
@@ -79,7 +80,7 @@ class LineaRuta extends StatelessWidget {
               Container(
                 width: 2,
                 height: compacta ? 24 : 34,
-                color: MotorutaColors.ink200,
+                color: context.gaz.borderStrong,
               ),
               Container(
                 width: 10,
@@ -98,13 +99,15 @@ class LineaRuta extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                origen.direccion.isEmpty ? 'Punto de recogida' : origen.direccion,
+                origen.direccion.isEmpty
+                    ? 'Punto de recogida'
+                    : origen.direccion,
                 maxLines: compacta ? 1 : 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: MotorutaColors.ink900,
+                  color: context.gaz.text,
                 ),
               ),
               SizedBox(height: compacta ? 20 : 30),
@@ -112,10 +115,10 @@ class LineaRuta extends StatelessWidget {
                 destino.direccion.isEmpty ? 'Destino' : destino.direccion,
                 maxLines: compacta ? 1 : 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: MotorutaColors.ink900,
+                  color: context.gaz.text,
                 ),
               ),
             ],
@@ -313,17 +316,16 @@ class _MapaViajeState extends State<MapaViaje> {
               right: 6,
               bottom: 4,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.82),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   '© ${MapaConfig.atribucion}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 9,
-                    color: MotorutaColors.ink600,
+                    color: context.gaz.text2,
                   ),
                 ),
               ),
@@ -384,7 +386,6 @@ double distanciaAproximadaKm(PuntoViaje a, PuntoViaje b) {
 }
 
 double _rad(double grados) => grados * math.pi / 180;
-
 
 /// Diálogo de cancelación usado por pasajero y conductor.
 class DialogoCancelarViaje extends StatefulWidget {

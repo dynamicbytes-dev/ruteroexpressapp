@@ -246,9 +246,8 @@ class SesionController extends ChangeNotifier {
     String? contrasenaActual,
     ArchivoSubida? avatar,
   }) async {
-    final finalNombres = nombres.trim().isNotEmpty
-        ? nombres.trim()
-        : (usuario?.nombres ?? '');
+    final finalNombres =
+        nombres.trim().isNotEmpty ? nombres.trim() : (usuario?.nombres ?? '');
     final finalApellidos = apellidos.trim().isNotEmpty
         ? apellidos.trim()
         : (usuario?.apellidos ?? '');
@@ -260,7 +259,9 @@ class SesionController extends ChangeNotifier {
         : (usuario?.direccion ?? '');
     final finalCorreo = (correo != null && correo.trim().isNotEmpty)
         ? correo.trim().toLowerCase()
-        : (usuario != null && usuario!.correo.isNotEmpty ? usuario!.correo : null);
+        : (usuario != null && usuario!.correo.isNotEmpty
+            ? usuario!.correo
+            : null);
 
     final resultado = await _repositorio.actualizarPerfil(
       nombres: finalNombres,
@@ -687,7 +688,8 @@ class SesionController extends ChangeNotifier {
       // el viaje activo del conductor para no bloquear el flujo.
       try {
         final activo = await repositorio.viajeActivoConductor();
-        if (activo != null && (activo.id == oferta.viaje.id || activo.enCurso)) {
+        if (activo != null &&
+            (activo.id == oferta.viaje.id || activo.enCurso)) {
           resultado = ResultadoAccionViaje(
             viaje: activo,
             mensaje: 'Viaje aceptado.',

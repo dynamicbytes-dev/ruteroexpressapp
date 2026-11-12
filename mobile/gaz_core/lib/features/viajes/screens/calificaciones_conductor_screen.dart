@@ -90,16 +90,16 @@ class _CalificacionesConductorScreenState
                     Text(
                       'Todavía no tienes calificaciones',
                       textAlign: TextAlign.center,
-                      style: MotorutaTheme.titulo(tamano: 18),
+                      style: MotorutaTheme.tituloDe(context, tamano: 18),
                     ),
                     const SizedBox(height: 6),
-                    const Text(
+                    Text(
                       'Cuando termines tus primeros viajes, los pasajeros podrán calificarte.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13.5,
                         height: 1.4,
-                        color: MotorutaColors.ink600,
+                        color: context.gaz.text2,
                       ),
                     ),
                   ],
@@ -129,9 +129,9 @@ class _CalificacionesConductorScreenState
                               calificacion.fecha == null
                                   ? ''
                                   : '${calificacion.fecha!.day}/${calificacion.fecha!.month}/${calificacion.fecha!.year}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11.5,
-                                color: MotorutaColors.ink400,
+                                color: context.gaz.text3,
                               ),
                             ),
                           ],
@@ -140,10 +140,10 @@ class _CalificacionesConductorScreenState
                           const SizedBox(height: 8),
                           Text(
                             calificacion.comentario!,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13.5,
                               height: 1.4,
-                              color: MotorutaColors.ink700,
+                              color: context.gaz.text2,
                             ),
                           ),
                         ],

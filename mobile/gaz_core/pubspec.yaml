@@ -25,6 +25,9 @@ dependencies:
   # Estado: ChangeNotifier simple, sin generación de código.
   provider: ^6.1.5+1
 
+  # Preferencia de tema claro/oscuro (misma clave que el panel).
+  shared_preferences: ^2.3.2
+
   # El token se guarda en el llavero del sistema, no en texto plano.
   flutter_secure_storage: 9.2.4
 
@@ -54,18 +57,6 @@ flutter:
     - assets/brand/
 
   fonts:
-    - family: Poppins
-      fonts:
-        - asset: assets/fonts/poppins-400.ttf
-          weight: 400
-        - asset: assets/fonts/poppins-500.ttf
-          weight: 500
-        - asset: assets/fonts/poppins-600.ttf
-          weight: 600
-        - asset: assets/fonts/poppins-700.ttf
-          weight: 700
-
-    # Sora e Inter se mantienen por compatibilidad
     - family: Sora
       fonts:
         - asset: assets/fonts/sora-400.ttf

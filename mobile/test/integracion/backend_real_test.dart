@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:motoruta/core/api/api_client.dart';
-import 'package:motoruta/core/api/api_exception.dart';
-import 'package:motoruta/data/cuenta_repository.dart';
-import 'package:motoruta/data/models/registro_datos.dart';
-import 'package:motoruta/features/sesion/sesion_controller.dart';
+import 'package:gaz_core/core/api/api_client.dart';
+import 'package:gaz_core/core/api/api_exception.dart';
+import 'package:gaz_core/data/cuenta_repository.dart';
+import 'package:gaz_core/data/models/registro_datos.dart';
+import 'package:gaz_core/features/sesion/sesion_controller.dart';
 
 import '../soporte/datos_falsos.dart';
 

@@ -12,7 +12,7 @@ Future<void> mostrarTerminos(BuildContext context) {
     context: context,
     isScrollControlled: true,
     useSafeArea: true,
-    backgroundColor: Colors.white,
+    backgroundColor: context.gaz.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
@@ -41,7 +41,7 @@ class TerminosSheet extends StatelessWidget {
                 width: 42,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: MotorutaColors.ink200,
+                  color: context.gaz.borderStrong,
                   borderRadius: BorderRadius.circular(999),
                 ),
               ),
@@ -53,7 +53,7 @@ class TerminosSheet extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'Términos y privacidad',
-                      style: MotorutaTheme.titulo(tamano: 20),
+                      style: MotorutaTheme.tituloDe(context, tamano: 20),
                     ),
                   ),
                   IconButton(
@@ -64,12 +64,12 @@ class TerminosSheet extends StatelessWidget {
                 ],
               ),
             ),
-            const TabBar(
+            TabBar(
               labelColor: MotorutaColors.brand800,
-              unselectedLabelColor: MotorutaColors.ink500,
+              unselectedLabelColor: context.gaz.text2,
               indicatorColor: MotorutaColors.brand800,
-              dividerColor: MotorutaColors.ink100,
-              tabs: <Widget>[
+              dividerColor: context.gaz.border,
+              tabs: const <Widget>[
                 Tab(text: 'Términos'),
                 Tab(text: 'Privacidad'),
               ],
@@ -107,36 +107,36 @@ class _DocumentoLegal extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
       children: <Widget>[
-        const Text(
+        Text(
           'Versión $versionTerminos',
           style: TextStyle(
             fontSize: 12.5,
             fontWeight: FontWeight.w600,
-            color: MotorutaColors.ink500,
+            color: context.gaz.text2,
           ),
         ),
         const SizedBox(height: 2),
-        const Text(
+        Text(
           'Última actualización: $fechaTerminos',
           style: TextStyle(
             fontSize: 13,
-            color: MotorutaColors.ink500,
+            color: context.gaz.text2,
           ),
         ),
         const SizedBox(height: 20),
         for (final seccion in secciones) ...<Widget>[
           Text(
             seccion.titulo,
-            style: MotorutaTheme.titulo(tamano: 16),
+            style: MotorutaTheme.tituloDe(context, tamano: 16),
           ),
           const SizedBox(height: 8),
           for (final parrafo in seccion.parrafos) ...<Widget>[
             Text(
               parrafo,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14.5,
                 height: 1.5,
-                color: MotorutaColors.ink700,
+                color: context.gaz.text2,
               ),
             ),
             const SizedBox(height: 10),

@@ -95,7 +95,8 @@ class _FavoritosScreenState extends State<FavoritosScreen> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${conductor.nombre} ya no está en tus favoritos.')),
+        SnackBar(
+            content: Text('${conductor.nombre} ya no está en tus favoritos.')),
       );
     } on ApiException catch (error) {
       if (!mounted) return;
@@ -113,12 +114,12 @@ class _FavoritosScreenState extends State<FavoritosScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 16, 20, 36),
           children: <Widget>[
-            const Text(
+            Text(
               'Cuando pidas un viaje, intentamos primero con uno de ellos si está en línea y cerca.',
               style: TextStyle(
                 fontSize: 13.5,
                 height: 1.4,
-                color: MotorutaColors.ink600,
+                color: context.gaz.text2,
               ),
             ),
             const SizedBox(height: 16),
@@ -144,16 +145,16 @@ class _FavoritosScreenState extends State<FavoritosScreen> {
                     Text(
                       'Todavía no tienes favoritos',
                       textAlign: TextAlign.center,
-                      style: MotorutaTheme.titulo(tamano: 18),
+                      style: MotorutaTheme.tituloDe(context, tamano: 18),
                     ),
                     const SizedBox(height: 6),
-                    const Text(
+                    Text(
                       'Al terminar un viaje puedes marcar a tu conductor con el corazón o al calificarlo.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13.5,
                         height: 1.4,
-                        color: MotorutaColors.ink600,
+                        color: context.gaz.text2,
                       ),
                     ),
                   ],
@@ -210,7 +211,7 @@ class _TarjetaFavorito extends StatelessWidget {
                     Flexible(
                       child: Text(
                         conductor.nombre,
-                        style: MotorutaTheme.titulo(tamano: 16),
+                        style: MotorutaTheme.tituloDe(context, tamano: 16),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -228,9 +229,9 @@ class _TarjetaFavorito extends StatelessWidget {
                 if (conductor.vehiculo != null)
                   Text(
                     conductor.vehiculo!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12.5,
-                      color: MotorutaColors.ink600,
+                      color: context.gaz.text2,
                     ),
                   ),
                 Text(
@@ -238,9 +239,9 @@ class _TarjetaFavorito extends StatelessWidget {
                       ? 'Sin calificaciones'
                       : '★ ${conductor.calificacion!.toStringAsFixed(1)} · '
                           '${conductor.viajesCompletados} viajes',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: MotorutaColors.ink500,
+                    color: context.gaz.text2,
                   ),
                 ),
               ],

@@ -81,7 +81,7 @@ class ViajesAgendadosScreen extends StatelessWidget {
                         Text(
                           'Viajes agendados',
                           style: TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'Inter',
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
@@ -91,7 +91,7 @@ class ViajesAgendadosScreen extends StatelessWidget {
                         Text(
                           'Planifica tus traslados con anticipación',
                           style: TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'Inter',
                             fontSize: 12.5,
                             color: Colors.white70,
                           ),
@@ -105,7 +105,7 @@ class ViajesAgendadosScreen extends StatelessWidget {
               const Text(
                 'Reserva tu viaje para hoy más tarde o para próximos días. Un conductor calificado estará listo a la hora pactada.',
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'Inter',
                   fontSize: 13.5,
                   color: Colors.white70,
                   height: 1.4,
@@ -118,9 +118,9 @@ class ViajesAgendadosScreen extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.gaz.surface,
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: MotorutaColors.ink100),
+            border: Border.all(color: context.gaz.border),
             boxShadow: MotorutaTheme.sombraTarjeta,
           ),
           child: Column(
@@ -143,24 +143,24 @@ class ViajesAgendadosScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 18),
-              const Text(
+              Text(
                 'No tienes viajes agendados',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'Inter',
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
-                  color: MotorutaColors.ink900,
+                  color: context.gaz.text,
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'Cuando programes un viaje aparecerá aquí con los datos del conductor y el recordatorio de salida.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'Inter',
                   fontSize: 13,
-                  color: MotorutaColors.ink500,
+                  color: context.gaz.text2,
                   height: 1.45,
                 ),
               ),
@@ -174,13 +174,13 @@ class ViajesAgendadosScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        const Text(
+        Text(
           'Ventajas de agendar tu viaje',
           style: TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: 'Inter',
             fontSize: 15,
             fontWeight: FontWeight.w600,
-            color: MotorutaColors.ink800,
+            color: context.gaz.text,
           ),
         ),
         const SizedBox(height: 12),
@@ -231,9 +231,9 @@ class _ItemVentaja extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.gaz.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: MotorutaColors.ink100),
+        border: Border.all(color: context.gaz.border),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,20 +255,20 @@ class _ItemVentaja extends StatelessWidget {
               children: <Widget>[
                 Text(
                   titulo,
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: MotorutaColors.ink900,
+                    color: context.gaz.text,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   detalle,
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 12,
-                    color: MotorutaColors.ink500,
+                    color: context.gaz.text2,
                     height: 1.35,
                   ),
                 ),

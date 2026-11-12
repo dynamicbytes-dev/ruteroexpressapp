@@ -130,7 +130,8 @@ class DatosBancarios {
   final String rif;
   final String instrucciones;
 
-  bool get completo => banco.isNotEmpty && cuenta.isNotEmpty && titular.isNotEmpty;
+  bool get completo =>
+      banco.isNotEmpty && cuenta.isNotEmpty && titular.isNotEmpty;
 
   factory DatosBancarios.desdeJson(Object? crudo) {
     final json = crudo is Map
@@ -226,8 +227,11 @@ class Recarga {
     return Recarga(
       id: _entero(json['id']),
       montoBs: _decimal(json['amount_bs']),
-      tasa: json['exchange_rate'] == null ? null : _decimal(json['exchange_rate']),
-      montoUsd: json['amount_usd'] == null ? null : _decimal(json['amount_usd']),
+      tasa: json['exchange_rate'] == null
+          ? null
+          : _decimal(json['exchange_rate']),
+      montoUsd:
+          json['amount_usd'] == null ? null : _decimal(json['amount_usd']),
       banco: _texto(json['bank']) ?? '',
       referencia: _texto(json['reference']) ?? '',
       fechaTransferencia: _texto(json['transferred_at']),

@@ -203,8 +203,7 @@ class CalificacionViaje {
   final String? comentario;
   final DateTime? fecha;
 
-  String get textoEstrellas =>
-      '★' * estrellas + '☆' * (5 - estrellas);
+  String get textoEstrellas => '★' * estrellas + '☆' * (5 - estrellas);
 
   factory CalificacionViaje.desdeJson(Object? crudo) {
     final json = crudo is Map
@@ -843,4 +842,3 @@ T? _intentar<T>(T Function() ejecutor) {
     return null;
   }
 }
-
