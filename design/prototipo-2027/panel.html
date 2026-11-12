@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAZ 2027 · Panel administrativo</title>
+  <link rel="icon" type="image/svg+xml" href="assets/gaz-logo-pill.svg">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body class="panel-page">
+
+  <!-- =========================================================
+       Sprite de iconos
+       ========================================================= -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></symbol>
+    <symbol id="i-exchange" viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6 6l1.45-1.27a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></symbol>
+    <symbol id="i-moto" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5 9 7h4l3 7.5"/><path d="M13 7h3l2.5 4.5"/><path d="M9 17.5h7"/></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24"><path d="M5 17h14l-1.5-5.5A2 2 0 0 0 15.6 10H8.4a2 2 0 0 0-1.9 1.5L5 17z"/><path d="M3 17h18"/><circle cx="7" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/><path d="M7 10l1.5-4h7L17 10"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h15a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5"/><path d="M18 12h.01"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="m1 6 7-4 8 4 7-4v16l-7 4-8-4-7 4z"/><path d="M8 2v16M16 6v16"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3 1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></symbol>
+    <symbol id="i-trending" viewBox="0 0 24 24"><path d="m23 6-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-credit-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h2"/></symbol>
+    <symbol id="i-banknote" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+    <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M4 2v20l3-2 3 2 3-2 3 2 3-2V2l-3 2-3-2-3 2-3-2z"/><path d="M8 7h8M8 11h8M8 15h5"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><path d="M12 2v10"/></symbol>
+    <symbol id="i-nav" viewBox="0 0 24 24"><path d="m3 11 19-9-9 19-2-8-8-2z"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 5-7"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></symbol>
+    <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  </svg>
+
+  <div class="panel-shell" id="panel-shell">
+
+    <!-- =====================================================
+         Sidebar
+         ===================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/gaz-logo-pill.svg" alt="gaz" class="sidebar-logo">
+        <img src="assets/gaz-badge.svg" alt="gaz" class="sidebar-logo-mini">
+        <span class="sidebar-badge">2027</span>
+      </div>
+
+      <button class="sidebar-search" id="btn-buscar-side" type="button">
+        <svg class="icon"><use href="#i-search"/></svg>
+        <span class="search-text">Buscar...</span>
+        <kbd>⌘K</kbd>
+      </button>
+
+      <nav class="sidebar-nav" aria-label="Navegación principal">
+        <p class="nav-group">Operación</p>
+        <button class="nav-link activo" data-vista="dashboard" type="button" title="Inicio">
+          <svg class="icon"><use href="#i-grid"/></svg>
+          <span class="nav-label">Inicio</span>
+        </button>
+        <button class="nav-link" data-vista="verificacion" type="button" title="Verificación">
+          <svg class="icon"><use href="#i-shield"/></svg>
+          <span class="nav-label">Verificación</span>
+          <span class="nav-count" id="count-verificacion">12</span>
+        </button>
+        <button class="nav-link" data-vista="detalle" type="button" title="Conductores">
+          <svg class="icon"><use href="#i-users"/></svg>
+          <span class="nav-label">Conductores</span>
+        </button>
+        <button class="nav-link" data-vista="soporte" type="button" title="Soporte">
+          <svg class="icon"><use href="#i-chat"/></svg>
+          <span class="nav-label">Soporte</span>
+          <span class="nav-count">3</span>
+        </button>
+
+        <p class="nav-group">Dinero</p>
+        <button class="nav-link" data-vista="recargas" type="button" title="Recargas">
+          <svg class="icon"><use href="#i-exchange"/></svg>
+          <span class="nav-label">Recargas</span>
+          <span class="nav-count" id="count-recargas">5</span>
+        </button>
+        <button class="nav-link" type="button" disabled title="Retiros">
+          <svg class="icon"><use href="#i-banknote"/></svg>
+          <span class="nav-label">Retiros</span>
+          <span class="nav-soon">Pronto</span>
+        </button>
+        <button class="nav-link" type="button" disabled title="Reportes">
+          <svg class="icon"><use href="#i-chart"/></svg>
+          <span class="nav-label">Reportes</span>
+        </button>
+        <button class="nav-link" type="button" disabled title="Tasa de cambio">
+          <svg class="icon"><use href="#i-refresh"/></svg>
+          <span class="nav-label">Tasa de cambio</span>
+        </button>
+
+        <p class="nav-group">Contenido</p>
+        <button class="nav-link" type="button" disabled title="Publicidad">
+          <svg class="icon"><use href="#i-image"/></svg>
+          <span class="nav-label">Publicidad</span>
+        </button>
+        <button class="nav-link" type="button" disabled title="Cupones">
+          <svg class="icon"><use href="#i-award"/></svg>
+          <span class="nav-label">Cupones</span>
+        </button>
+        <button class="nav-link" type="button" disabled title="Notificaciones">
+          <svg class="icon"><use href="#i-bell"/></svg>
+          <span class="nav-label">Notificaciones</span>
+        </button>
+
+        <p class="nav-group">Sistema</p>
+        <button class="nav-link" data-vista="configuracion" type="button" title="Tarifas y comisiones">
+          <svg class="icon"><use href="#i-sliders"/></svg>
+          <span class="nav-label">Tarifas y comisiones</span>
+        </button>
+        <button class="nav-link" type="button" disabled title="Auditores">
+          <svg class="icon"><use href="#i-eye"/></svg>
+          <span class="nav-label">Auditores</span>
+        </button>
+        <button class="nav-link" type="button" disabled title="Historial">
+          <svg class="icon"><use href="#i-clock"/></svg>
+          <span class="nav-label">Historial</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <button class="sidebar-user" type="button" data-toast="Perfil de Andrea Rivas">
+          <div class="avatar">AR</div>
+          <div>
+            <div class="sidebar-user-name">Andrea Rivas</div>
+            <div class="sidebar-user-role">Administradora</div>
+          </div>
+          <svg class="icon"><use href="#i-chevron-right"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- =====================================================
+         Main
+         ===================================================== -->
+    <div class="panel-main">
+
+      <header class="topbar">
+        <button class="icon-btn icon-btn--panel" id="btn-menu" type="button" aria-label="Alternar menú">
+          <svg class="icon"><use href="#i-menu"/></svg>
+        </button>
+
+        <div class="crumb">
+          <span id="crumb-grupo">Operación</span>
+          <svg class="icon"><use href="#i-chevron-right"/></svg>
+          <strong id="crumb-actual">Inicio</strong>
+        </div>
+
+        <button class="topbar-search" id="btn-buscar" type="button">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <span>Buscar en GAZ...</span>
+          <kbd>⌘K</kbd>
+        </button>
+
+        <div class="topbar-actions">
+          <button class="icon-btn" data-tema type="button" aria-label="Cambiar tema">
+            <svg class="icon"><use href="#i-moon"/></svg>
+          </button>
+          <button class="icon-btn" type="button" aria-label="Notificaciones" data-toast="Tienes 4 notificaciones nuevas">
+            <svg class="icon"><use href="#i-bell"/></svg>
+            <span class="notif-dot"></span>
+          </button>
+          <div class="topbar-avatar">
+            <div class="avatar">AR</div>
+          </div>
+        </div>
+      </header>
+
+      <main class="panel-content">
+
+        <!-- =================================================
+             DASHBOARD
+             ================================================= -->
+        <section class="vista activa" data-vista="dashboard">
+          <div class="page-head">
+            <div>
+              <div class="page-kicker">
+                <span class="dot dot-live"></span>
+                Operación en vivo
+              </div>
+              <h1 class="page-title">Buenos días, Andrea</h1>
+              <p class="page-sub">Esto es lo que está pasando en GAZ hoy.</p>
+            </div>
+            <div class="page-actions">
+              <span class="date-pill">
+                <svg class="icon"><use href="#i-calendar"/></svg>
+                Sábado, 7 de noviembre
+              </span>
+              <button class="btn btn-outline" type="button" data-toast="Reporte del día exportado">
+                <svg class="icon icon-sm"><use href="#i-download"/></svg>
+                Exportar
+              </button>
+            </div>
+          </div>
+
+          <!-- Atención requerida -->
+          <div class="attention-grid">
+            <button class="attention attention--warning" data-vista="verificacion" type="button">
+              <span class="attention-icon"><svg class="icon"><use href="#i-shield"/></svg></span>
+              <span>
+                <span class="attention-value" id="stat-pendientes">12</span>
+                <span class="attention-label">Documentos por verificar</span>
+              </span>
+              <svg class="icon"><use href="#i-chevron-right"/></svg>
+            </button>
+            <button class="attention attention--info" data-vista="recargas" type="button">
+              <span class="attention-icon"><svg class="icon"><use href="#i-exchange"/></svg></span>
+              <span>
+                <span class="attention-value" id="stat-recargas">5</span>
+                <span class="attention-label">Recargas pendientes</span>
+              </span>
+              <svg class="icon"><use href="#i-chevron-right"/></svg>
+            </button>
+            <button class="attention attention--danger" type="button" data-toast="3 retiros esperan aprobación">
+              <span class="attention-icon"><svg class="icon"><use href="#i-banknote"/></svg></span>
+              <span>
+                <span class="attention-value">3</span>
+                <span class="attention-label">Retiros por aprobar</span>
+              </span>
+              <svg class="icon"><use href="#i-chevron-right"/></svg>
+            </button>
+          </div>
+
+          <!-- Métricas -->
+          <div class="stat-grid">
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Viajes hoy</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-route"/></svg></span>
+              </div>
+              <div class="stat-value">248</div>
+              <div class="stat-foot">
+                <span class="delta delta-up">
+                  <svg class="icon"><use href="#i-arrow-up"/></svg>
+                  12,4%
+                </span>
+                vs. ayer
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Conductores en línea</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-users"/></svg></span>
+              </div>
+              <div class="stat-value">86</div>
+              <div class="stat-foot">
+                <span class="delta delta-up">77%</span>
+                de 112 activos
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Ingresos hoy</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-wallet"/></svg></span>
+              </div>
+              <div class="stat-value">$1.284,50</div>
+              <div class="stat-foot">
+                <span class="delta delta-up">
+                  <svg class="icon"><use href="#i-arrow-up"/></svg>
+                  8,2%
+                </span>
+                vs. ayer
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Ticket promedio</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-receipt"/></svg></span>
+              </div>
+              <div class="stat-value">$5,18</div>
+              <div class="stat-foot">
+                <span class="delta delta-down">
+                  <svg class="icon"><use href="#i-arrow-down"/></svg>
+                  2,1%
+                </span>
+                vs. semana pasada
+              </div>
+            </article>
+          </div>
+
+          <!-- Bento -->
+          <div class="bento">
+            <div class="panel-card span-8 chart-card">
+              <div class="panel-card-head">
+                <div>
+                  <div class="panel-card-title">Viajes últimos 7 días</div>
+                  <div class="panel-card-sub">Completados por día · todos los vehículos</div>
+                </div>
+                <div class="chart-legend">
+                  <span class="dot"></span>
+                  Hoy
+                </div>
+              </div>
+              <div class="panel-card-body">
+                <div class="chart">
+                  <div class="chart-col">
+                    <span class="chart-value">180</span>
+                    <div class="chart-bar" style="height:62%;"></div>
+                    <span class="chart-label">Lun</span>
+                  </div>
+                  <div class="chart-col">
+                    <span class="chart-value">210</span>
+                    <div class="chart-bar" style="height:72%;"></div>
+                    <span class="chart-label">Mar</span>
+                  </div>
+                  <div class="chart-col">
+                    <span class="chart-value">195</span>
+                    <div class="chart-bar" style="height:67%;"></div>
+                    <span class="chart-label">Mié</span>
+                  </div>
+                  <div class="chart-col">
+                    <span class="chart-value">240</span>
+                    <div class="chart-bar" style="height:82%;"></div>
+                    <span class="chart-label">Jue</span>
+                  </div>
+                  <div class="chart-col">
+                    <span class="chart-value">228</span>
+                    <div class="chart-bar" style="height:78%;"></div>
+                    <span class="chart-label">Vie</span>
+                  </div>
+                  <div class="chart-col">
+                    <span class="chart-value">260</span>
+                    <div class="chart-bar" style="height:89%;"></div>
+                    <span class="chart-label">Sáb</span>
+                  </div>
+                  <div class="chart-col">
+                    <span class="chart-value">248</span>
+                    <div class="chart-bar hoy" style="height:85%;"></div>
+                    <span class="chart-label">Hoy</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-card span-4">
+              <div class="panel-card-head">
+                <div>
+                  <div class="panel-card-title">Estado operativo</div>
+                  <div class="panel-card-sub">Ahora mismo</div>
+                </div>
+                <span class="badge badge-success">Estable</span>
+              </div>
+              <div class="panel-card-body">
+                <div class="op-list">
+                  <div>
+                    <div class="op-item-top">
+                      <span>Conductores en línea</span>
+                      <strong>86 / 112</strong>
+                    </div>
+                    <div class="bar"><span style="width:77%;"></span></div>
+                  </div>
+                  <div>
+                    <div class="op-item-top">
+                      <span>Documentos pendientes</span>
+                      <strong>12</strong>
+                    </div>
+                    <div class="bar bar--warning"><span style="width:34%;"></span></div>
+                  </div>
+                  <div>
+                    <div class="op-item-top">
+                      <span>Recargas por aprobar</span>
+                      <strong>5</strong>
+                    </div>
+                    <div class="bar bar--warning"><span style="width:18%;"></span></div>
+                  </div>
+                  <div>
+                    <div class="op-item-top">
+                      <span>Incidentes abiertos</span>
+                      <strong>2</strong>
+                    </div>
+                    <div class="bar bar--danger"><span style="width:9%;"></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-card span-12">
+              <div class="panel-card-head">
+                <div>
+                  <div class="panel-card-title">Últimos registros</div>
+                  <div class="panel-card-sub">Cuentas creadas en las últimas 24 horas</div>
+                </div>
+                <button class="btn btn-sm btn-outline" data-vista="verificacion" type="button">
+                  Ver todos
+                  <svg class="icon icon-sm"><use href="#i-chevron-right"/></svg>
+                </button>
+              </div>
+              <div class="table-wrap">
+                <table class="data">
+                  <thead>
+                    <tr>
+                      <th>Usuario</th>
+                      <th>Rol</th>
+                      <th>Documentos</th>
+                      <th>Registro</th>
+                      <th>Estado</th>
+                      <th style="text-align:right;">Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <div class="avatar">ML</div>
+                          <div>
+                            <div class="user-name">María Fernanda López</div>
+                            <div class="user-meta">V-19.845.221</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>Pasajera</td>
+                      <td>
+                        <div class="doc-progress">
+                          <div class="doc-progress-bar"><span style="width:80%;"></span></div>
+                          <span class="doc-progress-text">4/5</span>
+                        </div>
+                      </td>
+                      <td class="table-muted">10:24 a. m.</td>
+                      <td><span class="badge badge-warning">Pendiente</span></td>
+                      <td>
+                        <div class="table-actions">
+                          <button class="btn btn-sm btn-outline" type="button" data-revisar data-fila="maria" data-nombre="María Fernanda López" data-rol="Pasajera" data-docs="4 de 5">Revisar</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <div class="avatar">CP</div>
+                          <div>
+                            <div class="user-name">Carlos Andrés Pérez</div>
+                            <div class="user-meta">V-16.302.884</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>Conductor</td>
+                      <td>
+                        <div class="doc-progress">
+                          <div class="doc-progress-bar"><span style="width:100%;"></span></div>
+                          <span class="doc-progress-text">5/5</span>
+                        </div>
+                      </td>
+                      <td class="table-muted">9:58 a. m.</td>
+                      <td><span class="badge badge-warning">Pendiente</span></td>
+                      <td>
+                        <div class="table-actions">
+                          <button class="btn btn-sm btn-outline" type="button" data-revisar data-fila="carlos" data-nombre="Carlos Andrés Pérez" data-rol="Conductor" data-docs="5 de 5">Revisar</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <div class="avatar">AG</div>
+                          <div>
+                            <div class="user-name">Ana Lucía Gómez</div>
+                            <div class="user-meta">V-20.114.670</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>Conductora</td>
+                      <td>
+                        <div class="doc-progress">
+                          <div class="doc-progress-bar"><span style="width:60%;"></span></div>
+                          <span class="doc-progress-text">3/5</span>
+                        </div>
+                      </td>
+                      <td class="table-muted">9:12 a. m.</td>
+                      <td><span class="badge badge-info">En revisión</span></td>
+                      <td>
+                        <div class="table-actions">
+                          <button class="btn btn-sm btn-outline" type="button" data-revisar data-fila="ana" data-nombre="Ana Lucía Gómez" data-rol="Conductora" data-docs="3 de 5">Revisar</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <div class="avatar">JR</div>
+                          <div>
+                            <div class="user-name">José Manuel Rivas</div>
+                            <div class="user-meta">V-14.220.915</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>Pasajero</td>
+                      <td>
+                        <div class="doc-progress">
+                          <div class="doc-progress-bar"><span style="width:100%;"></span></div>
+                          <span class="doc-progress-text">5/5</span>
+                        </div>
+                      </td>
+                      <td class="table-muted">Ayer</td>
+                      <td><span class="badge badge-success">Aprobado</span></td>
+                      <td>
+                        <div class="table-actions">
+                          <button class="btn btn-sm btn-ghost" type="button" data-revisar data-fila="jose" data-nombre="José Manuel Rivas" data-rol="Pasajero" data-docs="5 de 5">Ver</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <div class="avatar">DT</div>
+                          <div>
+                            <div class="user-name">Daniela Torres</div>
+                            <div class="user-meta">V-21.550.142</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>Conductora</td>
+                      <td>
+                        <div class="doc-progress">
+                          <div class="doc-progress-bar"><span style="width:40%;"></span></div>
+                          <span class="doc-progress-text">2/5</span>
+                        </div>
+                      </td>
+                      <td class="table-muted">Ayer</td>
+                      <td><span class="badge badge-danger">Rechazado</span></td>
+                      <td>
+                        <div class="table-actions">
+                          <button class="btn btn-sm btn-ghost" type="button" data-revisar data-fila="daniela" data-nombre="Daniela Torres" data-rol="Conductora" data-docs="2 de 5">Ver</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================
+             VERIFICACIÓN
+             ================================================= -->
+        <section class="vista" data-vista="verificacion">
+          <div class="page-head">
+            <div>
+              <div class="page-kicker">Operación · Confianza</div>
+              <h1 class="page-title">Verificación de cuentas</h1>
+              <p class="page-sub">Revisa documentos, aprueba cuentas y mantén la calidad de la red.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-outline" type="button" data-toast="Listado exportado en CSV">
+                <svg class="icon icon-sm"><use href="#i-download"/></svg>
+                Exportar
+              </button>
+              <button class="btn btn-primary" type="button" data-toast="Bandeja actualizada">
+                <svg class="icon icon-sm"><use href="#i-refresh"/></svg>
+                Actualizar
+              </button>
+            </div>
+          </div>
+
+          <div class="stat-grid stat-grid--3">
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Pendientes</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-clock"/></svg></span>
+              </div>
+              <div class="stat-value" id="verif-pendientes">12</div>
+              <div class="stat-foot">Requieren revisión hoy</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Aprobados hoy</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-check"/></svg></span>
+              </div>
+              <div class="stat-value" id="verif-aprobados">8</div>
+              <div class="stat-foot"><span class="delta delta-up">+3</span> vs. ayer</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Rechazados</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-alert"/></svg></span>
+              </div>
+              <div class="stat-value" id="verif-rechazados">2</div>
+              <div class="stat-foot">Documentos ilegibles o vencidos</div>
+            </article>
+          </div>
+
+          <div class="panel-card">
+            <div class="toolbar">
+              <div class="tabs" id="tabs-verificacion">
+                <button class="tab activo" data-filtro-verificacion="todos" type="button">Todos <span class="tab-count">24</span></button>
+                <button class="tab" data-filtro-verificacion="pasajero" type="button">Pasajeros <span class="tab-count">9</span></button>
+                <button class="tab" data-filtro-verificacion="conductor" type="button">Conductores <span class="tab-count">15</span></button>
+              </div>
+              <label class="toolbar-search">
+                <svg class="icon"><use href="#i-search"/></svg>
+                <input id="buscar-verificacion" type="search" placeholder="Buscar usuario...">
+              </label>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data" id="tabla-verificacion">
+                <thead>
+                  <tr>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Documentos</th>
+                    <th>Enviado</th>
+                    <th>Estado</th>
+                    <th style="text-align:right;">Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-fila="maria" data-rol="pasajero" data-estado="pendiente">
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">ML</div>
+                        <div>
+                          <div class="user-name">María Fernanda López</div>
+                          <div class="user-meta">V-19.845.221 · Pasajera</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Pasajera</td>
+                    <td>
+                      <div class="doc-progress">
+                        <div class="doc-progress-bar"><span style="width:80%;"></span></div>
+                        <span class="doc-progress-text">4/5</span>
+                      </div>
+                    </td>
+                    <td class="table-muted">Hoy · 10:24 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-warning">Pendiente</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-outline" type="button" data-revisar data-fila="maria" data-nombre="María Fernanda López" data-rol="Pasajera" data-docs="4 de 5">Revisar</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-fila="carlos" data-rol="conductor" data-estado="pendiente">
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">CP</div>
+                        <div>
+                          <div class="user-name">Carlos Andrés Pérez</div>
+                          <div class="user-meta">V-16.302.884 · Conductor</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Conductor</td>
+                    <td>
+                      <div class="doc-progress">
+                        <div class="doc-progress-bar"><span style="width:100%;"></span></div>
+                        <span class="doc-progress-text">5/5</span>
+                      </div>
+                    </td>
+                    <td class="table-muted">Hoy · 9:58 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-warning">Pendiente</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-outline" type="button" data-revisar data-fila="carlos" data-nombre="Carlos Andrés Pérez" data-rol="Conductor" data-docs="5 de 5">Revisar</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-fila="ana" data-rol="conductor" data-estado="revision">
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">AG</div>
+                        <div>
+                          <div class="user-name">Ana Lucía Gómez</div>
+                          <div class="user-meta">V-20.114.670 · Conductora</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Conductora</td>
+                    <td>
+                      <div class="doc-progress">
+                        <div class="doc-progress-bar"><span style="width:60%;"></span></div>
+                        <span class="doc-progress-text">3/5</span>
+                      </div>
+                    </td>
+                    <td class="table-muted">Hoy · 9:12 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-info">En revisión</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-outline" type="button" data-revisar data-fila="ana" data-nombre="Ana Lucía Gómez" data-rol="Conductora" data-docs="3 de 5">Revisar</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-fila="jose" data-rol="pasajero" data-estado="aprobado">
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">JR</div>
+                        <div>
+                          <div class="user-name">José Manuel Rivas</div>
+                          <div class="user-meta">V-14.220.915 · Pasajero</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Pasajero</td>
+                    <td>
+                      <div class="doc-progress">
+                        <div class="doc-progress-bar"><span style="width:100%;"></span></div>
+                        <span class="doc-progress-text">5/5</span>
+                      </div>
+                    </td>
+                    <td class="table-muted">Ayer · 4:20 p. m.</td>
+                    <td class="estado-celda"><span class="badge badge-success">Aprobado</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-ghost" type="button" data-revisar data-fila="jose" data-nombre="José Manuel Rivas" data-rol="Pasajero" data-docs="5 de 5">Ver</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-fila="daniela" data-rol="conductor" data-estado="rechazado">
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">DT</div>
+                        <div>
+                          <div class="user-name">Daniela Torres</div>
+                          <div class="user-meta">V-21.550.142 · Conductora</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Conductora</td>
+                    <td>
+                      <div class="doc-progress">
+                        <div class="doc-progress-bar"><span style="width:40%;"></span></div>
+                        <span class="doc-progress-text">2/5</span>
+                      </div>
+                    </td>
+                    <td class="table-muted">Ayer · 11:05 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-danger">Rechazado</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-ghost" type="button" data-revisar data-fila="daniela" data-nombre="Daniela Torres" data-rol="Conductora" data-docs="2 de 5">Ver</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================
+             DETALLE CONDUCTOR
+             ================================================= -->
+        <section class="vista" data-vista="detalle">
+          <div class="page-head">
+            <div>
+              <div class="page-kicker">
+                <button class="btn btn-sm btn-ghost" data-vista="verificacion" type="button" style="margin-left:-8px;">
+                  <svg class="icon icon-sm"><use href="#i-arrow-left"/></svg>
+                  Verificación
+                </button>
+              </div>
+              <h1 class="page-title">Detalle del conductor</h1>
+              <p class="page-sub">Información completa de la cuenta, documentos y actividad reciente.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-outline" type="button" data-vista="soporte">
+                <svg class="icon icon-sm"><use href="#i-message"/></svg>
+                Enviar mensaje
+              </button>
+              <button class="btn btn-danger" type="button" data-toast="Conductor suspendido temporalmente">
+                <svg class="icon icon-sm"><use href="#i-x"/></svg>
+                Suspender
+              </button>
+            </div>
+          </div>
+
+          <div class="profile-banner" style="margin-bottom:12px;">
+            <div class="avatar">CP</div>
+            <div class="grow">
+              <div class="row gap-2" style="flex-wrap:wrap;">
+                <span class="profile-banner-name">Carlos Andrés Pérez</span>
+                <span class="badge badge-success">Verificado</span>
+                <span class="badge badge-info">En línea</span>
+              </div>
+              <div class="profile-banner-meta">
+                <span>Moto · Yamaha FZ 2.0</span>
+                <span>·</span>
+                <span class="plate" style="font-size:10px;">AB123CD</span>
+                <span>·</span>
+                <span>Chacao, Caracas</span>
+                <span>·</span>
+                <span>Se unió en enero 2026</span>
+              </div>
+            </div>
+            <div class="profile-banner-actions">
+              <button class="btn btn-outline" type="button" data-toast="Llamada iniciada">
+                <svg class="icon icon-sm"><use href="#i-phone"/></svg>
+                Llamar
+              </button>
+              <button class="btn btn-primary" type="button" data-vista="soporte">
+                <svg class="icon icon-sm"><use href="#i-message"/></svg>
+                Mensaje
+              </button>
+            </div>
+          </div>
+
+          <div class="detail-grid">
+            <div class="detail-col">
+              <div class="panel-card">
+                <div class="panel-card-head">
+                  <div>
+                    <div class="panel-card-title">Documentos</div>
+                    <div class="panel-card-sub">Verificados el 4 de noviembre de 2026</div>
+                  </div>
+                  <span class="badge badge-success">4 de 4</span>
+                </div>
+                <div class="panel-card-body">
+                  <div class="doc-row">
+                    <span class="doc-thumb"><svg class="icon"><use href="#i-doc"/></svg></span>
+                    <div class="grow">
+                      <div class="doc-row-name">Cédula de identidad</div>
+                      <div class="doc-row-meta">V-16.302.884 · vence 12/08/2029</div>
+                    </div>
+                    <span class="badge badge-success">Aprobado</span>
+                  </div>
+                  <div class="doc-row">
+                    <span class="doc-thumb"><svg class="icon"><use href="#i-doc"/></svg></span>
+                    <div class="grow">
+                      <div class="doc-row-name">Licencia de conducir</div>
+                      <div class="doc-row-meta">Grado 5 · vence 30/06/2028</div>
+                    </div>
+                    <span class="badge badge-success">Aprobado</span>
+                  </div>
+                  <div class="doc-row">
+                    <span class="doc-thumb"><svg class="icon"><use href="#i-doc"/></svg></span>
+                    <div class="grow">
+                      <div class="doc-row-name">Carnet de circulación</div>
+                      <div class="doc-row-meta">AB123CD · vence 15/03/2027</div>
+                    </div>
+                    <span class="badge badge-warning">Por vencer</span>
+                  </div>
+                  <div class="doc-row" style="margin-bottom:0;">
+                    <span class="doc-thumb"><svg class="icon"><use href="#i-shield"/></svg></span>
+                    <div class="grow">
+                      <div class="doc-row-name">Seguro RCV</div>
+                      <div class="doc-row-meta">Póliza 884-221 · vence 30/11/2027</div>
+                    </div>
+                    <span class="badge badge-success">Aprobado</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <div class="panel-card-head">
+                  <div>
+                    <div class="panel-card-title">Vehículo</div>
+                    <div class="panel-card-sub">Moto registrada para operar en Caracas</div>
+                  </div>
+                  <span class="badge badge-success">Activo</span>
+                </div>
+                <div class="panel-card-body">
+                  <div class="vehicle-photo">
+                    <svg class="icon"><use href="#i-moto"/></svg>
+                    <span class="plate">AB123CD</span>
+                  </div>
+                  <div class="vehicle-specs">
+                    <div><span>Marca y modelo</span><strong>Yamaha FZ 2.0</strong></div>
+                    <div><span>Año</span><strong>2023</strong></div>
+                    <div><span>Color</span><strong>Negro mate</strong></div>
+                    <div><span>Capacidad</span><strong>1 pasajero</strong></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <div class="panel-card-head">
+                  <div>
+                    <div class="panel-card-title">Viajes recientes</div>
+                    <div class="panel-card-sub">Últimos 3 viajes completados</div>
+                  </div>
+                  <button class="btn btn-sm btn-ghost" type="button" data-toast="Historial completo del conductor">Ver todos</button>
+                </div>
+                <div class="table-wrap">
+                  <table class="data">
+                    <thead>
+                      <tr>
+                        <th>Ruta</th>
+                        <th>Fecha</th>
+                        <th>Duración</th>
+                        <th style="text-align:right;">Monto</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Sambil → Altamira</td>
+                        <td class="table-muted">Hoy · 8:42 a. m.</td>
+                        <td class="table-muted">12 min</td>
+                        <td style="text-align:right;font-weight:600;">$2.80</td>
+                      </tr>
+                      <tr>
+                        <td>Bellas Artes → Chacao</td>
+                        <td class="table-muted">Ayer · 6:15 p. m.</td>
+                        <td class="table-muted">16 min</td>
+                        <td style="text-align:right;font-weight:600;">$4.10</td>
+                      </tr>
+                      <tr>
+                        <td>Plaza Venezuela → Sabana Grande</td>
+                        <td class="table-muted">Ayer · 7:30 a. m.</td>
+                        <td class="table-muted">9 min</td>
+                        <td style="text-align:right;font-weight:600;">$2.40</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-col">
+              <div class="panel-card">
+                <div class="panel-card-head">
+                  <div class="panel-card-title">Resumen</div>
+                </div>
+                <div class="panel-card-body">
+                  <div class="detail-stats">
+                    <div class="detail-stat"><span>Calificación</span><strong>4.9</strong></div>
+                    <div class="detail-stat"><span>Viajes</span><strong>1.248</strong></div>
+                    <div class="detail-stat"><span>Aceptación</span><strong>92%</strong></div>
+                    <div class="detail-stat"><span>Cancelación</span><strong>1,8%</strong></div>
+                  </div>
+                  <div class="detail-list" style="margin-top:12px;">
+                    <div class="detail-list-row"><span>Ganado este mes</span><strong>$284,50</strong></div>
+                    <div class="detail-list-row"><span>Saldo disponible</span><strong>$42,10</strong></div>
+                    <div class="detail-list-row"><span>Último viaje</span><strong>Hoy · 8:42 a. m.</strong></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <div class="panel-card-head">
+                  <div class="panel-card-title">Cuenta</div>
+                </div>
+                <div class="panel-card-body">
+                  <div class="detail-list">
+                    <div class="detail-list-row"><span>Correo</span><strong>carlos.perez@gmail.com</strong></div>
+                    <div class="detail-list-row"><span>Teléfono</span><strong>+58 414 555 0231</strong></div>
+                    <div class="detail-list-row"><span>Zona</span><strong>Chacao · Caracas</strong></div>
+                    <div class="detail-list-row"><span>Tipo</span><strong>Moto</strong></div>
+                    <div class="detail-list-row"><span>Estado</span><strong style="color:var(--success);">Activo</strong></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <div class="panel-card-head">
+                  <div class="panel-card-title">Actividad</div>
+                </div>
+                <div class="panel-card-body">
+                  <div class="activity">
+                    <div class="activity-item">
+                      <span class="activity-dot activity-dot--ok"><svg class="icon"><use href="#i-check"/></svg></span>
+                      <div>
+                        <div class="activity-title">Documentos aprobados</div>
+                        <div class="activity-time">4 nov · 2:18 p. m.</div>
+                      </div>
+                    </div>
+                    <div class="activity-item">
+                      <span class="activity-dot"><svg class="icon"><use href="#i-route"/></svg></span>
+                      <div>
+                        <div class="activity-title">1.248 viajes completados</div>
+                        <div class="activity-time">Hoy · 8:42 a. m.</div>
+                      </div>
+                    </div>
+                    <div class="activity-item">
+                      <span class="activity-dot"><svg class="icon"><use href="#i-star"/></svg></span>
+                      <div>
+                        <div class="activity-title">Nueva calificación de 5 estrellas</div>
+                        <div class="activity-time">Ayer · 6:30 p. m.</div>
+                      </div>
+                    </div>
+                    <div class="activity-item">
+                      <span class="activity-dot"><svg class="icon"><use href="#i-mail"/></svg></span>
+                      <div>
+                        <div class="activity-title">Correo de bienvenida enviado</div>
+                        <div class="activity-time">12 ene 2026</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================
+             RECARGAS
+             ================================================= -->
+        <section class="vista" data-vista="recargas">
+          <div class="page-head">
+            <div>
+              <div class="page-kicker">Dinero · Billetera</div>
+              <h1 class="page-title">Recargas y retiros</h1>
+              <p class="page-sub">Aprueba pagos, revisa referencias y mantén el saldo de la red en orden.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-outline" type="button" data-toast="Reporte de recargas exportado">
+                <svg class="icon icon-sm"><use href="#i-download"/></svg>
+                Exportar
+              </button>
+            </div>
+          </div>
+
+          <div class="stat-grid stat-grid--3">
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Pendientes</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-clock"/></svg></span>
+              </div>
+              <div class="stat-value" id="recargas-pendientes">5</div>
+              <div class="stat-foot">Esperando aprobación</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Aprobadas hoy</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-check"/></svg></span>
+              </div>
+              <div class="stat-value">$420,00</div>
+              <div class="stat-foot"><span class="delta delta-up">+18%</span> vs. ayer</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Rechazadas</span>
+                <span class="stat-icon"><svg class="icon"><use href="#i-alert"/></svg></span>
+              </div>
+              <div class="stat-value" id="recargas-rechazadas">1</div>
+              <div class="stat-foot">Referencia no encontrada</div>
+            </article>
+          </div>
+
+          <div class="panel-card">
+            <div class="toolbar">
+              <div class="tabs" id="tabs-recargas">
+                <button class="tab activo" data-filtro-recarga="pendiente" type="button">Pendientes <span class="tab-count" id="tab-recargas-pendientes">5</span></button>
+                <button class="tab" data-filtro-recarga="aprobada" type="button">Aprobadas</button>
+                <button class="tab" data-filtro-recarga="todas" type="button">Todas</button>
+              </div>
+              <label class="toolbar-search">
+                <svg class="icon"><use href="#i-search"/></svg>
+                <input id="buscar-recargas" type="search" placeholder="Buscar referencia...">
+              </label>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data" id="tabla-recargas">
+                <thead>
+                  <tr>
+                    <th>Referencia</th>
+                    <th>Usuario</th>
+                    <th>Monto</th>
+                    <th>Método</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th style="text-align:right;">Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-recarga="rc8842" data-estado="pendiente">
+                    <td><strong>#RC-8842</strong></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">PR</div>
+                        <div>
+                          <div class="user-name">Pedro Rojas</div>
+                          <div class="user-meta">V-18.245.903</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-weight:600;">$20,00</td>
+                    <td>Pago Móvil</td>
+                    <td class="table-muted">Hoy · 10:24 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-warning">Pendiente</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-danger" type="button" data-recarga-accion="rechazar" data-fila="rc8842">Rechazar</button>
+                        <button class="btn btn-sm btn-success" type="button" data-recarga-accion="aprobar" data-fila="rc8842">Aprobar</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-recarga="rc8841" data-estado="pendiente">
+                    <td><strong>#RC-8841</strong></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">AG</div>
+                        <div>
+                          <div class="user-name">Ana Lucía Gómez</div>
+                          <div class="user-meta">V-20.114.670</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-weight:600;">$50,00</td>
+                    <td>Zelle</td>
+                    <td class="table-muted">Hoy · 10:02 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-warning">Pendiente</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-danger" type="button" data-recarga-accion="rechazar" data-fila="rc8841">Rechazar</button>
+                        <button class="btn btn-sm btn-success" type="button" data-recarga-accion="aprobar" data-fila="rc8841">Aprobar</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-recarga="rc8843" data-estado="pendiente">
+                    <td><strong>#RC-8843</strong></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">DT</div>
+                        <div>
+                          <div class="user-name">Daniela Torres</div>
+                          <div class="user-meta">V-21.550.142</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-weight:600;">$15,00</td>
+                    <td>Pago Móvil</td>
+                    <td class="table-muted">Hoy · 10:18 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-warning">Pendiente</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-danger" type="button" data-recarga-accion="rechazar" data-fila="rc8843">Rechazar</button>
+                        <button class="btn btn-sm btn-success" type="button" data-recarga-accion="aprobar" data-fila="rc8843">Aprobar</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-recarga="rc8844" data-estado="pendiente">
+                    <td><strong>#RC-8844</strong></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">JR</div>
+                        <div>
+                          <div class="user-name">José Manuel Rivas</div>
+                          <div class="user-meta">V-14.220.915</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-weight:600;">$30,00</td>
+                    <td>Zelle</td>
+                    <td class="table-muted">Hoy · 10:11 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-warning">Pendiente</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-danger" type="button" data-recarga-accion="rechazar" data-fila="rc8844">Rechazar</button>
+                        <button class="btn btn-sm btn-success" type="button" data-recarga-accion="aprobar" data-fila="rc8844">Aprobar</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-recarga="rc8845" data-estado="pendiente">
+                    <td><strong>#RC-8845</strong></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">LP</div>
+                        <div>
+                          <div class="user-name">Luis Pérez</div>
+                          <div class="user-meta">V-17.002.411</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-weight:600;">$25,00</td>
+                    <td>Transferencia</td>
+                    <td class="table-muted">Hoy · 9:55 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-warning">Pendiente</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-danger" type="button" data-recarga-accion="rechazar" data-fila="rc8845">Rechazar</button>
+                        <button class="btn btn-sm btn-success" type="button" data-recarga-accion="aprobar" data-fila="rc8845">Aprobar</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-recarga="rc8840" data-estado="aprobada">
+                    <td><strong>#RC-8840</strong></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">LP</div>
+                        <div>
+                          <div class="user-name">Luis Pérez</div>
+                          <div class="user-meta">V-17.002.411</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-weight:600;">$10,00</td>
+                    <td>Pago Móvil</td>
+                    <td class="table-muted">Hoy · 9:48 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-success">Aprobada</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-ghost" type="button" data-toast="Comprobante #RC-8840 descargado">Ver</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-recarga="rc8839" data-estado="aprobada">
+                    <td><strong>#RC-8839</strong></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">ML</div>
+                        <div>
+                          <div class="user-name">María Fernanda López</div>
+                          <div class="user-meta">V-19.845.221</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-weight:600;">$100,00</td>
+                    <td>Transferencia</td>
+                    <td class="table-muted">Hoy · 9:30 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-success">Aprobada</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-ghost" type="button" data-toast="Comprobante #RC-8839 descargado">Ver</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-recarga="rc8838" data-estado="rechazada">
+                    <td><strong>#RC-8838</strong></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar">JR</div>
+                        <div>
+                          <div class="user-name">José Manuel Rivas</div>
+                          <div class="user-meta">V-14.220.915</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-weight:600;">$5,00</td>
+                    <td>Pago Móvil</td>
+                    <td class="table-muted">Hoy · 9:12 a. m.</td>
+                    <td class="estado-celda"><span class="badge badge-danger">Rechazada</span></td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn-sm btn-ghost" type="button" data-toast="Comprobante #RC-8838 descargado">Ver</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================
+             SOPORTE
+             ================================================= -->
+        <section class="vista" data-vista="soporte">
+          <div class="page-head">
+            <div>
+              <div class="page-kicker">Operación · Experiencia</div>
+              <h1 class="page-title">Soporte</h1>
+              <p class="page-sub">Conversaciones abiertas con pasajeros y conductores.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-outline" type="button" data-toast="Plantillas de respuesta actualizadas">
+                <svg class="icon icon-sm"><use href="#i-sliders"/></svg>
+                Plantillas
+              </button>
+              <button class="btn btn-primary" type="button" data-toast="Nuevo ticket creado">
+                <svg class="icon icon-sm"><use href="#i-plus"/></svg>
+                Nuevo ticket
+              </button>
+            </div>
+          </div>
+
+          <div class="support-grid">
+            <div class="panel-card inbox">
+              <div class="inbox-top">
+                <label class="toolbar-search" style="margin-left:0;width:100%;">
+                  <svg class="icon"><use href="#i-search"/></svg>
+                  <input id="buscar-conv" type="search" placeholder="Buscar conversación...">
+                </label>
+                <div class="inbox-tabs">
+                  <button class="tab activo" type="button">Abiertos <span class="tab-count">3</span></button>
+                  <button class="tab" type="button">Todos</button>
+                  <button class="tab" type="button" style="margin-left:auto;">Sin leer</button>
+                </div>
+              </div>
+
+              <div class="inbox-list" id="inbox-list">
+                <button class="conv activo" data-conv="pedro" type="button">
+                  <div class="avatar">PR</div>
+                  <div class="conv-body">
+                    <div class="conv-top">
+                      <span class="conv-name">Pedro Rojas</span>
+                      <span class="conv-time">10:24</span>
+                    </div>
+                    <div class="conv-preview">No me llegó el reembolso del viaje de ayer...</div>
+                  </div>
+                  <span class="conv-unread"></span>
+                </button>
+                <button class="conv" data-conv="carlos" type="button">
+                  <div class="avatar">CP</div>
+                  <div class="conv-body">
+                    <div class="conv-top">
+                      <span class="conv-name">Carlos Pérez</span>
+                      <span class="conv-time">9:58</span>
+                    </div>
+                    <div class="conv-preview">Tengo un problema con el carnet de circulación.</div>
+                  </div>
+                </button>
+                <button class="conv" data-conv="ana" type="button">
+                  <div class="avatar">AG</div>
+                  <div class="conv-body">
+                    <div class="conv-top">
+                      <span class="conv-name">Ana Gómez</span>
+                      <span class="conv-time">9:12</span>
+                    </div>
+                    <div class="conv-preview">¿Cómo actualizo mi método de pago?</div>
+                  </div>
+                </button>
+                <button class="conv" data-conv="luis" type="button">
+                  <div class="avatar">LP</div>
+                  <div class="conv-body">
+                    <div class="conv-top">
+                      <span class="conv-name">Luis Pérez</span>
+                      <span class="conv-time">Ayer</span>
+                    </div>
+                    <div class="conv-preview">Gracias, ya se resolvió.</div>
+                  </div>
+                </button>
+                <button class="conv" data-conv="maria" type="button">
+                  <div class="avatar">ML</div>
+                  <div class="conv-body">
+                    <div class="conv-top">
+                      <span class="conv-name">María López</span>
+                      <span class="conv-time">Ayer</span>
+                    </div>
+                    <div class="conv-preview">Quiero cambiar mi método de pago principal.</div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <div class="panel-card chat">
+              <div class="chat-head">
+                <div class="avatar" id="chat-avatar">PR</div>
+                <div>
+                  <div class="chat-head-name" id="chat-nombre">Pedro Rojas</div>
+                  <div class="chat-head-meta">
+                    <span class="dot"></span>
+                    <span id="chat-rol">Pasajero · +58 412 555 0192</span>
+                  </div>
+                </div>
+                <div class="chat-head-actions">
+                  <button class="icon-btn" type="button" aria-label="Llamar" data-toast="Llamada al pasajero">
+                    <svg class="icon icon-sm"><use href="#i-phone"/></svg>
+                  </button>
+                  <button class="icon-btn" type="button" aria-label="Más opciones" data-toast="Opciones de conversación">
+                    <svg class="icon icon-sm"><use href="#i-more"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="chat-body" id="chat-body">
+                <div class="msg msg-in">
+                  Hola, buenas tardes. Cancelé un viaje ayer y el reembolso no aparece en mi billetera.
+                  <div class="msg-time">10:18</div>
+                </div>
+                <div class="msg msg-out">
+                  Hola Pedro, gracias por escribir. Déjame revisar el movimiento.
+                  <div class="msg-time">10:20</div>
+                </div>
+                <div class="msg msg-in">
+                  Claro, el viaje fue a las 6:15 p. m. desde Bellas Artes.
+                  <div class="msg-time">10:21</div>
+                </div>
+                <div class="msg msg-out">
+                  Ya lo encontré. El reembolso se procesó y se verá reflejado en un máximo de 24 horas.
+                  <div class="msg-time">10:23</div>
+                </div>
+                <div class="msg msg-in">
+                  Perfecto, gracias.
+                  <div class="msg-time">10:24</div>
+                </div>
+              </div>
+
+              <div class="chat-quick">
+                <button class="quick-reply" type="button" data-respuesta="Estamos revisando tu caso.">Estamos revisando tu caso</button>
+                <button class="quick-reply" type="button" data-respuesta="El reembolso se verá en 24 horas.">Reembolso en 24 h</button>
+                <button class="quick-reply" type="button" data-respuesta="¿Puedes enviarme el número de referencia?">Pedir referencia</button>
+                <button class="quick-reply" type="button" data-respuesta="Gracias por tu paciencia.">Agradecer</button>
+              </div>
+
+              <div class="chat-composer">
+                <input id="chat-input" type="text" placeholder="Escribe una respuesta..." autocomplete="off">
+                <button class="chat-send" id="btn-enviar" type="button" aria-label="Enviar mensaje">
+                  <svg class="icon icon-sm"><use href="#i-send"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================
+             CONFIGURACIÓN DE TARIFAS
+             ================================================= -->
+        <section class="vista" data-vista="configuracion">
+          <div class="page-head">
+            <div>
+              <div class="page-kicker">Sistema · Precios</div>
+              <h1 class="page-title">Tarifas y comisiones</h1>
+              <p class="page-sub">Define los precios de la red. Los cambios aplican a los próximos viajes.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-outline" type="button" id="btn-restaurar">
+                <svg class="icon icon-sm"><use href="#i-refresh"/></svg>
+                Restaurar
+              </button>
+            </div>
+          </div>
+
+          <div class="config-grid">
+            <div class="panel-card form-card">
+              <div class="form-section">
+                <div class="form-section-head">
+                  <span class="form-section-icon"><svg class="icon icon-sm"><use href="#i-moto"/></svg></span>
+                  <div>
+                    <div class="form-section-title">Moto</div>
+                    <div class="form-section-sub">Tarifa para viajes individuales</div>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="moto-base">Tarifa base</label>
+                    <div class="input-group"><span>$</span><input id="moto-base" data-tarifa type="number" min="0" step="0.01" value="0.80"></div>
+                    <div class="field-hint">Monto al iniciar el viaje</div>
+                  </div>
+                  <div class="field">
+                    <label for="moto-km">Por kilómetro</label>
+                    <div class="input-group"><span>$</span><input id="moto-km" data-tarifa type="number" min="0" step="0.01" value="0.35"></div>
+                    <div class="field-hint">Se multiplica por la distancia</div>
+                  </div>
+                  <div class="field">
+                    <label for="moto-min">Por minuto</label>
+                    <div class="input-group"><span>$</span><input id="moto-min" data-tarifa type="number" min="0" step="0.01" value="0.05"></div>
+                    <div class="field-hint">Se multiplica por la duración</div>
+                  </div>
+                  <div class="field">
+                    <label for="moto-minimo">Tarifa mínima</label>
+                    <div class="input-group"><span>$</span><input id="moto-minimo" data-tarifa type="number" min="0" step="0.01" value="1.50"></div>
+                    <div class="field-hint">Nunca se cobra menos</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="form-section-head">
+                  <span class="form-section-icon"><svg class="icon icon-sm"><use href="#i-car"/></svg></span>
+                  <div>
+                    <div class="form-section-title">Carro</div>
+                    <div class="form-section-sub">Tarifa para viajes compartidos o privados</div>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="carro-base">Tarifa base</label>
+                    <div class="input-group"><span>$</span><input id="carro-base" data-tarifa type="number" min="0" step="0.01" value="1.20"></div>
+                    <div class="field-hint">Monto al iniciar el viaje</div>
+                  </div>
+                  <div class="field">
+                    <label for="carro-km">Por kilómetro</label>
+                    <div class="input-group"><span>$</span><input id="carro-km" data-tarifa type="number" min="0" step="0.01" value="0.55"></div>
+                    <div class="field-hint">Se multiplica por la distancia</div>
+                  </div>
+                  <div class="field">
+                    <label for="carro-min">Por minuto</label>
+                    <div class="input-group"><span>$</span><input id="carro-min" data-tarifa type="number" min="0" step="0.01" value="0.08"></div>
+                    <div class="field-hint">Se multiplica por la duración</div>
+                  </div>
+                  <div class="field">
+                    <label for="carro-minimo">Tarifa mínima</label>
+                    <div class="input-group"><span>$</span><input id="carro-minimo" data-tarifa type="number" min="0" step="0.01" value="2.00"></div>
+                    <div class="field-hint">Nunca se cobra menos</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-col">
+              <div class="panel-card preview-card">
+                <div class="panel-card-head">
+                  <div>
+                    <div class="panel-card-title">Vista previa</div>
+                    <div class="panel-card-sub">Viaje de 4,2 km · 12 min</div>
+                  </div>
+                  <span class="badge badge-info">En vivo</span>
+                </div>
+                <div class="panel-card-body">
+                  <div class="preview-trip">
+                    <svg class="icon icon-sm"><use href="#i-route"/></svg>
+                    Sambil → Altamira
+                  </div>
+                  <div class="preview-rows">
+                    <div class="preview-row"><span>Base moto</span><strong id="preview-base-moto">$0.80</strong></div>
+                    <div class="preview-row"><span>Distancia</span><strong id="preview-km-moto">$1.47</strong></div>
+                    <div class="preview-row"><span>Tiempo</span><strong id="preview-min-moto">$0.60</strong></div>
+                    <div class="preview-total">
+                      <div><span>Total moto</span><small>Con mínimo aplicado</small></div>
+                      <strong id="preview-moto">$2.87</strong>
+                    </div>
+                    <div class="preview-total">
+                      <div><span>Total carro</span><small>Con mínimo aplicado</small></div>
+                      <strong id="preview-carro">$4.47</strong>
+                    </div>
+                    <div class="preview-row" style="margin-top:4px;">
+                      <span>Comisión GAZ</span>
+                      <strong id="preview-comision">$0.52</strong>
+                    </div>
+                  </div>
+                  <div class="preview-note">
+                    El precio se congela al confirmar el viaje. El recargo nocturno se aplica entre 10:00 p. m. y 5:00 a. m.
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-card form-card">
+                <div class="form-section" style="margin-top:0;padding-top:0;border-top:0;">
+                  <div class="form-section-head">
+                    <span class="form-section-icon"><svg class="icon icon-sm"><use href="#i-sliders"/></svg></span>
+                    <div>
+                      <div class="form-section-title">Comisiones y límites</div>
+                      <div class="form-section-sub">Reglas globales de la plataforma</div>
+                    </div>
+                  </div>
+                  <div class="form-grid">
+                    <div class="field">
+                      <label for="comision">Comisión GAZ</label>
+                      <div class="input-group"><span>%</span><input id="comision" data-tarifa type="number" min="0" max="100" step="0.5" value="18"></div>
+                      <div class="field-hint">Sobre el total del viaje</div>
+                    </div>
+                    <div class="field">
+                      <label for="nocturno">Recargo nocturno</label>
+                      <div class="input-group"><span>%</span><input id="nocturno" data-tarifa type="number" min="0" max="100" step="0.5" value="15"></div>
+                      <div class="field-hint">Entre 10 p. m. y 5 a. m.</div>
+                    </div>
+                    <div class="field">
+                      <label for="limite-recarga">Límite de recarga</label>
+                      <div class="input-group"><span>$</span><input id="limite-recarga" data-tarifa type="number" min="0" step="1" value="200"></div>
+                      <div class="field-hint">Por operación</div>
+                    </div>
+                    <div class="field">
+                      <label for="retiro-minimo">Retiro mínimo</label>
+                      <div class="input-group"><span>$</span><input id="retiro-minimo" data-tarifa type="number" min="0" step="1" value="5"></div>
+                      <div class="field-hint">Para conductores</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="save-bar oculto" id="save-bar">
+            <div class="save-bar-text"><strong>Cambios sin guardar</strong> · Se aplican a los próximos viajes</div>
+            <div class="save-bar-actions">
+              <button class="btn btn-ghost" id="btn-descartar" type="button">Descartar</button>
+              <button class="btn btn-primary" id="btn-guardar" type="button">
+                <svg class="icon icon-sm"><use href="#i-check"/></svg>
+                Guardar cambios
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       Drawer de verificación
+       ========================================================= -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer-verificacion" aria-hidden="true" aria-labelledby="drawer-nombre">
+    <div class="drawer-head">
+      <div class="avatar" id="drawer-avatar">ML</div>
+      <div class="grow">
+        <div class="drawer-title" id="drawer-nombre">María Fernanda López</div>
+        <div class="drawer-sub" id="drawer-sub">Pasajera · 4 de 5 documentos</div>
+      </div>
+      <button class="icon-btn drawer-close" id="btn-cerrar-drawer" type="button" aria-label="Cerrar">
+        <svg class="icon"><use href="#i-x"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <div class="drawer-section-title">Documentos</div>
+        <div class="doc-row">
+          <span class="doc-thumb"><svg class="icon"><use href="#i-doc"/></svg></span>
+          <div class="grow">
+            <div class="doc-row-name">Cédula de identidad</div>
+            <div class="doc-row-meta">V-19.845.221 · vence 12/08/2029</div>
+          </div>
+          <span class="badge badge-success">Aprobado</span>
+        </div>
+        <div class="doc-row">
+          <span class="doc-thumb"><svg class="icon"><use href="#i-user"/></svg></span>
+          <div class="grow">
+            <div class="doc-row-name">Selfie de verificación</div>
+            <div class="doc-row-meta">Coincide con la cédula</div>
+          </div>
+          <span class="badge badge-warning">En revisión</span>
+        </div>
+        <div class="doc-row">
+          <span class="doc-thumb"><svg class="icon"><use href="#i-doc"/></svg></span>
+          <div class="grow">
+            <div class="doc-row-name">Comprobante de domicilio</div>
+            <div class="doc-row-meta">Foto poco legible</div>
+          </div>
+          <span class="badge badge-danger">Rechazado</span>
+        </div>
+        <div class="doc-row" style="margin-bottom:0;">
+          <span class="doc-thumb"><svg class="icon"><use href="#i-phone"/></svg></span>
+          <div class="grow">
+            <div class="doc-row-name">Contacto de emergencia</div>
+            <div class="doc-row-meta">María Rojas · +58 412 555 0184</div>
+          </div>
+          <span class="badge badge-success">Aprobado</span>
+        </div>
+      </div>
+
+      <div class="drawer-section">
+        <div class="drawer-section-title">Datos de la cuenta</div>
+        <div class="drawer-data">
+          <div><span>Correo</span><strong>maria.lopez@gmail.com</strong></div>
+          <div><span>Teléfono</span><strong>+58 412 555 0184</strong></div>
+          <div><span>Ciudad</span><strong>Caracas</strong></div>
+          <div><span>Registro</span><strong>Hoy · 10:24 a. m.</strong></div>
+        </div>
+      </div>
+
+      <div class="drawer-section">
+        <div class="drawer-section-title">Nota de revisión</div>
+        <textarea class="input" style="min-height:84px;padding:10px 12px;resize:vertical;" placeholder="Motivo de rechazo o comentario para el usuario..."></textarea>
+      </div>
+    </div>
+
+    <div class="drawer-foot">
+      <button class="btn btn-danger" type="button" data-accion="rechazar">Rechazar</button>
+      <button class="btn btn-primary" type="button" data-accion="aprobar">
+        <svg class="icon icon-sm"><use href="#i-check"/></svg>
+        Aprobar cuenta
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================================
+       Command palette
+       ========================================================= -->
+  <div class="command-overlay" id="command-overlay">
+    <div class="command" role="dialog" aria-modal="true" aria-label="Buscar en GAZ">
+      <div class="command-input">
+        <svg class="icon"><use href="#i-search"/></svg>
+        <input id="command-input" type="text" placeholder="Buscar vistas, acciones o personas..." autocomplete="off">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="command-list" id="command-list">
+        <div data-command-group>
+          <div class="command-group">Navegación</div>
+          <button class="command-item" data-comando="dashboard" type="button">
+            <svg class="icon"><use href="#i-grid"/></svg>
+            Inicio
+            <kbd>⌘1</kbd>
+          </button>
+          <button class="command-item" data-comando="verificacion" type="button">
+            <svg class="icon"><use href="#i-shield"/></svg>
+            Verificación de cuentas
+            <kbd>⌘2</kbd>
+          </button>
+          <button class="command-item" data-comando="detalle" type="button">
+            <svg class="icon"><use href="#i-users"/></svg>
+            Detalle del conductor
+          </button>
+          <button class="command-item" data-comando="recargas" type="button">
+            <svg class="icon"><use href="#i-exchange"/></svg>
+            Recargas y retiros
+          </button>
+          <button class="command-item" data-comando="soporte" type="button">
+            <svg class="icon"><use href="#i-chat"/></svg>
+            Soporte
+          </button>
+          <button class="command-item" data-comando="configuracion" type="button">
+            <svg class="icon"><use href="#i-sliders"/></svg>
+            Tarifas y comisiones
+          </button>
+        </div>
+
+        <div data-command-group>
+          <div class="command-group">Acciones</div>
+          <button class="command-item" data-comando="tema" type="button">
+            <svg class="icon"><use href="#i-moon"/></svg>
+            Cambiar tema
+            <kbd>⌘D</kbd>
+          </button>
+          <button class="command-item" data-comando="exportar" type="button">
+            <svg class="icon"><use href="#i-download"/></svg>
+            Exportar reporte del día
+          </button>
+          <button class="command-item" data-comando="cupon" type="button">
+            <svg class="icon"><use href="#i-award"/></svg>
+            Crear cupón
+          </button>
+        </div>
+
+        <div data-command-group>
+          <div class="command-group">Personas</div>
+          <button class="command-item" data-comando="pedro" type="button">
+            <svg class="icon"><use href="#i-user"/></svg>
+            Pedro Rojas · pasajero
+          </button>
+          <button class="command-item" data-comando="carlos" type="button">
+            <svg class="icon"><use href="#i-user"/></svg>
+            Carlos Pérez · conductor
+          </button>
+        </div>
+
+        <div class="command-empty" id="command-empty" hidden>Sin resultados. Prueba con otra palabra.</div>
+      </div>
+      <div class="command-foot">
+        <span><kbd>↑</kbd><kbd>↓</kbd> navegar</span>
+        <span><kbd>↵</kbd> abrir</span>
+        <span><kbd>Esc</kbd> cerrar</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="panel-toast" role="status" aria-live="polite">
+    <svg class="icon icon-sm"><use href="#i-check"/></svg>
+    <span id="panel-toast-texto">Listo</span>
+  </div>
+
+  <script src="panel.js"></script>
+</body>
+</html>
