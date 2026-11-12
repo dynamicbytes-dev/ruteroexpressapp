@@ -1,0 +1,49 @@
+-- Historial de migraciones de Laravel.
+-- Solo contiene los registros de esquema; no incluye datos de usuarios.
+-- Es idempotente para poder aplicarlo sobre una base ya migrada.
+
+INSERT INTO public.migrations (id, migration, batch) VALUES (1, '0001_01_01_000000_create_users_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (2, '0001_01_01_000001_create_cache_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (3, '0001_01_01_000002_create_jobs_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (4, '2026_10_18_224151_create_personal_access_tokens_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (5, '2026_10_18_224354_create_permission_tables', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (6, '2026_10_18_224355_create_activity_log_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (7, '2026_10_18_224356_add_event_column_to_activity_log_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (8, '2026_10_18_224357_add_batch_uuid_column_to_activity_log_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (9, '2026_10_19_000001_create_driver_profiles_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (10, '2026_10_19_000002_create_user_documents_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (11, '2026_10_19_000003_create_verification_reviews_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (12, '2026_10_19_000010_create_wallets_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (13, '2026_10_19_000011_create_wallet_transactions_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (14, '2026_10_19_000012_create_exchange_rates_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (15, '2026_10_19_000013_create_recharges_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (16, '2026_10_19_000014_create_withdrawals_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (17, '2026_10_19_000015_create_settings_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (18, '2026_10_19_000020_create_trips_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (19, '2026_10_19_000021_create_trip_offers_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (20, '2026_10_19_000030_create_notifications_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (21, '2026_10_19_000031_add_expiry_notice_days_to_user_documents_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (22, '2026_10_19_000040_add_vehicle_type_to_driver_profiles_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (23, '2026_10_20_000050_create_device_tokens_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (24, '2026_10_20_000060_add_two_factor_columns_to_users_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (25, '2026_10_20_000061_seed_auditor_permissions', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (26, '2026_10_20_000070_add_vehicle_type_to_trips_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (27, '2026_10_21_000080_add_terms_acceptance_to_users_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (28, '2026_10_21_000090_create_trip_ratings_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (29, '2026_10_21_000091_create_driver_favorites_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (30, '2026_10_21_000092_add_ratings_count_to_driver_profiles_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (31, '2026_10_21_000100_create_cities_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (32, '2026_10_21_000101_add_city_id_to_users_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (33, '2026_10_21_000102_add_city_id_to_driver_profiles_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (34, '2026_10_21_000103_add_city_id_to_trips_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (35, '2026_10_21_000104_add_city_id_to_settings_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (36, '2026_10_21_000105_add_is_owner_to_users_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (37, '2026_10_21_000110_create_support_conversations_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (38, '2026_10_21_000111_create_support_messages_table', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (39, '2026_10_22_000120_allow_shared_national_id_and_account_links', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (40, '2026_10_23_000001_create_coupons_table', 2) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (41, '2026_10_23_000002_create_coupon_usages_table', 2) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (42, '2026_10_23_000003_add_promo_fields_to_trips_table', 2) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (43, '2026_10_24_000001_make_email_unique_by_role', 3) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (44, '2026_10_24_000002_add_avatar_to_users_table', 4) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.migrations (id, migration, batch) VALUES (45, '2026_10_25_000001_create_banners_table', 5) ON CONFLICT (id) DO NOTHING;

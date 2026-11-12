@@ -79,7 +79,7 @@ ruteroexpress/
 
 ### Backend & API
 - **Framework:** Laravel 12 (PHP 8.2+)
-- **Base de Datos:** PostgreSQL 17 con extensión **PostGIS 3.5** para cálculo geoespacial (`ST_DWithin`, proyecciones geográficas).
+- **Base de Datos:** PostgreSQL 17 con extensión **PostGIS** para cálculo geoespacial (`ST_DWithin`, proyecciones geográficas), alojada en Supabase.
 - **Autenticación API:** Laravel Sanctum (tokens Bearer revocables por dispositivo).
 - **Autenticación Web:** Sesiones seguras con Laravel Breeze.
 - **Tiempo Real:** Laravel Reverb (servidor de WebSockets de alto rendimiento nativo).
@@ -164,13 +164,47 @@ La identidad visual **GAZ / Rutero Express** está construida bajo los siguiente
 - **PHP:** 8.2 o superior con extensiones `pdo_pgsql`, `mbstring`, `bcmath`, `curl`, `openssl`.
 - **Composer:** 2.x.
 - **Node.js:** 20.x o superior + npm.
-- **Docker Desktop:** En ejecución (para el contenedor de PostGIS).
+- **Docker Desktop:** Solo para la base local de pruebas (la app usa Supabase).
 - **Flutter SDK:** 3.22.x (Dart 3.4.x).
 - **JDK:** OpenJDK 17 (requerido para compatibilidad con Gradle en compilaciones Android).
 
-### 2. Base de Datos (Docker + PostGIS)
+### 2. Base de Datos (Supabase + PostGIS)
 
-Levanta el contenedor de PostgreSQL con PostGIS configurado en el puerto `5433` (para evitar colisiones con instancias locales estándar en el `5432`):
+La aplicación usa el proyecto **Supabase `gaz-app`** (`prmgzklfmsmxobqkkpvc`). Laravel se conecta por el **pooler de sesión** (IPv4):
+
+```ini
+DB_HOST=aws-1-us-east-1.pooler.supabase.com
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=gaz_app.prmgzklfmsmxobqkkpvc
+DB_SSLMODE=require
+DB_SEARCH_PATH=public,extensions
+```
+
+La contraseña del rol `gaz_app` vive en `backend/.env` (ignorado por Git). PostGIS está instalado en el esquema `extensions`; por eso el `search_path` incluye `public` y `extensions`. En un proyecto nuevo, después de `supabase db push --include-seed`, el rol se crea con `supabase/roles.example.sql` (reemplaza `<PASSWORD>`); no se ejecuta automáticamente para no versionar secretos.
+
+El repositorio ya está vinculado al proyecto:
+
+```bash
+supabase login
+supabase link --project-ref prmgzklfmsmxobqkkpvc
+```
+
+La línea base del esquema está en `supabase/migrations/`. En un entorno nuevo se aplica junto con el historial de migraciones de Laravel:
+
+```bash
+supabase db push --include-seed
+```
+
+`supabase/seed.sql` solo contiene los registros de `migrations`; no incluye usuarios ni datos personales. Para cambios de esquema se mantienen las migraciones de Laravel:
+
+```bash
+cd backend
+php artisan make:migration ...
+php artisan migrate
+```
+
+**Pruebas locales:** `phpunit.xml` sigue apuntando al PostgreSQL/PostGIS de Docker en el puerto `5433`. Para levantarlo:
 
 ```bash
 docker compose up -d
@@ -190,8 +224,12 @@ npm install
 cp .env.example .env
 php artisan key:generate
 
-# 3. Ejecutar migraciones y datos iniciales (ciudades, tarifas, auditor base)
-php artisan migrate --seed
+# 3. Verificar el esquema y el historial de migraciones
+#    (Supabase ya tiene el esquema y los datos migrados)
+php artisan migrate:status
+
+# Si usas la base local de Docker, crea el esquema y los datos iniciales:
+# php artisan migrate --seed
 
 # 4. Crear enlaces simbólicos de almacenamiento
 php artisan storage:link
@@ -301,13 +339,15 @@ flutter test
 Configurables en `backend/.env`:
 
 ```ini
-# Base de datos PostGIS
+# Base de datos Supabase (pooler de sesión)
 DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5433
-DB_DATABASE=motoruta
-DB_USERNAME=motoruta
-DB_PASSWORD=secret
+DB_HOST=aws-1-us-east-1.pooler.supabase.com
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=gaz_app.prmgzklfmsmxobqkkpvc
+DB_PASSWORD=tu_password_de_gaz_app
+DB_SSLMODE=require
+DB_SEARCH_PATH=public,extensions
 
 # Parámetros Operativos
 MOTORUTA_ALLOWED_EMAIL_DOMAINS=gmail.com

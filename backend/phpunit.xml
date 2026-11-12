@@ -29,6 +29,8 @@
         <env name="DB_DATABASE" value="motoruta_testing"/>
         <env name="DB_USERNAME" value="motoruta"/>
         <env name="DB_PASSWORD" value="secret"/>
+        <env name="DB_SSLMODE" value="prefer"/>
+        <env name="DB_SEARCH_PATH" value="public"/>
         <env name="DB_URL" value=""/>
         <env name="FCM_PROJECT_ID" value=""/>
         <env name="FCM_CREDENTIALS_PATH" value=""/>
