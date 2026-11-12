@@ -21,12 +21,13 @@ El ecosistema se compone de:
 - [Identidad de Marca](#identidad-de-marca)
 - [Puesta en Marcha (Setup)](#puesta-en-marcha-setup)
   - [1. Requisitos](#1-requisitos)
-  - [2. Base de Datos (Docker + PostGIS)](#2-base-de-datos-docker--postgis)
+  - [2. Base de Datos (Supabase + PostGIS)](#2-base-de-datos-supabase--postgis)
   - [3. Backend y Panel Web](#3-backend-y-panel-web)
   - [4. Aplicación Móvil (Flutter)](#4-aplicación-móvil-flutter)
 - [Comandos de Consola y Tareas Programadas](#comandos-de-consola-y-tareas-programadas)
 - [Pruebas Automatizadas (QA)](#pruebas-automatizadas-qa)
 - [Variables de Entorno Clave](#variables-de-entorno-clave)
+- [Checklist de Producción](docs/produccion.md)
 
 ---
 
@@ -181,7 +182,7 @@ DB_SSLMODE=require
 DB_SEARCH_PATH=public,extensions
 ```
 
-La contraseña del rol `gaz_app` vive en `backend/.env` (ignorado por Git). PostGIS está instalado en el esquema `extensions`; por eso el `search_path` incluye `public` y `extensions`. En un proyecto nuevo, después de `supabase db push --include-seed`, el rol se crea con `supabase/roles.example.sql` (reemplaza `<PASSWORD>`); no se ejecuta automáticamente para no versionar secretos.
+La contraseña del rol `gaz_app` vive en `backend/.env` (ignorado por Git). PostGIS está instalado en el esquema `extensions`; por eso el `search_path` incluye `public` y `extensions`. En un proyecto nuevo, después de `supabase db push --remote --include-seed`, el rol se crea con `supabase/roles.example.sql` (reemplaza `<PASSWORD>`); no se ejecuta automáticamente para no versionar secretos.
 
 El repositorio ya está vinculado al proyecto:
 
@@ -193,8 +194,12 @@ supabase link --project-ref prmgzklfmsmxobqkkpvc
 La línea base del esquema está en `supabase/migrations/`. En un entorno nuevo se aplica junto con el historial de migraciones de Laravel:
 
 ```bash
-supabase db push --include-seed
+supabase db push --remote --include-seed
 ```
+
+> Sin `--remote`, el CLI apunta al stack local de Supabase y falla si está detenido. Verifica primero con `supabase db push --remote --dry-run`.
+
+La migración `20261112220000_harden_public_schema.sql` revoca el acceso de `anon`, `authenticated` y `service_role` y activa RLS en `public`. `gaz_app` es owner y `postgres` tiene `BYPASSRLS`, así que Laravel y el panel siguen funcionando. No desactives ese hardening.
 
 `supabase/seed.sql` solo contiene los registros de `migrations`; no incluye usuarios ni datos personales. Para cambios de esquema se mantienen las migraciones de Laravel:
 
@@ -203,6 +208,8 @@ cd backend
 php artisan make:migration ...
 php artisan migrate
 ```
+
+**Antes de producción:** revisa [docs/produccion.md](docs/produccion.md) y usa `backend/.env.production.example` como plantilla. Los valores de producción no deben reutilizar el `.env` de desarrollo.
 
 **Pruebas locales:** `phpunit.xml` sigue apuntando al PostgreSQL/PostGIS de Docker en el puerto `5433`. Para levantarlo:
 

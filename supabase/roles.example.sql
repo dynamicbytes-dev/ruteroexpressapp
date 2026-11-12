@@ -1,5 +1,5 @@
 -- Plantilla para crear el rol de la aplicación en un proyecto Supabase nuevo.
--- Ejecútala como `postgres` DESPUÉS de `supabase db push --include-seed`.
+-- Ejecútala como `postgres` DESPUÉS de `supabase db push --remote --include-seed`.
 -- Reemplaza <PASSWORD>; la contraseña real debe quedar en backend/.env.
 create role gaz_app login password '<PASSWORD>';
 
@@ -30,6 +30,43 @@ begin
     end loop;
     for r in select sequencename from pg_sequences where schemaname = 'public' loop
         execute format('alter sequence public.%I owner to gaz_app', r.sequencename);
+    end loop;
+end
+$$;
+
+-- Hardening: Laravel es el único cliente. El Data API de Supabase no se usa,
+-- así que `anon`, `authenticated` y `service_role` no deben leer ni escribir
+-- las tablas de GAZ. La migración 20261112220000 hace lo mismo para proyectos
+-- que aplican las migraciones con `supabase db push`.
+revoke all on all tables in schema public from anon, authenticated, service_role;
+revoke all on all sequences in schema public from anon, authenticated, service_role;
+revoke all on all functions in schema public from anon, authenticated, service_role;
+revoke all on all functions in schema public from public;
+
+alter default privileges for role postgres in schema public
+    revoke all on tables from anon, authenticated, service_role;
+alter default privileges for role postgres in schema public
+    revoke all on sequences from anon, authenticated, service_role;
+alter default privileges for role postgres in schema public
+    revoke all on functions from anon, authenticated, service_role;
+alter default privileges for role postgres in schema public
+    revoke all on functions from public;
+
+-- Defensa en profundidad: RLS sin políticas no devuelve filas a los roles
+-- públicos. `gaz_app` es owner y `postgres` tiene BYPASSRLS, así que Laravel y
+-- el panel siguen funcionando.
+do $$
+declare
+    tabla record;
+begin
+    for tabla in
+        select c.relname
+        from pg_class c
+        join pg_namespace n on n.oid = c.relnamespace
+        where n.nspname = 'public'
+          and c.relkind = 'r'
+    loop
+        execute format('alter table public.%I enable row level security', tabla.relname);
     end loop;
 end
 $$;
