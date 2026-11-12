@@ -225,7 +225,7 @@ class FinanzasPanelTest extends TestCase
         $this->actingAs($auditor)->get('/panel/recargas/'.$recarga->id)->assertOk()->assertSee('Aprobar recarga');
         $this->actingAs($auditor)->get('/panel/retiros')->assertOk()->assertSee($retiro->account_number);
         $this->actingAs($auditor)->get('/panel/retiros/'.$retiro->id)->assertOk()->assertSee('Marcar como pagado');
-        $this->actingAs($auditor)->get('/panel/tasa')->assertOk()->assertSee('Histórico');
+        $this->actingAs($auditor)->get('/panel/tasa')->assertOk()->assertSee('Historial de tasas registradas');
         $this->actingAs($auditor)->get('/panel/configuracion')->assertOk()->assertSee('Tarifas y comisión');
     }
 

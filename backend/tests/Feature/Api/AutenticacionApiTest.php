@@ -148,7 +148,9 @@ class AutenticacionApiTest extends TestCase
             ->assertOk();
 
         Notification::assertSentTo($pasajero, RestablecerContrasena::class, function ($notificacion) use ($pasajero) {
-            $url = $notificacion->toMail($pasajero)->actionUrl;
+            // El correo usa una vista propia, así que el enlace vive en los
+            // datos de la vista y no en `actionUrl`.
+            $url = $notificacion->toMail($pasajero)->viewData['url'];
             $partes = parse_url($url);
 
             $this->assertIsArray($partes);
